@@ -1,0 +1,7 @@
+# materiale altrui e file di sistema
+Documenti RICEVUTI/
+__pycache__/
+*.pyc
+.DS_Store
+~$*
+toolchain/lavoro/

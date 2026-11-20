@@ -1,0 +1,65 @@
+OR,Task,Titolo,Inizio,Fine,Proponente,Personale,Attrezzature,Servizi,Forfait,Totale
+OR1,A1.1,"Modello del contesto di guida e degli occupanti, con modelli predittivi della situazione di guida",1,8,Aubay Italia,225547,9563,9437,48909,293456
+OR1,A1.2,"Traduzione delle linee guida di OR10 in policy eseguibili (vietato, condizionato, consentito)",6,16,Aubay Italia,201509,8544,88431,59697,358181
+OR1,A1.3,"Componente adattiva calibrata sull'attenzione del singolo guidatore, limitata alla sola restrizione delle regole",9,22,Aubay Italia,444745,18857,18609,96442,578652
+OR1,A1.4,Gestione delle condizioni degradate e fallback prudente,12,20,Aubay Italia,114567,4858,4794,24844,149062
+OR1,A1.5,Verifica del motore su scenari simulati e registrati,18,24,Aubay Italia,89131,3779,3729,19328,115967
+OR2,A2.1,"Knowledge graph culturale dei luoghi: entità, periodi, eventi, fonti, licenze, attendibilità",1,10,Aubay Italia,220590,7052,10074,47543,285259
+OR2,A2.2,Motore di generazione dei racconti ancorato alle fonti (retrieval-augmented generation),6,18,Aubay Italia,357710,11435,16336,77096,462578
+OR2,A2.3,"Adattamento al contesto di viaggio e agli occupanti (durata, lingua, interessi, solo audio per il guidatore)",12,22,Aubay Italia,136639,4368,6240,29449,176697
+OR2,A2.4,Metodi di valutazione dell'attendibilità e della provenienza dei contributi,10,20,Aubay Italia,98329,3143,4491,21193,127156
+OR2,A2.5,Valutazione della qualità sui territori pilota con esperti e campioni di utenti,18,24,Aubay Italia,62601,2001,62859,25492,152953
+OR3,A3.1,Architettura edge-cloud della piattaforma di erogazione,7,15,Aubay Italia,229339,6802,20110,51250,307501
+OR3,A3.2,Streaming adattivo e prefetch predittivo con cache di bordo e funzionamento offline,10,27,Aubay Italia,356040,10560,31220,79564,477383
+OR3,A3.3,"Applicazione di bordo e HMI multi-display, con integrazione verso l'HUD di serie del guidatore",13,33,Aubay Italia,670519,19887,58795,149840,899041
+OR3,A3.4,"Sicurezza dei contenuti e dell'applicazione: cifratura, protezione, analisi dei rischi, penetration test",13,30,Aubay Italia,207045,6141,113155,65268,391609
+OR3,A3.5,Prove di carico e continuità del servizio,22,30,Aubay Italia,103546,3071,9080,23139,138836
+OR3,A3.6,Integrazione del dimostratore su veicolo e protocollo di prova,24,32,Aubay Italia,229339,6802,20110,51250,307501
+OR3,A3.7,Prove su strada e rapporto di sperimentazione,30,36,Aubay Italia,142910,4238,12531,31936,191616
+OR4,A4.1,Piattaforma collaborativa Open Heritage Cloud: contenuti georeferenziati e metadati,10,24,Aubay Italia,387860,4145,25175,83436,500615
+OR4,A4.2,"Moderazione, verifica, versionamento, gestione dei diritti e del consenso",13,27,Aubay Italia,241531,2581,75677,63958,383747
+OR4,A4.3,Marketplace di esperienze immersive fruibili a bordo,19,33,Aubay Italia,241531,2581,15677,51958,311747
+OR4,A4.4,Servizio di POI commerciali e colonnine di ricarica con regole di presentazione per ruolo,19,33,Aubay Italia,241531,2581,15677,51958,311747
+OR4,A4.5,Percorsi e profili di marcia a minor consumo e misura dei consumi,25,36,Aubay Italia,150900,1612,9794,32461,194768
+OR5,A5.1,Separazione del moto della testa dal moto del veicolo (sensor fusion occhiali-veicolo),1,12,GSNet,231200,11039,26678,53783,322701
+OR5,A5.2,Ancoraggio dei contenuti nel riferimento abitacolo e nel riferimento mondo esterno,5,15,GSNet,141698,6766,16351,32963,197777
+OR5,A5.3,Integrazione con la localizzazione di precisione di OR9,9,16,GSNet,74151,3541,8556,17250,103497
+OR5,A5.4,Prove in veicolo su percorsi differenziati,13,18,GSNet,55594,2654,6415,12933,77596
+OR6,A6.1,Applicazione per occhiali AR con contenuti ancorati ai luoghi,13,27,GSNet,182400,25984,19685,45614,273683
+OR6,A6.2,Applicazione per visori sincronizzata con il moto del veicolo,16,30,GSNet,87780,12505,9473,21952,131710
+OR6,A6.3,Adattamento della presentazione dei contenuti alla scena rilevata da OR12,19,30,GSNet,70224,10004,7579,17561,105368
+OR6,A6.4,Integrazione con l'erogazione di OR3 e con il content policy engine di OR1,22,33,GSNet,70224,10004,7579,17561,105368
+OR6,A6.5,Prove con i passeggeri sul veicolo di prova,28,36,GSNet,52668,7503,5684,13171,79026
+OR7,A7.1,Censimento delle fonti esterne e dei formati nelle aree pilota,1,5,Anitia,91680,1491,6213,19877,119261
+OR7,A7.2,Fusione dei dati esterni con i dati di bordo e stima di affidabilità e attualità,4,14,Anitia,134957,2195,9146,29260,175557
+OR7,A7.3,Criteri di promozione di un dato esterno ad avviso per il guidatore,9,16,Anitia,98149,1596,23651,24679,148076
+OR7,A7.4,Prove su area pilota,14,18,Anitia,44121,718,2990,9566,57394
+OR8,A8.1,"Accesso ai dati del veicolo tramite modello dati standard e API, compresi i segnali ADAS e DMS",7,18,Anitia,222270,2237,18227,48547,291280
+OR8,A8.2,"Raccolta, archiviazione e governance dei dati in cloud",10,24,Anitia,156434,1574,12828,34167,205004
+OR8,A8.3,Device management e aggiornamento OTA di tutto il software di bordo,13,28,Anitia,166843,1679,33682,40441,242644
+OR8,A8.4,"Integrazione delle fonti esterne, prove di affidabilità e scalabilità",22,33,Anitia,125160,1260,10263,27337,164020
+OR9,A9.1,"Localizzazione di precisione con GNSS RTK, sensori inerziali e visione",1,14,Politecnico di Milano,296940,10768,16151,64772,388631
+OR9,A9.2,"Ancoraggio dei contenuti alla scena per HUD e occhiali, sui dati di percezione di OR12",6,18,Politecnico di Milano,211575,7672,11508,46151,276906
+OR9,A9.3,Stima dell'affidabilità della localizzazione e criteri di riduzione dei contenuti,10,20,Politecnico di Milano,179025,6492,9738,39051,234305
+OR9,A9.4,Specifiche dell'unità di calcolo di bordo per OR13,4,12,Politecnico di Milano,190890,6922,10383,41639,249834
+OR9,A9.5,Ottimizzazione degli algoritmi per l'esecuzione a bordo,16,24,Politecnico di Milano,114345,4146,6220,24942,149653
+OR10,A10.1,Disegno sperimentale e scenari di guida,1,6,Politecnico di Milano,105840,12133,6222,24839,149035
+OR10,A10.2,Prove su guidatori in ambienti simulati con contenuti sulle diverse superfici,5,18,Politecnico di Milano,227850,26120,13395,53473,320839
+OR10,A10.3,"Prove sui passeggeri: HUD, display, visori e cinetosi",10,22,Politecnico di Milano,211575,24255,12438,49654,297921
+OR10,A10.4,Linee guida e regole trasferibili al content policy engine,16,24,Politecnico di Milano,190890,21883,11222,44799,268795
+OR10,A10.5,Verifica delle regole adattive di OR1 in ambienti simulati,22,30,Politecnico di Milano,114345,13108,6722,26835,161011
+OR11,A11.1,"Stato dell'arte e requisiti: superfici utilizzabili, invisibilità dal posto di guida, vincoli dell'abitacolo",1,6,Politecnico di Milano,103320,10721,51146,33037,198225
+OR11,A11.2,"Architettura ottica del proiettore sul finestrino: porzione di proiezione, focale, contrasto, alloggiamento",4,16,Politecnico di Milano,269098,27924,55075,70419,422516
+OR11,A11.3,Correzione prospettica e registrazione dei contenuti sulla scena esterna,8,20,Politecnico di Milano,206494,21428,42262,54037,324220
+OR11,A11.4,Prototipo di laboratorio installabile su veicolo,14,26,Politecnico di Milano,206494,21428,42262,54037,324220
+OR11,A11.5,Verifiche di visibilità e leggibilità su banco e sul veicolo di prova,22,30,Politecnico di Milano,142944,14833,29256,37407,224439
+OR12,A12.1,"Configurazione sensoriale: telecamere video su quattro lati, infrarosso e termico, LiDAR",1,6,nLight,115520,5354,11985,26572,159431
+OR12,A12.2,Rilevamento e tracking dei punti di interesse su video,4,15,nLight,317870,14731,32980,73116,438697
+OR12,A12.3,"Fusione di video, infrarosso e LiDAR per distanza e geometria della scena",6,16,nLight,221168,10250,22947,50873,305237
+OR12,A12.4,Percezione notturna e con bassa visibilità,10,18,nLight,148478,6881,15405,34153,204917
+OR12,A12.5,Verifiche su banco e su percorsi registrati,14,18,nLight,64414,2985,6683,14816,88899
+OR13,A13.1,"Progetto del kit di percezione e dell'unità di calcolo, sulle specifiche di OR9",13,18,nLight,157050,16677,51503,45046,270276
+OR13,A13.2,"Prototipo del kit: sensori, alimentazione, cablaggi, contenitori",16,27,nLight,424009,45025,139049,121617,729699
+OR13,A13.3,Prototipo dell'unità di calcolo di bordo e prove ambientali,16,28,nLight,377361,40072,123751,108237,649420
+OR13,A13.4,Installazione sul veicolo di prova e calibrazione,25,31,nLight,139081,14769,45610,39892,239352
+OR13,A13.5,Validazione su strada della percezione,30,36,nLight,183230,19457,60088,52555,315330

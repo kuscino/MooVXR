@@ -1,0 +1,764 @@
+# -*- coding: utf-8 -*-
+"""contenuti_moovxr.py - testi redatti del Piano di Sviluppo MooVXR.
+
+OBIETTIVI e i tempi degli OR (moduli 7.3) derivano dalla configurazione del modello economico
+(struttura/economics_moovxr.py), cosi' tabella degli OR, cronoprogramma e costi restano
+allineati per costruzione. I testi dei moduli 7.1 e 7.2 entrano qui solo dopo l'approvazione in
+chat, un OR alla volta.
+
+Uso (da Area di Lavoro):
+    ROOT="$PWD" PROFILO=mimit_accordi_automotive CONTENUTI=struttura/contenuti_moovxr.py \
+        python3 toolchain/toolchain/build_finanziato.py
+"""
+import importlib.util, pathlib, sys
+
+QUI = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(QUI.parent / "toolchain" / "toolchain"))
+from docx_core import testo, sottotitolo, punto, para, run
+
+_spec = importlib.util.spec_from_file_location("economics_moovxr", QUI / "economics_moovxr.py")
+_eco = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_eco)
+CFG = _eco.CONFIG
+
+# (id, proponente, tipo, titolo) per la tabella degli OR del par. 7
+OBIETTIVI = [{"id": o[0], "proponente": o[2], "tipo": o[3], "titolo": o[1]} for o in CFG["or"]]
+
+CONTENUTI = {}
+
+
+def _tempi(inizio, fine):
+    durata = fine - inizio + 1
+    return lambda: testo("Durata: %d mesi, dal mese %d al mese %d del progetto." % (durata, inizio, fine))
+
+
+for o in CFG["or"]:
+    CONTENUTI["II.7.3/%s" % o[0]] = _tempi(o[4], o[5])
+
+
+# ---------------------------------------------------------------- helper per i moduli degli OR
+def _etichetta(coppia):
+    """Paragrafo con etichetta in grassetto (forma Frascati: Problema, Soluzione proposta, ...)."""
+    eti, resto = coppia
+    return para(run(eti + " ", bold=True) + run(resto), spacing='<w:spacing w:before="60" w:after="60"/>')
+
+
+def _blocchi(spec):
+    """spec: lista di (tipo, testo), tipo t = paragrafo, p = punto elenco, s = sottotitolo,
+    e = paragrafo con etichetta in grassetto (testo = (etichetta, resto))."""
+    f = {"t": testo, "p": punto, "s": sottotitolo, "e": _etichetta}
+    return lambda: "".join(f[k](v) for k, v in spec)
+
+
+def _intestazione(titolo, proponente, tipo, luogo="[sede operativa da confermare]"):
+    return ("t", "Titolo: %s. Soggetto proponente: %s. Tipologia: %s. Luogo di svolgimento: %s."
+            % (titolo, proponente, tipo, luogo))
+
+
+# ---------------------------------------------------------------- OR2 (approvato il 19/11)
+CONTENUTI["II.7.1/OR2"] = _blocchi([
+    _intestazione("Storytelling geo-temporale generativo", "Aubay Italia", "ricerca industriale"),
+    ("t", "L'obiettivo realizzativo riguarda i metodi con cui informazioni storiche e culturali sui luoghi si "
+          "trasformano in racconti generati da modelli di AI generativa. I racconti sono calibrati su percorso, "
+          "velocità, tempo disponibile e interessi degli occupanti, e restano ancorati a fonti verificate."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: acquisiscono nuove "
+          "conoscenze su generazione controllata dei contenuti e valutazione della loro attendibilità, verificate "
+          "su territori pilota senza realizzazione in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR2"] = _blocchi([
+    ("s", "A2.1 Knowledge graph culturale dei luoghi (mesi 1-10)"),
+    ("t", "L'attività definisce e popola per i territori pilota un knowledge graph di entità, periodi, eventi, "
+          "fonti, licenze d'uso e livello di attendibilità. Il problema è rappresentare in un modello unico "
+          "informazioni disperse fra archivi, formati e regimi di licenza diversi, con l'indicazione esplicita "
+          "della provenienza. La novità è il legame fra dimensione geografica, dimensione temporale e "
+          "attendibilità della fonte. Il metodo prevede un'ontologia di riferimento, procedure di acquisizione "
+          "documentate e controlli di qualità sui dati. Risultato: modello e prima popolazione del knowledge "
+          "graph (D2.1)."),
+    ("s", "A2.2 Generazione dei racconti ancorata alle fonti (mesi 6-18)"),
+    ("t", "L'attività sviluppa un motore di generazione basato su retrieval-augmented generation sul knowledge "
+          "graph. Ogni affermazione del racconto è collegata alla fonte, e il motore distingue ciò che è "
+          "documentato da ciò che è interpretazione. L'incertezza principale è il controllo delle allucinazioni "
+          "dei modelli generativi su domini con fonti scarse o contraddittorie. Il metodo prevede vincoli di "
+          "generazione, verifica automatica della corrispondenza con le fonti e misura sistematica degli errori "
+          "fattuali. Risultato: prima release del motore di storytelling (D2.2)."),
+    ("s", "A2.3 Adattamento al contesto di viaggio e agli occupanti (mesi 12-22)"),
+    ("t", "L'attività adatta lunghezza, lingua, registro e contenuto del racconto al tempo che separa il veicolo "
+          "dal luogo, all'età e agli interessi dei passeggeri. Per il guidatore il racconto è solo audio, nei "
+          "limiti fissati dal content policy engine. Il problema è sincronizzare la narrazione con il movimento "
+          "del veicolo, con tempi di arrivo incerti. La soluzione combina stima del tempo di arrivo e composizione "
+          "modulare del racconto. Risultato: moduli di adattamento al contesto (D2.3), misurati sulla coerenza fra "
+          "racconto e posizione del veicolo."),
+    ("s", "A2.4 Attendibilità e provenienza dei contributi (mesi 10-20)"),
+    ("t", "L'attività definisce i metodi per integrare nel knowledge graph i contributi della piattaforma "
+          "collaborativa, stimandone l'attendibilità in base a provenienza, coerenza con le fonti esistenti e "
+          "storico del contributore. L'incertezza riguarda la stima dell'attendibilità di contenuti nuovi, privi "
+          "di riscontri. Il metodo prevede modelli di punteggio verificati su campioni valutati da esperti. "
+          "Risultato: metodo di valutazione dell'attendibilità dei contributi (D2.4)."),
+    ("s", "A2.5 Valutazione della qualità sui territori pilota (mesi 18-24)"),
+    ("t", "L'attività valuta i racconti generati sui territori pilota con un protocollo ripetibile: correttezza "
+          "fattuale verificata da esperti di dominio, coerenza con la posizione, gradimento di campioni di utenti. "
+          "La valutazione si avvale di una consulenza di dominio culturale. Il protocollo e i dataset di "
+          "valutazione sono risultati trasferibili ad altri territori. Risultato: rapporto di valutazione dello "
+          "storytelling (D2.5)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile tecnico, impegnato nelle attività A2.1 e A2.2, 6 profili senior e 8 sviluppatori, con "
+          "un impegno dell'81%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR3 (approvato il 19/11)
+CONTENUTI["II.7.1/OR3"] = _blocchi([
+    _intestazione("Erogazione dei contenuti, applicazione di bordo e dimostratore su veicolo", "Aubay Italia",
+                  "sviluppo sperimentale", "[sede operativa da confermare]; prove su pista e su strada"),
+    ("t", "L'obiettivo realizzativo sviluppa la filiera software che porta i contenuti dentro il veicolo:"),
+    ("p", "piattaforma di erogazione edge-cloud;"),
+    ("p", "applicazione di bordo multi-display, con integrazione verso l'HUD di serie del guidatore;"),
+    ("p", "protezione dei contenuti;"),
+    ("p", "integrazione del dimostratore su veicolo e prove su strada."),
+    ("t", "I dati del veicolo arrivano dalla piattaforma IoT, che è l'unico punto di accesso al veicolo. Le "
+          "attività sono sviluppo sperimentale ai sensi dell'art. 1 del DD: comprendono costruzione del "
+          "prototipo, dimostrazione, test e convalida in un ambiente che riproduce le condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR3"] = _blocchi([
+    ("s", "A3.1 Architettura edge-cloud della piattaforma di erogazione (mesi 7-15)"),
+    ("t", "L'attività definisce l'architettura distribuita fra cloud centrale e nodi edge vicini alla rete mobile, "
+          "allocando i requisiti di latenza fra i livelli. Il problema è garantire tempi di consegna compatibili "
+          "con contenuti legati al luogo, con connettività variabile e molti veicoli contemporanei. Risultato: "
+          "documento di architettura approvato (D3.1)."),
+    ("s", "A3.2 Streaming adattivo e prefetch predittivo (mesi 10-27)"),
+    ("t", "L'attività sviluppa il prefetch dei contenuti sulla cache di bordo, basato sulla stima del percorso e "
+          "del tempo di arrivo, con adattamento della qualità alla banda e funzionamento offline. L'incertezza "
+          "riguarda l'accuratezza della previsione su percorsi non pianificati e in zone a copertura scarsa. Il "
+          "metodo prevede misure su percorsi di prova rappresentativi. Risultato: servizi di streaming e prefetch "
+          "(D3.2), misurati sulla quota di contenuti disponibili nel momento utile."),
+    ("s", "A3.3 Applicazione di bordo e HMI multi-display (mesi 13-33)"),
+    ("t", "L'attività sviluppa l'applicazione di bordo che presenta i contenuti sulle superfici del veicolo: "
+          "schermo centrale, HUD di serie del guidatore, HUD del passeggero, dispositivi dei passeggeri. "
+          "L'applicazione esegue le decisioni del content policy engine e usa i dati del veicolo resi disponibili "
+          "dalla piattaforma IoT. Il problema è integrarsi con sistemi infotainment e HUD esistenti, con "
+          "interfacce diverse fra costruttori, senza modificarne l'hardware. Risultato: applicazione di bordo "
+          "integrata (D3.3)."),
+    ("s", "A3.4 Sicurezza dei contenuti e dell'applicazione (mesi 13-30)"),
+    ("t", "L'attività realizza cifratura e protezione dei contenuti e l'analisi dei rischi del flusso dei "
+          "contenuti secondo UNECE R155 e ISO/SAE 21434. Penetration test e assessment di conformità sono "
+          "affidati a fornitori esterni, come da prassi del settore. Risultato: analisi dei rischi e misure di "
+          "protezione verificate (D3.4)."),
+    ("s", "A3.5 Prove di carico e continuità del servizio (mesi 22-30)"),
+    ("t", "L'attività verifica la piattaforma con carichi rappresentativi di flotte numerose e con guasti "
+          "simulati dei nodi edge, misurando latenza, disponibilità e tempi di ripristino. Risultato: rapporto "
+          "delle prove di carico (D3.5)."),
+    ("s", "A3.6 Integrazione del dimostratore su veicolo e protocollo di prova (mesi 24-32)"),
+    ("t", "L'attività integra sul veicolo di prova il software e l'hardware di tutti gli OR:"),
+    ("p", "kit di percezione e unità di calcolo;"),
+    ("p", "HUD del passeggero;"),
+    ("p", "applicazioni per occhiali e visori;"),
+    ("p", "piattaforma IoT."),
+    ("t", "Definisce inoltre il protocollo di prova con scenari, percorsi, condizioni e indicatori. Le prove in "
+          "ambiente controllato si svolgono su pista o area chiusa. Il problema è verificare l'interazione fra "
+          "componenti sviluppati separatamente. Risultato: dimostratore integrato e protocollo di prova (D3.6)."),
+    ("s", "A3.7 Prove su strada e rapporto di sperimentazione (mesi 30-36)"),
+    ("t", "L'attività esegue le prove su strada nelle aree pilota secondo il protocollo e verifica i valori "
+          "obiettivo di tutti gli OR. Risultato: rapporto di sperimentazione con risultati, limiti e condizioni "
+          "di impiego (D3.7)."),
+    ("s", "Risorse umane"),
+    ("t", "Due profili di responsabilità tecnica, uno per la piattaforma (A3.1 e A3.3) e uno per il dimostratore "
+          "(A3.6 e A3.7), 11 profili senior e 17 sviluppatori, con un impegno del 75%. Il dettaglio per fascia di "
+          "costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR4 (approvato il 19/11)
+CONTENUTI["II.7.1/OR4"] = _blocchi([
+    _intestazione("Servizi di contenuto: piattaforma collaborativa, marketplace, POI", "Aubay Italia",
+                  "sviluppo sperimentale"),
+    ("t", "L'obiettivo realizzativo sviluppa i servizi che alimentano l'esperienza a bordo dei passeggeri:"),
+    ("p", "piattaforma collaborativa di contenuti georeferenziati (Open Heritage Cloud);"),
+    ("p", "marketplace di esperienze immersive;"),
+    ("p", "servizio di POI commerciali e di ricarica;"),
+    ("p", "percorsi a minor consumo."),
+    ("t", "I servizi sono convalidati con utenti e veicoli reali sui territori pilota. Per questo le attività sono "
+          "sviluppo sperimentale ai sensi dell'art. 1 del DD."),
+])
+CONTENUTI["II.7.2/OR4"] = _blocchi([
+    ("s", "A4.1 Piattaforma collaborativa Open Heritage Cloud (mesi 10-24)"),
+    ("t", "L'attività sviluppa la piattaforma in cui cittadini, istituzioni e operatori pubblicano fotografie, "
+          "racconti, audio, video e modelli 3D associati ai luoghi, con metadati su posizione, periodo, fonte, "
+          "autore, licenza e attendibilità. Il problema è garantire qualità e struttura dei metadati con "
+          "contributori eterogenei. Risultato: prima release della piattaforma (D4.1)."),
+    ("s", "A4.2 Moderazione, diritti e consenso (mesi 13-27)"),
+    ("t", "L'attività sviluppa i servizi di moderazione, verifica, versionamento e gestione dei diritti e del "
+          "consenso, distinguendo il livello aperto dal livello professionale per musei ed enti. Le regole sono "
+          "definite con una consulenza legale di dominio su diritto d'autore e protezione dei dati. Risultato: "
+          "servizi di moderazione e gestione dei diritti (D4.2)."),
+    ("s", "A4.3 Marketplace di esperienze immersive (mesi 19-33)"),
+    ("t", "L'attività sviluppa il marketplace delle esperienze fruibili a bordo, con regole trasparenti sui "
+          "diritti e sulla remunerazione dei contributori. Il problema è adattare la distribuzione delle "
+          "esperienze ai vincoli del viaggio: durata, posizione, dispositivo disponibile. Risultato: marketplace "
+          "di esperienze (D4.3)."),
+    ("s", "A4.4 POI commerciali e ricarica con regole per ruolo (mesi 19-33)"),
+    ("t", "L'attività sviluppa il servizio di raccomandazione di POI commerciali e colonnine di ricarica. Le "
+          "proposte al guidatore compaiono solo a veicolo fermo o come breve messaggio audio, quelle ai passeggeri "
+          "in forma interattiva, sempre con il consenso dell'utente. Risultato: servizio di raccomandazione "
+          "(D4.4), misurato sul tasso di accettazione e sul rispetto delle regole di consenso."),
+    ("s", "A4.5 Percorsi a minor consumo (mesi 25-36)"),
+    ("t", "L'attività sviluppa il calcolo di percorsi e profili di marcia a minor consumo, integrati con le soste "
+          "di ricarica. Il consumo è misurato su missioni comparabili rispetto a un percorso di riferimento, con "
+          "un protocollo ripetibile. Risultato: servizio e rapporto di misura dei consumi (D4.5)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile tecnico, impegnato nell'attività A4.1, 5 profili senior e 14 sviluppatori, con un "
+          "impegno dell'82%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR5 (approvato il 19/11)
+CONTENUTI["II.7.1/OR5"] = _blocchi([
+    _intestazione("Occhiali AR in un veicolo in movimento", "GSNet", "ricerca industriale"),
+    ("t", "L'obiettivo realizzativo riguarda i metodi per l'uso di occhiali AR da parte dei passeggeri di un "
+          "veicolo in movimento. I contenuti devono restare agganciati agli oggetti reali fuori dal finestrino "
+          "oppure all'abitacolo."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: affrontano un problema "
+          "aperto, la separazione del moto della testa dal moto del veicolo. Le verifiche si svolgono in "
+          "laboratorio e su percorsi di prova, senza realizzazione in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR5"] = _blocchi([
+    ("s", "A5.1 Separazione del moto della testa dal moto del veicolo (mesi 1-12)"),
+    ("t", "I sensori inerziali degli occhiali registrano insieme il movimento della testa e quello del veicolo. "
+          "Accelerazioni, frenate e curve vengono così scambiate per movimenti della testa e il contenuto scivola "
+          "o trema. L'attività studia la fusione fra sensori degli occhiali e dati di moto del veicolo per "
+          "isolare il moto relativo della testa. La novità è l'uso del veicolo come riferimento inerziale noto. "
+          "L'incertezza riguarda latenze e sincronizzazione fra le due fonti di dati. Il metodo prevede modelli "
+          "di stima verificati su banco con traiettorie note. Risultato: algoritmo di tracking in veicolo (D5.1)."),
+    ("s", "A5.2 Ancoraggio nel riferimento abitacolo e nel riferimento mondo esterno (mesi 5-15)"),
+    ("t", "L'attività sviluppa le due modalità di ancoraggio dei contenuti: solidali all'abitacolo, come un "
+          "pannello informativo, o solidali al mondo esterno, come un'etichetta su un monumento. Il problema è "
+          "passare dall'una all'altra senza discontinuità percepibili. Risultato: modulo di ancoraggio per "
+          "occhiali AR (D5.2)."),
+    ("s", "A5.3 Integrazione con la localizzazione di precisione (mesi 9-16)"),
+    ("t", "L'attività collega il tracking degli occhiali alla localizzazione di precisione del veicolo e ai dati "
+          "di percezione della scena, così da agganciare i contenuti ai luoghi reali. Risultato: integrazione con "
+          "la localizzazione (D5.3)."),
+    ("s", "A5.4 Prove in veicolo su percorsi differenziati (mesi 13-18)"),
+    ("t", "L'attività verifica gli algoritmi su percorsi urbani, extraurbani, con curve e con fondo irregolare. "
+          "Misura l'errore di posizionamento, la stabilità in accelerazione e in curva e il ritardo fra movimento "
+          "e aggiornamento dell'immagine (motion-to-photon). Come riferimento si usa un ground truth acquisito con "
+          "motion capture. Risultato: rapporto delle prove (D5.4)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile tecnico, impegnato nell'attività A5.1, 4 profili senior e 5 sviluppatori, con un "
+          "impegno dell'84%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR6 (approvato il 19/11)
+CONTENUTI["II.7.1/OR6"] = _blocchi([
+    _intestazione("Esperienze AR e XR per i passeggeri adattate alla scena", "GSNet", "sviluppo sperimentale",
+                  "[sede operativa da confermare]; prove sul veicolo di prova"),
+    ("t", "L'obiettivo realizzativo sviluppa le applicazioni per occhiali e visori dei passeggeri: informazioni "
+          "sovrapposte al paesaggio, ricostruzioni, esperienze del marketplace. La presentazione dei contenuti si "
+          "adatta alla scena rilevata dal kit di percezione."),
+    ("t", "GSNet mette a disposizione il veicolo di prova, a noleggio, usato anche per le prove degli altri OR. "
+          "Le attività sono sviluppo sperimentale ai sensi dell'art. 1 del DD: prototipi su dispositivi "
+          "commerciali, convalidati con passeggeri in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR6"] = _blocchi([
+    ("s", "A6.1 Applicazione per occhiali AR (mesi 13-27)"),
+    ("t", "L'attività sviluppa l'applicazione che mostra etichette e informazioni ancorate ai luoghi, integrate "
+          "con i racconti e con i contenuti della piattaforma collaborativa. Usa il tracking in veicolo sviluppato "
+          "nella ricerca industriale. Risultato: prototipo funzionante su dispositivo commerciale (D6.1)."),
+    ("s", "A6.2 Applicazione per visori sincronizzata con il moto del veicolo (mesi 16-30)"),
+    ("t", "L'attività sviluppa esperienze immersive su visore sincronizzate con accelerazioni e curve del "
+          "veicolo, per ridurre la cinetosi secondo le indicazioni sperimentali del Politecnico. Il problema è "
+          "mantenere la coerenza fra movimento percepito e movimento visto con i limiti di calcolo e batteria dei "
+          "dispositivi. Risultato: applicazione per visori (D6.2)."),
+    ("s", "A6.3 Adattamento dei contenuti alla scena rilevata (mesi 19-30)"),
+    ("t", "L'attività usa gli oggetti rilevati e tracciati dal kit di percezione per riposizionare, filtrare o "
+          "mettere in evidenza i contenuti: per esempio un'etichetta che segue un monumento in avvicinamento, "
+          "oppure un contenuto spostato quando un oggetto lo coprirebbe. È la parte meno consolidata dell'OR, "
+          "perché dipende dalla qualità della percezione in condizioni reali. Risultato: modulo di adattamento "
+          "alla scena (D6.3)."),
+    ("s", "A6.4 Integrazione con l'erogazione e con il content policy engine (mesi 22-33)"),
+    ("t", "L'attività integra le applicazioni con la piattaforma di erogazione e con il content policy engine, "
+          "che può sospendere o ridurre i contenuti in particolari situazioni di guida. Risultato: integrazione "
+          "delle applicazioni XR (D6.4)."),
+    ("s", "A6.5 Prove con i passeggeri sul veicolo di prova (mesi 28-36)"),
+    ("t", "L'attività svolge prove con campioni di passeggeri, misurando gradimento, incidenza della cinetosi e "
+          "durata della batteria in uso continuo. Risultato: rapporto delle prove (D6.5)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile tecnico, impegnato nell'attività A6.1, 5 profili senior e 5 sviluppatori, con un "
+          "impegno del 53%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR7 (approvato il 19/11)
+CONTENUTI["II.7.1/OR7"] = _blocchi([
+    _intestazione("Integrazione di dati da strada e infrastruttura", "Anitia", "ricerca industriale"),
+    ("t", "L'obiettivo realizzativo riguarda i metodi per arricchire le informazioni a disposizione del veicolo "
+          "con dati esterni (semafori, cantieri, incidenti, traffico, disponibilità delle colonnine) attraverso la "
+          "comunicazione V2X e le piattaforme dei gestori."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: il criterio con cui un "
+          "dato esterno diventa abbastanza affidabile e tempestivo da essere mostrato al guidatore non è definito "
+          "dallo stato dell'arte."),
+])
+CONTENUTI["II.7.2/OR7"] = _blocchi([
+    ("s", "A7.1 Censimento delle fonti esterne (mesi 1-5)"),
+    ("t", "L'attività censisce le fonti disponibili nelle aree pilota, con formato, latenza, copertura e "
+          "condizioni d'uso, in un catalogo strutturato e aggiornabile. Risultato: catalogo delle fonti esterne "
+          "(D7.1)."),
+    ("s", "A7.2 Fusione dei dati esterni con i dati di bordo (mesi 4-14)"),
+    ("t", "L'attività sviluppa i metodi di fusione fra dati esterni e dati del veicolo, con una stima "
+          "dell'affidabilità e dell'attualità di ogni informazione. L'incertezza riguarda la combinazione di fonti "
+          "con ritardi e accuratezze molto diversi, spesso senza metadati di qualità. Il metodo prevede modelli "
+          "probabilistici verificati su dati storici delle aree pilota. Risultato: modulo di fusione (D7.2)."),
+    ("s", "A7.3 Criteri di promozione di un dato ad avviso per il guidatore (mesi 9-16)"),
+    ("t", "L'attività definisce le soglie di affidabilità, anticipo e pertinenza oltre le quali un dato esterno "
+          "diventa un avviso, coerenti con gli standard C-ITS e con le regole del content policy engine. "
+          "L'allineamento agli standard si avvale di una consulenza di dominio. Risultato: criteri di promozione "
+          "ad avviso (D7.3)."),
+    ("s", "A7.4 Prove su area pilota (mesi 14-18)"),
+    ("t", "L'attività misura sull'area pilota l'anticipo con cui un evento è noto rispetto alla sola percezione "
+          "di bordo, la percentuale di segnalazioni corrette e il ritardo di propagazione. Risultato: rapporto "
+          "delle prove (D7.4)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile tecnico, impegnato nell'attività A7.1, 4 profili senior e 6 sviluppatori, con un "
+          "impegno dell'80%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR8 (approvato il 19/11)
+CONTENUTI["II.7.1/OR8"] = _blocchi([
+    _intestazione("Piattaforma IoT: accesso ai dati del veicolo, device management e OTA", "Anitia",
+                  "sviluppo sperimentale"),
+    ("t", "L'obiettivo realizzativo sviluppa la piattaforma che costituisce l'unico punto di accesso al veicolo "
+          "per tutti i componenti del sistema. La piattaforma copre:"),
+    ("p", "lettura dei dati del veicolo, compresi i segnali ADAS e DMS di serie;"),
+    ("p", "raccolta e governance dei dati in cloud;"),
+    ("p", "gestione dei dispositivi di bordo e aggiornamento OTA di tutto il software installato."),
+    ("t", "Le attività sono sviluppo sperimentale ai sensi dell'art. 1 del DD: la piattaforma è convalidata sui "
+          "veicoli di prova in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR8"] = _blocchi([
+    ("s", "A8.1 Accesso ai dati del veicolo tramite modello dati standard (mesi 7-18)"),
+    ("t", "L'attività sviluppa il servizio che legge i dati del veicolo attraverso un modello dati standard e li "
+          "espone tramite API agli altri componenti. Comprende i segnali dei sistemi ADAS e DMS di serie, che non "
+          "si sviluppano ma si usano. Il problema è l'eterogeneità delle interfacce fra costruttori. Risultato: "
+          "servizio di accesso ai dati del veicolo (D8.1)."),
+    ("s", "A8.2 Raccolta, archiviazione e governance dei dati in cloud (mesi 10-24)"),
+    ("t", "L'attività sviluppa la raccolta e l'archiviazione dei dati in cloud, con regole di conservazione e di "
+          "accesso per ciascun componente e per ciascuna finalità. Risultato: piattaforma dati in cloud (D8.2), "
+          "misurata sulla percentuale di dati raccolti senza perdite e sul ritardo fra evento a bordo e "
+          "disponibilità in cloud."),
+    ("s", "A8.3 Device management e aggiornamento OTA (mesi 13-28)"),
+    ("t", "L'attività sviluppa registrazione, monitoraggio, configurazione e aggiornamento a distanza dei "
+          "dispositivi e del software di bordo di tutti i partner. Gli aggiornamenti sono gestiti secondo UNECE "
+          "R156; il penetration test del canale OTA è affidato a un fornitore esterno. Risultato: servizio di "
+          "device management e OTA (D8.3)."),
+    ("s", "A8.4 Fonti esterne, affidabilità e scalabilità (mesi 22-33)"),
+    ("t", "L'attività integra le fonti esterne individuate nella ricerca industriale e verifica affidabilità e "
+          "scalabilità della piattaforma su flotte simulate. Risultato: rapporto delle prove (D8.4), con il numero "
+          "di veicoli gestibili."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile tecnico, impegnato nell'attività A8.1, 4 profili senior e 8 sviluppatori, con un "
+          "impegno del 68%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR9 (approvato il 19/11)
+CONTENUTI["II.7.1/OR9"] = _blocchi([
+    _intestazione("Localizzazione di precisione, ancoraggio dei contenuti e calcolo a bordo",
+                  "Politecnico di Milano", "ricerca industriale", "[sede del Politecnico di Milano da confermare]"),
+    ("t", "L'obiettivo realizzativo riguarda i metodi per posizionare con precisione i contenuti sulla scena reale, "
+          "sia sugli HUD sia sugli occhiali, riconoscendo quando la precisione non è sufficiente. Comprende anche "
+          "le specifiche dell'unità di calcolo di bordo su cui eseguire gli algoritmi."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: producono nuove conoscenze "
+          "su localizzazione e registrazione dei contenuti per un componente di un sistema complesso, verificate "
+          "su dati registrati e su percorsi di prova."),
+])
+CONTENUTI["II.7.2/OR9"] = _blocchi([
+    ("s", "A9.1 Localizzazione di precisione (mesi 1-14)"),
+    ("t", "L'attività sviluppa algoritmi di localizzazione che combinano GNSS RTK, sensori inerziali e visione. I "
+          "sistemi di serie localizzano il veicolo per la navigazione, non per sovrapporre contenuti agli oggetti "
+          "reali, e la realtà aumentata richiede una precisione di un ordine di grandezza superiore. L'incertezza "
+          "riguarda il mantenimento di questa precisione in condizioni di segnale GNSS degradato. Il metodo prevede "
+          "la valutazione su percorsi rilevati con riferimento di precisione. Risultato: algoritmi di "
+          "localizzazione di precisione (D9.1)."),
+    ("s", "A9.2 Ancoraggio dei contenuti alla scena (mesi 6-18)"),
+    ("t", "L'attività ricostruisce la geometria della scena utile all'ancoraggio dei contenuti dal punto di vista "
+          "del guidatore, del passeggero e di chi indossa occhiali, usando i dati di percezione del kit "
+          "multisensore. Il problema è un ancoraggio stabile con punti di vista diversi e con un veicolo in "
+          "movimento. Risultato: algoritmi di ancoraggio (D9.2), misurati sulla stabilità dell'ancoraggio."),
+    ("s", "A9.3 Stima dell'affidabilità e riduzione dei contenuti (mesi 10-20)"),
+    ("t", "L'attività sviluppa uno stimatore dell'affidabilità della localizzazione in tempo reale, insieme ai "
+          "criteri con cui il content policy engine riduce i contenuti quando l'affidabilità è insufficiente, per "
+          "esempio con nebbia, buio o segnale degradato. La novità è trattare l'affidabilità come grandezza "
+          "esplicita che governa la presentazione. Risultato: stimatore di affidabilità (D9.3)."),
+    ("s", "A9.4 Specifiche dell'unità di calcolo di bordo (mesi 4-12)"),
+    ("t", "L'attività definisce l'architettura di calcolo: cosa elaborare sul veicolo e cosa in cloud, con "
+          "prestazioni, latenze e consumi richiesti. Le specifiche sono la base del prototipo realizzato da nLight. "
+          "Risultato: specifiche dell'unità di calcolo di bordo (D9.4)."),
+    ("s", "A9.5 Ottimizzazione degli algoritmi per l'esecuzione a bordo (mesi 16-24)"),
+    ("t", "L'attività adatta gli algoritmi alle risorse dell'unità di bordo, misurandone tempi di calcolo e "
+          "consumi. Risultato: algoritmi ottimizzati (D9.5)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile scientifico, impegnato nelle attività A9.1 e A9.4, 5 profili di fascia Media e 12 "
+          "ricercatori, con un impegno dell'84%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR10 (approvato il 19/11)
+CONTENUTI["II.7.1/OR10"] = _blocchi([
+    _intestazione("Contenuti a bordo, attenzione degli occupanti e cinetosi", "Politecnico di Milano",
+                  "ricerca industriale", "[sede del Politecnico di Milano da confermare]"),
+    ("t", "L'obiettivo realizzativo stabilisce su basi sperimentali quali contenuti, in quale forma e su quale "
+          "superficie sono compatibili con una guida sicura, e come ridurre la cinetosi dei passeggeri che usano "
+          "HUD, schermi e visori."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: sono indagini "
+          "sperimentali svolte in ambienti simulati, su un abitacolo con più superfici di visualizzazione che la "
+          "letteratura non ha ancora studiato."),
+])
+CONTENUTI["II.7.2/OR10"] = _blocchi([
+    ("s", "A10.1 Disegno sperimentale e scenari di guida (mesi 1-6)"),
+    ("t", "L'attività definisce ipotesi, scenari di guida di complessità crescente, campioni, misure e "
+          "protocollo, compresi gli aspetti etici e di protezione dei dati. Risultato: protocollo sperimentale "
+          "(D10.1)."),
+    ("s", "A10.2 Prove sui guidatori in ambienti simulati (mesi 5-18)"),
+    ("t", "L'attività misura attenzione e prestazioni di guida in presenza di contenuti diversi sulle varie "
+          "superfici: HUD del guidatore, schermo centrale, HUD del passeggero, contenuti audio. Usa eye tracking e "
+          "i segnali dei sistemi di monitoraggio del guidatore. L'incertezza riguarda gli effetti di superfici mai "
+          "studiate insieme, come un contenuto proiettato sul finestrino del passeggero. Risultato: dati "
+          "sperimentali sull'attenzione dei guidatori (D10.2)."),
+    ("s", "A10.3 Prove sui passeggeri e cinetosi (mesi 10-22)"),
+    ("t", "L'attività misura incidenza e intensità della cinetosi nei passeggeri che usano HUD, schermi e "
+          "visori, con e senza sincronizzazione dei contenuti con il moto del veicolo. Risultato: dati "
+          "sperimentali su passeggeri e cinetosi (D10.3)."),
+    ("s", "A10.4 Linee guida e regole per il content policy engine (mesi 16-24)"),
+    ("t", "L'attività sintetizza i risultati in linee guida e in regole trasferibili al content policy engine, "
+          "in forma codificabile. Il risultato è trasferibile anche oltre il progetto, come riferimento per la "
+          "progettazione di abitacoli multi-display. Risultato: linee guida per i contenuti a bordo (D10.4)."),
+    ("s", "A10.5 Verifica delle regole adattive in ambienti simulati (mesi 22-30)"),
+    ("t", "L'attività verifica in ambienti simulati che il content policy engine adattivo non peggiori gli "
+          "indicatori di attenzione rispetto alle regole fisse. Verifica inoltre la visibilità dell'HUD del "
+          "passeggero dal posto di guida. Risultato: rapporto di verifica (D10.5)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile scientifico, impegnato nelle attività A10.1 e A10.4, 5 profili di fascia Media e 11 "
+          "ricercatori, con un impegno dell'84%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR11 (approvato il 19/11)
+CONTENUTI["II.7.1/OR11"] = _blocchi([
+    _intestazione("HUD per il passeggero a proiezione sul finestrino", "Politecnico di Milano",
+                  "ricerca industriale",
+                  "[sede del Politecnico di Milano da confermare]; verifiche sul veicolo di prova"),
+    ("t", "L'obiettivo realizzativo riguarda la progettazione e la costruzione di un prototipo di laboratorio di "
+          "HUD per il passeggero. Il dispositivo proietta i contenuti su una porzione definita del finestrino "
+          "laterale, agganciati al paesaggio esterno e invisibili dal posto di guida. Oggi non esistono veicoli né "
+          "prototipi noti che offrano un HUD dedicato ai passeggeri."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD, che vi comprende "
+          "espressamente la costruzione di prototipi in ambiente di laboratorio. Il prototipo è installabile sul "
+          "veicolo di prova per le verifiche, senza integrazione nell'abitacolo di serie."),
+])
+CONTENUTI["II.7.2/OR11"] = _blocchi([
+    ("s", "A11.1 Stato dell'arte e requisiti (mesi 1-6)"),
+    ("t", "L'attività analizza lo stato dell'arte di HUD e display trasparenti e definisce i requisiti: superfici "
+          "utilizzabili, visibilità residua dal posto di guida, condizioni di luce, vincoli dell'abitacolo come gli "
+          "airbag laterali e i rivestimenti. I vincoli di sicurezza passiva sono verificati con una consulenza di "
+          "dominio automotive. Risultato: requisiti dell'HUD per il passeggero (D11.1)."),
+    ("s", "A11.2 Architettura ottica del proiettore (mesi 4-16)"),
+    ("t", "L'attività progetta l'architettura ottica: porzione di proiezione, distanza focale dell'immagine, "
+          "contrasto rispetto al paesaggio esterno, alloggiamento del proiettore sopra il poggiabraccio. La novità "
+          "è l'uso del finestrino laterale come superficie di proiezione per un passeggero libero di muovere la "
+          "testa. L'incertezza riguarda la leggibilità in pieno sole e la visibilità residua dal posto di guida. "
+          "Risultato: progetto ottico (D11.2)."),
+    ("s", "A11.3 Correzione prospettica e registrazione sulla scena (mesi 8-20)"),
+    ("t", "L'attività sviluppa gli algoritmi che correggono la prospettiva dell'immagine proiettata sul "
+          "finestrino inclinato e la allineano agli oggetti esterni. Usa la posizione stimata della testa del "
+          "passeggero e i dati di ancoraggio. Risultato: algoritmi di correzione prospettica e registrazione "
+          "(D11.3), misurati sull'errore di allineamento."),
+    ("s", "A11.4 Prototipo di laboratorio installabile su veicolo (mesi 14-26)"),
+    ("t", "L'attività realizza il prototipo, affidando a fornitori esterni ottiche, proiettore e supporti, e lo "
+          "verifica su banco ottico. Il prototipo non è un componente pronto per la produzione: dimostra la "
+          "fattibilità dei principi ottici e algoritmici. Risultato: prototipo dell'HUD per il passeggero (D11.4)."),
+    ("s", "A11.5 Verifiche di visibilità e leggibilità (mesi 22-30)"),
+    ("t", "L'attività misura contrasto, leggibilità e visibilità residua dal posto di guida, su banco e sul "
+          "veicolo di prova, con un protocollo ripetibile. Se i requisiti sono raggiunti solo in parte, il "
+          "rapporto documenta i limiti e le condizioni d'impiego. Risultato: rapporto delle verifiche (D11.5)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile scientifico, impegnato nelle attività A11.1 e A11.2, 5 profili di fascia Media e 12 "
+          "ricercatori, con un impegno dell'82%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR12 (approvato il 19/11)
+CONTENUTI["II.7.1/OR12"] = _blocchi([
+    _intestazione("Percezione della scena multispettrale e LiDAR, tracking dei punti di interesse", "nLight",
+                  "ricerca industriale", "[sede di Torino da confermare]"),
+    ("t", "L'obiettivo realizzativo riguarda i metodi per rilevare e seguire nella scena attorno al veicolo i "
+          "punti di interesse su cui agganciare i contenuti, come monumenti, edifici ed elementi del paesaggio. "
+          "La percezione combina:"),
+    ("p", "video nel visibile su quattro lati;"),
+    ("p", "infrarosso e termico;"),
+    ("p", "LiDAR."),
+    ("t", "Il kit di percezione è dedicato all'esperienza degli occupanti, non alla guida, e non si sovrappone ai "
+          "sistemi ADAS di serie. Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: "
+          "sviluppano metodi di percezione multisensore per una finalità nuova, verificati su banco e su percorsi "
+          "registrati."),
+])
+CONTENUTI["II.7.2/OR12"] = _blocchi([
+    ("s", "A12.1 Configurazione sensoriale (mesi 1-6)"),
+    ("t", "L'attività definisce numero, posizione, campo visivo e caratteristiche dei sensori: telecamere "
+          "grandangolari su quattro lati, telecamere infrarosse e termiche, LiDAR. Il problema è coprire la scena "
+          "laterale vista dai passeggeri, che i sistemi di serie, orientati all'avanti, non coprono con questo "
+          "scopo. Risultato: specifica della configurazione sensoriale (D12.1)."),
+    ("s", "A12.2 Rilevamento e tracking dei punti di interesse su video (mesi 4-15)"),
+    ("t", "L'attività sviluppa algoritmi di rilevamento e tracking di punti di interesse statici, osservati da un "
+          "veicolo in movimento a distanze e angolazioni variabili. L'incertezza riguarda la continuità del "
+          "tracking con occlusioni e variazioni di luce. Il metodo prevede l'addestramento su dataset annotati e la "
+          "valutazione su metriche standard di rilevamento e tracking. Risultato: algoritmi di rilevamento e "
+          "tracking (D12.2)."),
+    ("s", "A12.3 Fusione di video, infrarosso e LiDAR (mesi 6-16)"),
+    ("t", "L'attività sviluppa la fusione multisensore per stimare distanza e geometria dei punti di interesse, "
+          "necessarie all'ancoraggio preciso dei contenuti. Risultato: modulo di fusione multisensore (D12.3), "
+          "misurato sull'errore di distanza."),
+    ("s", "A12.4 Percezione notturna e con bassa visibilità (mesi 10-18)"),
+    ("t", "L'attività estende rilevamento e tracking alla notte e alla visibilità ridotta, sfruttando infrarosso "
+          "e termico. Rende disponibili esperienze che altrimenti si interromperebbero. Risultato: modulo di "
+          "percezione in bassa visibilità (D12.4)."),
+    ("s", "A12.5 Verifiche su banco e su percorsi registrati (mesi 14-18)"),
+    ("t", "L'attività verifica gli algoritmi su dataset di prova e su percorsi registrati, con indicatori di "
+          "precisione, continuità del tracking ed errore di distanza. Risultato: rapporto delle verifiche (D12.5)."),
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile tecnico, impegnato nelle attività A12.1 e A12.2, 5 profili senior e 13 tecnici, con un "
+          "impegno dell'84%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+# ---------------------------------------------------------------- OR13 (approvato il 19/11)
+CONTENUTI["II.7.1/OR13"] = _blocchi([
+    _intestazione("Prototipo del kit di percezione e dell'unità di calcolo di bordo, validazione su veicolo",
+                  "nLight", "sviluppo sperimentale", "[sede di Torino da confermare]; prove sul veicolo di prova"),
+    ("t", "L'obiettivo realizzativo realizza il prototipo del kit di percezione multisensore e dell'unità di "
+          "calcolo di bordo, lo installa e lo calibra sul veicolo di prova e ne valida le prestazioni su strada."),
+    ("t", "Le attività sono sviluppo sperimentale ai sensi dell'art. 1 del DD: costruzione di prototipi, test e "
+          "convalida in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR13"] = _blocchi([
+    ("s", "A13.1 Progetto del kit e dell'unità di calcolo (mesi 13-18)"),
+    ("t", "L'attività progetta kit e unità di calcolo sulle specifiche del Politecnico: alimentazione da veicolo, "
+          "cablaggi, contenitori, dissipazione. Risultato: progetto conforme alle specifiche (D13.1)."),
+    ("s", "A13.2 Prototipo del kit di percezione (mesi 16-27)"),
+    ("t", "L'attività realizza il prototipo del kit. Le lavorazioni meccaniche e i cablaggi sono affidati a "
+          "fornitori esterni, i componenti rientrano nei materiali. Il problema è garantire allineamento e "
+          "sincronizzazione dei sensori con le vibrazioni del veicolo. Risultato: kit funzionante su banco con "
+          "alimentazione da veicolo (D13.2)."),
+    ("s", "A13.3 Prototipo dell'unità di calcolo e prove ambientali (mesi 16-28)"),
+    ("t", "L'attività realizza il prototipo dell'unità di calcolo, con la scheda prodotta da un fornitore esterno. "
+          "Le prove di vibrazione, temperatura e compatibilità elettromagnetica si svolgono in un laboratorio "
+          "accreditato. Risultato: prototipo dell'unità di calcolo (D13.3)."),
+    ("s", "A13.4 Installazione e calibrazione sul veicolo di prova (mesi 25-31)"),
+    ("t", "L'attività installa kit e unità di calcolo sul veicolo di prova e ne calibra i sensori. Risultato: kit "
+          "installato e calibrato (D13.4), misurato sull'errore di calibrazione."),
+    ("s", "A13.5 Validazione su strada della percezione (mesi 30-36)"),
+    ("t", "L'attività verifica su strada, nelle prove del dimostratore, che gli indicatori di percezione misurati "
+          "nella ricerca industriale siano confermati in condizioni reali. Risultato: rapporto di validazione "
+          "(D13.5)."),
+    ("s", "Risorse umane"),
+    ("t", "Due profili di responsabilità tecnica, uno per il progetto e il prototipo del kit (A13.1 e A13.2) e uno "
+          "per la validazione (A13.5), 7 profili senior e 19 tecnici, con un impegno dell'83%. Il dettaglio per "
+          "fascia di costo è riportato nella Tabella 3."),
+])
+
+
+# ---------------------------------------------------------------- OR1, forma Frascati (approvato il 20/11)
+CONTENUTI["II.7.1/OR1"] = _blocchi([
+    _intestazione("Content policy engine adattivo", "Aubay Italia", "ricerca industriale"),
+    ("t", "L'obiettivo realizzativo studia i metodi e i modelli con cui un content policy engine stabilisce, "
+          "istante per istante, quali contenuti presentare a ciascun occupante del veicolo, in quale forma e su "
+          "quale superficie di visualizzazione. La decisione tiene conto della situazione di guida, della scena "
+          "rilevata e dell'attenzione del singolo guidatore."),
+    ("t", "Lo stato dell'arte regola i contenuti di bordo con criteri statici pensati per un solo display e per il "
+          "solo guidatore: lo European Statement of Principles on HMI (Raccomandazione 2008/653/CE) e le linee "
+          "guida NHTSA sulla distrazione visivo-manuale, con limiti come 2 secondi per singolo sguardo e 12 secondi "
+          "complessivi fuori strada per compito. Le soglie sono fisse: la riproduzione di video si blocca oltre una "
+          "velocità, i menu si riducono in marcia. I sistemi di monitoraggio del guidatore (DMS) previsti dal "
+          "Regolamento (UE) 2019/2144 producono avvisi ma non governano i contenuti. Non esiste un criterio per "
+          "arbitrare fra più superfici e più occupanti, né per adattarsi al singolo guidatore."),
+    ("t", "L'obiettivo produce tre risultati, usati dall'applicazione di bordo (OR3) e dalle esperienze per i "
+          "passeggeri (OR6):"),
+    ("p", "un modello del contesto con previsione a breve termine;"),
+    ("p", "un insieme di policy verificate formalmente;"),
+    ("p", "una componente adattiva che può solo restringere le policy validate."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: acquisiscono nuove "
+          "conoscenze per un componente di un sistema complesso, verificato in ambiente di simulazione e su dati "
+          "registrati, senza realizzazione in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR1"] = _blocchi([
+    ("s", "A1.1 Modello del contesto di guida e degli occupanti (mesi 1-8)"),
+    ("e", ("Problema.", "Per decidere cosa mostrare, a chi e dove, il motore deve conoscere in ogni istante:")),
+    ("p", "la dinamica del veicolo;"),
+    ("p", "la complessità del contesto stradale;"),
+    ("p", "la scena rilevata dal kit di percezione;"),
+    ("p", "la presenza e la posizione degli occupanti;"),
+    ("p", "l'attenzione del guidatore stimata dai segnali DMS di serie;"),
+    ("p", "gli eventi esterni."),
+    ("t", "Questi dati arrivano da fonti diverse, con frequenze, latenze e affidabilità diverse, e possono mancare. "
+          "Le regole statiche usano una sola variabile, come la velocità o la marcia inserita."),
+    ("e", ("Soluzione proposta.", "Un modello formale del contesto, cioè un insieme di variabili che descrivono la "
+           "situazione, ciascuna con significato, unità di misura, frequenza di aggiornamento e grado di "
+           "affidabilità, alimentato dalla piattaforma IoT (OR8), dalla percezione della scena (OR12) e dai dati "
+           "esterni (OR7). Al modello si affiancano modelli predittivi che stimano l'evoluzione della situazione di "
+           "guida nei secondi successivi, per esempio l'ingresso in un incrocio o una manovra. Così la riduzione dei "
+           "contenuti può essere anticipata anziché arrivare in ritardo.")),
+    ("e", ("Novità e incertezza.", "La novità è la rappresentazione unificata di grandezze eterogenee, con "
+           "affidabilità esplicita, usata per decisioni in tempo reale su più superfici. L'incertezza riguarda due "
+           "punti:")),
+    ("p", "quale orizzonte di previsione sia raggiungibile con accuratezza sufficiente su dati parziali;"),
+    ("p", "quali variabili siano davvero predittive del carico di guida."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Analisi dei segnali disponibili da OR7, OR8 e OR12 e dei requisiti delle superfici di visualizzazione."),
+    ("t", "2. Specifica formale del modello."),
+    ("t", "3. Addestramento e confronto di modelli predittivi su dataset di guida registrati, con dati di sviluppo e "
+          "di prova separati per percorso e periodo."),
+    ("t", "4. Valutazione dell'errore predittivo per orizzonte temporale."),
+    ("e", ("Risultati misurabili.", "Specifica del modello del contesto e modelli predittivi (D1.1). Indicatori:")),
+    ("p", "previsione delle situazioni ad alto carico con anticipo di almeno 3 secondi e riconoscimento di almeno "
+          "l'85% delle situazioni ad alto carico sui dati di prova;"),
+    ("p", "copertura del 100% dei segnali concordati con OR8."),
+    ("t", "Il modello è indipendente dal veicolo ed è riusato dall'applicazione di bordo e dalle esperienze per i "
+          "passeggeri."),
+
+    ("s", "A1.2 Traduzione delle linee guida in policy eseguibili (mesi 6-16)"),
+    ("e", ("Problema.", "Le linee guida di settore e quelle sperimentali prodotte nell'OR dedicato all'attenzione "
+           "degli occupanti sono descrittive e pensate per un display e per il solo guidatore. Tradotte in regole per "
+           "più superfici e più occupanti producono conflitti e lacune. Per esempio, uno stesso contenuto può "
+           "risultare ammesso sul display del passeggero e vietato su una superficie visibile dal guidatore.")),
+    ("e", ("Soluzione proposta.", "Un linguaggio in cui le regole descrivono cosa è ammesso e in quali condizioni, "
+           "con tre classi (sempre vietato, ammesso a condizioni, sempre consentito), condizioni sulle variabili del "
+           "modello del contesto, priorità e una regola di default prudente. Prima dell'esecuzione, uno strumento di "
+           "verifica controlla che le regole non si contraddicano e coprano tutti i casi. La codifica è rivista da "
+           "una consulenza di dominio su sicurezza funzionale e HMI, ISO 26262 e ISO 21448.")),
+    ("e", ("Novità e incertezza.", "La novità è la verifica formale di un insieme di regole HMI per più superfici "
+           "e più occupanti. L'incertezza riguarda due punti:")),
+    ("p", "se la verifica resti eseguibile in tempi ragionevoli quando crescono regole e superfici;"),
+    ("p", "se il linguaggio sia abbastanza espressivo da codificare tutte le linee guida senza eccezioni gestite a mano."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Censimento e normalizzazione delle linee guida."),
+    ("t", "2. Progetto del linguaggio e dello strumento di verifica."),
+    ("t", "3. Codifica delle regole."),
+    ("t", "4. Verifica su casi di prova generati in modo sistematico, combinando contesto, superficie e occupante."),
+    ("t", "5. Revisione della consulenza di dominio."),
+    ("e", ("Risultati misurabili.", "Prima release del motore con regole codificate (D1.2). Indicatori:")),
+    ("p", "100% delle linee guida codificate o escluse con motivazione;"),
+    ("p", "nessun conflitto residuo;"),
+    ("p", "tempo di valutazione dell'insieme di regole inferiore a 20 ms nel 95% dei casi."),
+
+    ("s", "A1.3 Componente adattiva calibrata sul singolo guidatore (mesi 9-22)"),
+    ("e", ("Problema.", "Le soglie fisse sono tarate su un guidatore medio. Sono troppo restrittive per chi gestisce "
+           "bene il carico e troppo permissive per chi si distrae facilmente. Il DMS di serie misura l'attenzione, "
+           "ma non come il singolo guidatore reagisce ai contenuti.")),
+    ("e", ("Soluzione proposta.", "Una componente che osserva le reazioni del singolo guidatore ai contenuti "
+           "presentati e calibra quantità e forma delle informazioni, riducendole o semplificandole quando "
+           "l'attenzione cala. Le reazioni osservate sono sguardi fuori strada, tempi di risposta e variazioni dei "
+           "comandi di guida, rilevate dai segnali della piattaforma IoT. Il vincolo è garantito per costruzione: la "
+           "componente può solo aggiungere restrizioni a quelle delle policy validate, mai toglierne.")),
+    ("e", ("Novità e incertezza.", "La novità è la personalizzazione dei contenuti di bordo sull'attenzione del "
+           "singolo guidatore, con garanzia formale di non allargare mai le regole validate. L'incertezza riguarda "
+           "tre punti:")),
+    ("p", "la separazione fra tratti individuali stabili e rumore dei segnali, con pochi episodi per guidatore;"),
+    ("p", "il tempo di convergenza del profilo;"),
+    ("p", "l'assenza di oscillazioni nel comportamento."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Definizione degli indicatori di reazione."),
+    ("t", "2. Modelli del singolo guidatore che si aggiornano a ogni sessione di guida."),
+    ("t", "3. Dimostrazione formale del vincolo e prove automatiche che lo controllano su un gran numero di casi "
+          "generati."),
+    ("t", "4. Valutazione in ambienti simulati su campioni di guidatori, con l'OR dedicato all'attenzione degli "
+          "occupanti."),
+    ("e", ("Risultati misurabili.", "Componente adattiva e rapporto di prova (D1.3). Indicatori:")),
+    ("p", "nessuna decisione più permissiva delle policy validate su tutti i casi di prova;"),
+    ("p", "riduzione degli sguardi fuori strada di almeno il 15% rispetto alle regole fisse, a parità di "
+          "informazioni utili consegnate;"),
+    ("p", "convergenza del profilo entro 10 sessioni di guida."),
+
+    ("s", "A1.4 Gestione delle condizioni degradate (mesi 12-20)"),
+    ("e", ("Problema.", "I dati possono mancare, arrivare in ritardo o essere poco affidabili: perdita di "
+           "connessione, sensori degradati, localizzazione imprecisa, DMS non disponibile. Un motore che decide su "
+           "dati errati può mostrare contenuti in situazioni non sicure; uno che si blocca a ogni disturbo è "
+           "inutilizzabile.")),
+    ("e", ("Soluzione proposta.", "Livelli di funzionamento progressivamente più prudenti, attivati "
+           "dall'affidabilità dei dati del modello del contesto. A ogni livello corrisponde un insieme di regole più "
+           "restrittivo: per esempio, al primo livello degradato sono esclusi i video sulle superfici visibili dal "
+           "guidatore, all'ultimo livello restano solo i messaggi audio essenziali. Il passaggio a un livello più "
+           "prudente è immediato. Il ritorno al livello precedente avviene solo dopo che i dati sono rimasti "
+           "affidabili per un tempo minimo, così i contenuti non compaiono e scompaiono in continuazione quando un "
+           "dato oscilla intorno alla soglia.")),
+    ("e", ("Novità e incertezza.", "La novità è una degradazione graduale guidata dall'affidabilità dei dati, "
+           "applicata ai contenuti di bordo su più superfici. L'incertezza riguarda la scelta di soglie che "
+           "garantiscano prudenza senza ridurre il servizio troppo spesso.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Per ciascuna fonte di dati (localizzazione, DMS, connessione, percezione, dati del veicolo), censimento "
+          "dei modi in cui il dato può venire meno (assente, in ritardo, bloccato sull'ultimo valore, errato ma "
+          "plausibile), dei loro effetti sulle decisioni e dei criteri per riconoscerli."),
+    ("t", "2. Definizione dei livelli e delle transizioni."),
+    ("t", "3. Iniezione sistematica di guasti in simulazione."),
+    ("t", "4. Taratura delle soglie."),
+    ("e", ("Risultati misurabili.", "Specifica e implementazione dei comportamenti degradati (D1.4). Indicatori:")),
+    ("p", "100% degli scenari degradati gestiti con comportamento prudente;"),
+    ("p", "passaggio al livello prudente entro 200 ms dall'evento;"),
+    ("p", "funzionamento in modalità degradata per meno del 5% del tempo in condizioni nominali."),
+
+    ("s", "A1.5 Verifica su scenari simulati e registrati (mesi 18-24)"),
+    ("e", ("Problema.", "Prima dell'integrazione su veicolo il motore va verificato su un numero di combinazioni di "
+           "contesto, occupanti e superfici che le prove reali non possono coprire.")),
+    ("e", ("Soluzione proposta.", "Una batteria di scenari simulati e registrati, costruita in modo sistematico ed "
+           "eseguita automaticamente, con esiti attesi derivati dalle policy.")),
+    ("e", ("Novità e incertezza.", "L'incertezza riguarda la capacità della batteria di coprire le situazioni "
+           "rilevanti, compresi i casi rari ma critici. Per questo la copertura è misurata, non assunta.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Definizione dei criteri di copertura."),
+    ("t", "2. Generazione degli scenari: tutte le coppie di valori delle variabili di contesto, una tecnica che rileva "
+          "la maggior parte dei difetti con un numero contenuto di scenari, e scenari critici estratti dai dati "
+          "registrati."),
+    ("t", "3. Esecuzione automatica e confronto con gli esiti attesi."),
+    ("t", "4. Analisi dei fallimenti e correzione."),
+    ("e", ("Risultati misurabili.", "Rapporto di verifica (D1.5). Indicatori:")),
+    ("p", "copertura del 100% delle coppie di valori delle variabili di contesto;"),
+    ("p", "tempo di decisione inferiore a 50 ms nel 95% dei casi sull'unità di calcolo di riferimento;"),
+    ("p", "nessuna violazione delle policy."),
+    ("t", "La batteria è riproducibile ed è riusata nel protocollo di prova del dimostratore su veicolo."),
+
+    ("s", "Risorse umane"),
+    ("t", "Un responsabile tecnico, impegnato nelle attività A1.1 e A1.3, 8 profili senior e 11 sviluppatori, con "
+          "un impegno dell'83%. Il dettaglio per fascia di costo è riportato nella Tabella 3."),
+])
+
+
+# ---------------------------------------------------------------- riallineamento alla struttura del 20/11
+# GSNet prende OR2, OR3 (ex A3.1-A3.3) e OR4 (ex A4.1-A4.3 + ex OR6, ora A4.4-A4.8); Aubay ha OR1, OR6
+# (validazione virtuale) e OR14 (integrazione). I testi approvati il 19/11 si riusano task per task;
+# le descrizioni degli OR cambiati restano da redigere e le chiavi superate si eliminano.
+import re as _re
+
+
+def _spec(chiave):
+    """Lista (tipo, testo) di un contenuto costruito con _blocchi."""
+    fn = CONTENUTI[chiave]
+    return list(fn.__closure__[fn.__code__.co_freevars.index("spec")].cell_contents)
+
+
+def _estrai(spec, codici, rinomina=None):
+    """Segmenti dei task indicati (dal sottotitolo del task al successivo), con i codici rinominati."""
+    rinomina = rinomina or {}
+    out, dentro = [], False
+    for k, v in spec:
+        if k == "s":
+            cod = v.split(" ", 1)[0]
+            dentro = cod in codici
+        if dentro:
+            for vecchio, nuovo in rinomina.items():
+                cv, cn = vecchio[1:], nuovo[1:]          # A6.1 -> A4.4 vale anche per D6.1 -> D4.4
+                if isinstance(v, tuple):
+                    v = tuple(_re.sub(r"\b([AD])%s\b" % _re.escape(cv), lambda m: m.group(1) + cn, x) for x in v)
+                else:
+                    v = _re.sub(r"\b([AD])%s\b" % _re.escape(cv), lambda m: m.group(1) + cn, v)
+            out.append((k, v))
+    return out
+
+
+_or2 = _spec("II.7.1/OR2")
+_or2[0] = _intestazione("Storytelling geo-temporale generativo", "GSNet", "ricerca industriale")
+CONTENUTI["II.7.1/OR2"] = _blocchi(_or2)
+CONTENUTI["II.7.2/OR3"] = _blocchi(_estrai(_spec("II.7.2/OR3"), {"A3.1", "A3.2", "A3.3"}))
+CONTENUTI["II.7.2/OR4"] = _blocchi(
+    _estrai(_spec("II.7.2/OR4"), {"A4.1", "A4.2", "A4.3"})
+    + _estrai(_spec("II.7.2/OR6"), {"A6.1", "A6.2", "A6.3", "A6.4", "A6.5"},
+              {"A6.1": "A4.4", "A6.2": "A4.5", "A6.3": "A4.6", "A6.4": "A4.7", "A6.5": "A4.8"}))
+for _k in ("II.7.1/OR3", "II.7.1/OR4", "II.7.1/OR6", "II.7.2/OR6"):
+    CONTENUTI.pop(_k, None)
