@@ -62,6 +62,24 @@ Punti che nLight deve confermare o integrare:
 ## GSNet (OR2, OR3, OR4, OR5)
 
 - Richiesta del 20/11 (Copia di MooVXR_Aubay_costi GSNET.xlsx): task A2.1, A2.2, A3.1, A3.2, A3.3,
-  A4.1, per 2,93 M€. Proposta di distribuzione per OR interi in attesa di conferma.
-- Da chiedere con la conferma: bilanci degli ultimi due esercizi e capacità di sostenere circa
-  5,5 M€ di spesa nei 36 mesi.
+  A4.1, per 2,93 M€, da cui la proposta di distribuzione per OR interi, su cui GSNet ha lavorato
+  nella revisione.
+- Revisione del 20/11 (MooVXR_GSNet_revisione.docx), non ancora integrata:
+  - OR2: personale aumentato su A2.1, A2.2, A2.5; A2.5 anticipata ai mesi 12-22; nuova A2.6
+    "Studio per la realizzazione di una IMU" (mesi 18-24);
+  - OR3: personale aumentato su A3.1, A3.3;
+  - OR4: nuova A4.4, acquisizione e fusione dei dati GNSS, inerziali e altimetrici (mesi 13-27);
+    ex A4.4-A4.8 rinumerate A4.5-A4.9; A4.5 rinominata "Applicazione per occhiali AR/Mobile";
+  - OR5: personale A5.1 da 231 a 247 k€;
+  - totale ricalcolato con il forfait del 20%: 6,16 M€ (il documento riporta 6,05 M€).
+- Già richiesti a GSNet il 20/11: in arrivo l'Excel dei costi con il team aggiornato e il testo
+  corretto di A2.6. Gli importi si integrano dall'Excel, non dal Word.
+- Testi in forma Frascati: li redigiamo noi e li sottoponiamo a GSNet (A2.6, A4.4, descrizione e
+  risorse umane di OR3 e OR4).
+- Sovrapposizioni dell'attività GNSS/IMU da risolvere all'arrivo del testo di A2.6: OR9
+  (localizzazione di precisione, Politecnico), OR5 (sensor fusion e kit inerziale), A12.3
+  (stabilizzazione inerziale, nLight), OR8 (dati del veicolo, Anitia).
+- Dati: valore della produzione € 5.671.268 nel 2024 e € 6.434.150 nel 2025, circa 40 dipendenti,
+  sede a Roma (Lazio), PMI (documento Parti I e III). Mancano ore annue CCNL e referente tecnico
+  con CV.
+- Da chiarire: capofila, GSNet nel documento Parti I e III, Aubay nel modello.
