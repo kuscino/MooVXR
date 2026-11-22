@@ -53,8 +53,10 @@ Punti che nLight deve confermare o integrare:
 - Illuminazione attiva (A12.1, A12.4): proposta di limitare l'uso su strada al vicino infrarosso in
   classe 1 (IEC 60825-1), tenendo laser nel visibile e nell'ultravioletto solo in laboratorio, per
   la sicurezza oculare e l'abbagliamento degli altri utenti della strada.
-- Addestramento AI per riconoscimento e tracking (150 k€, OR12): da motivare come servizio
-  esecutivo o come ricerca contrattuale con deliverable definito, oppure da internalizzare.
+- Addestramento AI per riconoscimento e tracking (150 k€, OR12): resta servizio esterno (decisione del
+  21/11). Motivazione per il par. 11 del Piano: "prestazione esecutiva di terzi su dati e specifiche
+  definiti da nLight; progettazione dei modelli e validazione dei risultati restano a nLight (A12.2,
+  A12.5)".
 - Dati mancanti: valore della produzione degli ultimi due esercizi, sede operativa e regione, CCNL
   applicato con le ore annue, nominativo e CV del referente tecnico, certificazione della parità
   di genere e rating di legalità.
@@ -83,3 +85,69 @@ Punti che nLight deve confermare o integrare:
   sede a Roma (Lazio), PMI (documento Parti I e III). Mancano ore annue CCNL e referente tecnico
   con CV.
 - Da chiarire: capofila, GSNet nel documento Parti I e III, Aubay nel modello.
+
+- Nuovo Excel del 22/11 (MooVXR_GSNet_costi GSNET 2.xlsx), integrato nel modello v11: fascia Media ridotta
+  su A2.1, A2.2, A3.1, A3.3, A4.1, A4.4, A4.5, A5.1. Totale ricalcolato dal team 5.198.917 € (OR2
+  1.207.294, OR3 1.359.679, OR4 1.992.797, OR5 639.148); il file di GSNet mostra 5.162.342 € perché la riga
+  di A4.4 nel foglio "Costi per task" legge ancora il personale di A4.3 (da segnalare).
+
+### Nota da condividere con GSNet: periodo di noleggio del veicolo di prova
+
+Il veicolo di prova a noleggio (OR4, canoni per 24 mesi, 36.000 €) serve a più partner: occhiali AR in
+veicolo (A5.4, mesi 13-18), prove su area pilota di Anitia (A7.4, mesi 14-18), HUD del passeggero del
+Politecnico (A11.5, mesi 22-30), kit di percezione di nLight (A13.4-A13.5, mesi 25-36), dimostratore e prove
+su strada di Aubay (A14.4-A14.5, mesi 25-36), prove con i passeggeri (A4.9, mesi 28-36). Se il Politecnico
+non dispone di un veicolo strumentato per la localizzazione (A9.1, mesi 1-14), va valutato un noleggio più
+lungo o anticipato, con i canoni aggiuntivi nei costi di OR4.
+
+## Politecnico di Milano (OR9, OR10, OR11)
+
+Ritorno del 20/11 (MooVXR_Politecnico_revisione_CONSEGNA_20261120.docx e
+MooVXR_Politecnico_costi_CONSEGNA_20261120.xlsx): costi invariati, 3.991.024 € (OR9 1.299.330, OR10
+1.197.600, OR11 1.494.094), integrati nel modello dalla v4.
+
+### Nota da condividere con il Politecnico: A10.5 e ruoli delle verifiche
+
+Per evitare che tre attività del progetto verifichino la stessa cosa (le regole del content policy engine
+provate in simulazione), le verifiche hanno ruoli distinti:
+
+- A1.5 (Aubay): verifica formale delle regole del content policy engine, cioè che non esistano casi
+  raggiungibili in cui il guidatore riceva un contenuto vietato;
+- A6.5 (Aubay): unica campagna di verifica virtuale di policy, percezione e HMI sugli scenari del digital
+  twin, prima delle prove su strada;
+- A10.5 (Politecnico): verifica sperimentale con partecipanti delle regole adattive sulla postazione di
+  guida simulata, usando gli scenari del digital twin.
+
+Modifica proposta per A10.5 (mesi 22-30, team e costi invariati):
+
+- titolo: "Verifica sperimentale con partecipanti delle regole adattive di OR1 sulla postazione di guida
+  simulata, con gli scenari del digital twin (OR6)" (era "Verifica delle regole adattive di OR1 in
+  ambienti simulati");
+- contenuto: confronto fra regole fisse e regole adattive su campioni di guidatori, con misure di
+  attenzione e prestazione di guida; gli scenari provengono dal digital twin di OR6;
+- D10.5 invariato: rapporto di verifica delle regole adattive, con indicatori di attenzione non
+  peggiorati rispetto alle regole fisse.
+
+La modifica è già nel modello economico dalla v8 (21/11) e va confermata dal Politecnico.
+
+### Nota da condividere con il Politecnico: linee guida intermedie e veicolo per A9.1
+
+- Linee guida per il content policy engine: oggi arrivano con D10.4 al mese 24, quando si chiude anche la
+  verifica formale delle regole di Aubay (A1.5, mesi 12-24). Proposta: un rilascio intermedio delle linee
+  guida preliminari intorno al mese 16-18 (per esempio come prima versione di D10.4), con la versione
+  definitiva al mese 24. Team e costi invariati.
+- Localizzazione (A9.1, mesi 1-14): le misure su percorsi di prova servono prima che sia disponibile il
+  veicolo noleggiato da GSNet (previsto dal mese 13). Da chiarire se il Politecnico dispone di un veicolo
+  strumentato per i mesi 1-12, o se serve anticipare il noleggio (vedi nota per GSNet).
+
+### Altri punti per l'integrazione dei testi (interni)
+
+- Numerazione: i testi usano la struttura a 13 OR del 19/11; vanno riportati alla struttura a 14 OR
+  (dimostratore in OR14 di Aubay, esperienze XR in OR4 di GSNet, prove di carico in A14.4).
+- Cognitive Mesh: da ricondurre a ricerca sul calcolo a bordo e sull'affidabilità; le decisioni sui
+  contenuti restano al content policy engine (OR1), architettura e ciclo di vita dei modelli a OR14.
+- Indicatori senza valori obiettivo: da proporre.
+- A11.5: misure sul veicolo di prova solo come verifica del prototipo di laboratorio (ricerca industriale).
+- Fogli interni dell'Excel (nomi, link, progetto CI2) fuori dal Piano; scarto di capacità di circa
+  44.000 ore sul gruppo identificato, da coprire con assunzioni o altri dipartimenti.
+- Sede: Dipartimento di Energia, Campus Bovisa; responsabile scientifico prof. Riccardo Enrico Zich.
