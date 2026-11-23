@@ -1389,6 +1389,235 @@ for _o in ("OR7", "OR8"):
     CONTENUTI["II.7.2/%s" % _o] = _blocchi(TESTI_ANITIA[_o]["7.2"])
 
 
+# ---------------------------------------------------------------- OR12 (nLight), forma Frascati dal testo di revisione (23/11)
+# Testi riscritti dalla revisione di nLight (MooVXR_nLight_revisione.docx) con le correzioni delle note di
+# integrazione; valori obiettivo proposti da Aubay, da condividere con nLight; limite del laser da confermare.
+CONTENUTI["II.7.1/OR12"] = _blocchi([
+    _intestazione("Percezione della scena multispettrale e LiDAR, tracking dei punti di interesse", "nLight",
+                  "ricerca industriale", "Torino, via G. Schiaparelli 14 (Piemonte)"),
+    ("t", "L'obiettivo realizzativo riguarda i metodi per rilevare e seguire, nella scena attorno al veicolo, i punti di "
+          "interesse su cui agganciare i contenuti. Sono monumenti, edifici ed elementi del paesaggio, ma anche "
+          "soggetti mobili come animali selvatici e volatili, che nelle aree naturali possono comparire per pochi "
+          "istanti e sfuggire ai passeggeri. La percezione combina:"),
+    ("p", "video nel visibile su quattro lati;"),
+    ("p", "infrarosso e termico;"),
+    ("p", "LiDAR."),
+    ("t", "Il kit di percezione è dedicato all'esperienza degli occupanti, non alla guida, e non si sovrappone ai sistemi "
+          "ADAS di serie. Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: sviluppano metodi "
+          "di percezione multisensore per una finalità nuova, verificati su banco e su percorsi registrati."),
+])
+CONTENUTI["II.7.2/OR12"] = _blocchi([
+    ("s", "A12.1"),
+    ("e", ("Problema.", "I sistemi di percezione di serie sono orientati alla guida e coprono soprattutto la scena "
+           "frontale. La scena vista dai passeggeri è laterale, con angoli e distanze diversi, e richiede una "
+           "combinazione di sensori che non esiste come configurazione di riferimento. Le schede tecniche dei sensori "
+           "non bastano a prevederne il comportamento sul veicolo in movimento.")),
+    ("e", ("Soluzione proposta.", "Una configurazione sensoriale progettata per la scena laterale. Definisce numero, "
+           "posizione, campo visivo e caratteristiche di:")),
+    ("p", "telecamere grandangolari sui quattro lati;"),
+    ("p", "telecamere infrarosse e termiche;"),
+    ("p", "LiDAR e telemetri laser;"),
+    ("p", "illuminatori;"),
+    ("p", "obiettivi ottici e attuatori meccanici per scansione e tracking."),
+    ("t", "La scelta si basa su una valutazione sperimentale di sensori e accessori, non solo sulle specifiche "
+          "dichiarate."),
+    ("e", ("Novità e incertezza.", "La novità è una configurazione multisensore progettata per l'esperienza degli "
+           "occupanti anziché per la guida. L'incertezza riguarda quale combinazione di sensori e posizioni copra la "
+           "scena laterale con ingombri, consumi e costi compatibili con un kit installabile.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Requisiti di copertura ricavati dagli scenari dei contenuti."),
+    ("t", "2. Selezione dei sensori candidati e prove al banco e in campo."),
+    ("t", "3. Simulazione della copertura con diverse disposizioni."),
+    ("t", "4. Specifica della configurazione."),
+    ("e", ("Risultati misurabili.", "Specifica della configurazione sensoriale (D12.1). Indicatori:")),
+    ("p", "copertura del campo visivo laterale dei passeggeri non inferiore al 90%;"),
+    ("p", "condizioni operative di luce, distanza e velocità definite per ciascun sensore."),
+
+    ("s", "A12.2"),
+    ("e", ("Problema.", "Seguire punti di interesse e soggetti mobili da un veicolo in movimento è diverso dal tracking "
+           "da camera fissa. Distanze e angolazioni cambiano di continuo, gli oggetti entrano ed escono dal campo "
+           "visivo in pochi secondi, occlusioni e variazioni di luce interrompono le tracce.")),
+    ("e", ("Soluzione proposta.", "Algoritmi di rilevamento e tracking addestrati su dataset annotati, che usano il moto "
+           "noto del veicolo per prevedere la posizione degli oggetti nei fotogrammi successivi e mantenere la traccia "
+           "durante le occlusioni brevi. L'addestramento è affidato a un fornitore esterno, su dati e specifiche "
+           "definiti da nLight. Progettazione dei modelli e validazione dei risultati restano a nLight.")),
+    ("e", ("Novità e incertezza.", "La novità è il tracking laterale, da veicolo in movimento, di punti di interesse "
+           "statici e di soggetti mobili a cui agganciare contenuti. L'incertezza riguarda due punti:")),
+    ("p", "la continuità del tracking con occlusioni e variazioni di luce;"),
+    ("p", "il rilevamento di soggetti visibili solo per pochi istanti."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Costruzione del dataset, con licenze di dataset multispettrali e annotazione dei dati acquisiti."),
+    ("t", "2. Addestramento e confronto di architetture di rilevamento e tracking."),
+    ("t", "3. Valutazione con metriche standard, per classe di oggetto e per condizione."),
+    ("e", ("Risultati misurabili.", "Algoritmi di rilevamento e tracking (D12.2). Indicatori:")),
+    ("p", "precisione media di rilevamento (mAP) non inferiore a 0,8 sui punti di interesse statici;"),
+    ("p", "almeno il 90% delle tracce mantenute durante occlusioni inferiori a 1 s."),
+
+    ("s", "A12.3"),
+    ("e", ("Problema.", "Vibrazioni, sobbalzi e cambi di direzione improvvisi degradano le immagini e la stima di "
+           "posizione dei punti di interesse, interrompono il tracking e rendono impreciso l'ancoraggio dei "
+           "contenuti.")),
+    ("e", ("Soluzione proposta.", "Accelerometri e giroscopi integrati sul modulo sensoriale e algoritmi di "
+           "stabilizzazione inerziale che compensano il moto del veicolo su immagini e stime di posizione. L'obiettivo "
+           "è mantenere stabili le immagini acquisite e la stima di posizione dei punti di interesse, condizione per un "
+           "tracking continuo e per un ancoraggio preciso dei contenuti. L'attività riguarda il modulo sensoriale; la "
+           "localizzazione del veicolo è trattata in OR9.")),
+    ("e", ("Novità e incertezza.", "La stabilizzazione è consolidata per la singola telecamera, non per un modulo che "
+           "combina video, infrarosso, termico e LiDAR con frequenze e latenze diverse. L'incertezza riguarda "
+           "l'efficacia di una compensazione coerente fra i sensori sulle sollecitazioni reali del veicolo.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Caratterizzazione delle vibrazioni su percorsi di riferimento."),
+    ("t", "2. Selezione dei sensori inerziali."),
+    ("t", "3. Confronto degli algoritmi su banco con sollecitazioni riprodotte."),
+    ("t", "4. Verifica su percorsi registrati."),
+    ("e", ("Risultati misurabili.", "Modulo di stabilizzazione inerziale (D12.3). Indicatori:")),
+    ("p", "tremolio delle immagini ridotto di almeno il 50% rispetto al modulo non stabilizzato;"),
+    ("p", "errore di posizione dei punti di interesse ridotto di almeno il 30%."),
+
+    ("s", "A12.4"),
+    ("e", ("Problema.", "Di notte e con visibilità ridotta la telecamera nel visibile non rileva i punti di interesse, e "
+           "le esperienze si interromperebbero. La distanza degli oggetti, necessaria per ancorare i contenuti, non si "
+           "ricava con precisione da una sola immagine.")),
+    ("e", ("Soluzione proposta.", "Rilevamento e tracking estesi ai sensori termici passivi e all'illuminazione attiva, "
+           "con fusione di video, infrarosso, termico e LiDAR per stimare distanza e geometria dei punti di interesse. "
+           "Le sorgenti di illuminazione sono valutate sperimentalmente: visibile, vicino infrarosso e ultravioletto, a "
+           "emissione continua o impulsata. Su strada l'illuminazione attiva è limitata al vicino infrarosso in classe "
+           "1 secondo IEC 60825-1, per la sicurezza oculare e per non abbagliare gli altri utenti della strada.")),
+    ("e", ("Novità e incertezza.", "La novità è fondere sensori termici, infrarossi e LiDAR per agganciare contenuti a "
+           "oggetti osservati di notte. L'incertezza riguarda due punti:")),
+    ("p", "la stima di distanza con sensori di risoluzione e frequenza diverse;"),
+    ("p", "il guadagno reale dell'illuminazione attiva entro i limiti di sicurezza."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Prove comparative delle sorgenti di illuminazione in laboratorio."),
+    ("t", "2. Estensione dei modelli di rilevamento ai canali termico e infrarosso."),
+    ("t", "3. Algoritmi di fusione per distanza e geometria."),
+    ("t", "4. Valutazione su percorsi notturni registrati."),
+    ("e", ("Risultati misurabili.", "Modulo di percezione in bassa visibilità e di fusione multisensore (D12.4). "
+           "Indicatori:")),
+    ("p", "precisione di rilevamento notturna non inferiore all'80% di quella diurna;"),
+    ("p", "errore di distanza dei punti di interesse inferiore al 5% entro 100 m."),
+
+    ("s", "A12.5"),
+    ("e", ("Problema.", "Gli algoritmi sviluppati separatamente vanno verificati insieme, con dati non usati in "
+           "addestramento e in condizioni rappresentative, prima della prototipazione del kit.")),
+    ("e", ("Soluzione proposta.", "Verifiche su banco e su percorsi registrati con i sensori di sviluppo, con indicatori "
+           "di precisione, continuità del tracking ed errore di distanza. I percorsi registrati servono anche alla prima "
+           "validazione del digital twin (A6.4).")),
+    ("e", ("Novità e incertezza.", "L'attività verifica se le prestazioni misurate sui dataset si confermano su percorsi "
+           "registrati con la configurazione reale. L'incertezza riguarda la generalizzazione a luoghi, stagioni e "
+           "condizioni di luce non presenti nei dati di addestramento.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Protocollo di verifica e separazione dei dati."),
+    ("t", "2. Prove su banco con sollecitazioni riprodotte."),
+    ("t", "3. Registrazione dei percorsi di riferimento."),
+    ("t", "4. Misura degli indicatori per classe e condizione."),
+    ("e", ("Risultati misurabili.", "Rapporto delle verifiche della percezione (D12.5). Indicatori:")),
+    ("p", "indicatori di A12.2-A12.4 misurati su dati non usati in addestramento;"),
+    ("p", "percorsi registrati consegnati per la validazione del digital twin."),
+])
+
+
+# ---------------------------------------------------------------- OR13 (nLight), forma Frascati dagli abstract di revisione (23/11)
+# nLight non ha inviato la riscrittura di OR13: testi redatti da Aubay dagli abstract e dalle voci di costo del
+# modello; valori obiettivo proposti, da condividere con nLight.
+CONTENUTI["II.7.1/OR13"] = _blocchi([
+    _intestazione("Prototipo del kit di percezione e dell'unità di calcolo di bordo, validazione su veicolo", "nLight",
+                  "sviluppo sperimentale", "Torino, via G. Schiaparelli 14 (Piemonte); prove sul veicolo di prova"),
+    ("t", "L'obiettivo realizzativo realizza il prototipo del kit di percezione multisensore e dell'unità di calcolo di "
+          "bordo. Il kit è poi installato e calibrato sul veicolo di prova (OR4), e le sue prestazioni sono validate su "
+          "strada nelle prove del dimostratore (OR14). Le attività sono sviluppo sperimentale ai sensi dell'art. 1 del "
+          "DD: costruzione di prototipi, test e convalida in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR13"] = _blocchi([
+    ("s", "A13.1"),
+    ("e", ("Problema.", "Un kit di sensori da laboratorio non è installabile su un veicolo. Servono alimentazione dal "
+           "veicolo, cablaggi, contenitori, dissipazione del calore, e un'unità di calcolo che esegua gli algoritmi di "
+           "OR12 entro i vincoli di bordo indicati nelle specifiche del Politecnico (A9.4).")),
+    ("e", ("Soluzione proposta.", "Un progetto integrato del kit e dell'unità di calcolo:")),
+    ("p", "disposizione meccanica dei sensori secondo la configurazione di A12.1;"),
+    ("p", "alimentazione da veicolo e cablaggi;"),
+    ("p", "contenitori protetti da polvere e umidità, con dissipazione del calore;"),
+    ("p", "architettura dell'unità di calcolo dimensionata sui carichi misurati in OR12."),
+    ("e", ("Novità e incertezza.", "La novità è un kit multisensore per la scena laterale progettato come prototipo "
+           "installabile. L'incertezza riguarda la conciliazione fra prestazioni di calcolo, consumi e dissipazione "
+           "nello spazio disponibile.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Requisiti dalle specifiche di A9.4 e dalla configurazione di A12.1."),
+    ("t", "2. Progetto meccanico, elettrico e termico."),
+    ("t", "3. Revisione del progetto con il Politecnico e con l'integrazione di sistema (A14.1)."),
+    ("e", ("Risultati misurabili.", "Progetto del kit e dell'unità di calcolo (D13.1). Indicatori:")),
+    ("p", "100% delle specifiche di A9.4 soddisfatte o derogate con motivazione;"),
+    ("p", "assorbimento elettrico entro il budget concordato con l'integrazione di sistema (A14.1)."),
+
+    ("s", "A13.2"),
+    ("e", ("Problema.", "Allineamento e sincronizzazione dei sensori devono restare stabili con le vibrazioni del "
+           "veicolo e le variazioni di temperatura.")),
+    ("e", ("Soluzione proposta.", "Realizzazione del prototipo su progetto nLight. Lavorazioni meccaniche, ottiche, "
+           "cablaggi e contenitori sono affidati a fornitori esterni; i componenti rientrano nei materiali. I sensori "
+           "sono sincronizzati via hardware su un riferimento temporale comune, e montati su supporti che mantengono "
+           "l'allineamento.")),
+    ("e", ("Novità e incertezza.", "L'incertezza riguarda la stabilità nel tempo dell'allineamento fra sensori e la "
+           "precisione della sincronizzazione sul veicolo.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Realizzazione delle parti presso i fornitori."),
+    ("t", "2. Montaggio e sincronizzazione dei sensori."),
+    ("t", "3. Prove su banco con alimentazione da veicolo."),
+    ("t", "4. Misura di sincronizzazione e allineamento dopo cicli di vibrazione."),
+    ("e", ("Risultati misurabili.", "Kit funzionante su banco con alimentazione da veicolo (D13.2). Indicatori:")),
+    ("p", "scarto di sincronizzazione fra i sensori inferiore a 1 ms;"),
+    ("p", "deriva dell'allineamento entro 0,1° dopo i cicli di vibrazione."),
+
+    ("s", "A13.3"),
+    ("e", ("Problema.", "Gli algoritmi di OR12 devono girare su un'unità di bordo che resista a vibrazioni, temperature "
+           "e disturbi elettromagnetici del veicolo.")),
+    ("e", ("Soluzione proposta.", "Prototipo dell'unità di calcolo, con la scheda prodotta da un fornitore esterno su "
+           "progetto nLight. Le prove di vibrazione, temperatura e compatibilità elettromagnetica si svolgono presso un "
+           "laboratorio accreditato.")),
+    ("e", ("Novità e incertezza.", "L'incertezza riguarda la possibilità di mantenere le prestazioni degli algoritmi "
+           "entro i vincoli termici e di alimentazione di bordo.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Realizzazione della scheda."),
+    ("t", "2. Porting degli algoritmi, con le ottimizzazioni per l'esecuzione a bordo del Politecnico (A9.5)."),
+    ("t", "3. Prove ambientali e correzioni."),
+    ("e", ("Risultati misurabili.", "Prototipo dell'unità di calcolo di bordo (D13.3). Indicatori:")),
+    ("p", "prove di vibrazione, temperatura e compatibilità elettromagnetica superate;"),
+    ("p", "algoritmi di OR12 eseguiti in tempo reale sull'unità, alla frequenza di acquisizione dei sensori."),
+
+    ("s", "A13.4"),
+    ("e", ("Problema.", "Sul veicolo i sensori vanno calibrati fra loro e rispetto al veicolo: un errore di calibrazione "
+           "diventa errore di posizione dei contenuti.")),
+    ("e", ("Soluzione proposta.", "Installazione del kit e dell'unità di calcolo sul veicolo di prova (OR4), con la "
+           "strumentazione di calibrazione. Una procedura di calibrazione intrinseca ed estrinseca ripetibile, con "
+           "verifica periodica.")),
+    ("e", ("Novità e incertezza.", "L'incertezza riguarda la stabilità della calibrazione sul veicolo nel tempo e sotto "
+           "le sollecitazioni di guida.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Installazione."),
+    ("t", "2. Calibrazione."),
+    ("t", "3. Verifica su bersagli noti."),
+    ("t", "4. Ripetizione della verifica dopo i percorsi di prova."),
+    ("e", ("Risultati misurabili.", "Kit installato e calibrato sul veicolo di prova (D13.4). Indicatori:")),
+    ("p", "errore di calibrazione estrinseca inferiore a 0,1° in orientamento e a 2 cm in posizione;"),
+    ("p", "calibrazione mantenuta entro le stesse soglie dopo i percorsi di prova."),
+
+    ("s", "A13.5"),
+    ("e", ("Problema.", "Gli indicatori di percezione misurati nella ricerca industriale vanno confermati in condizioni "
+           "reali.")),
+    ("e", ("Soluzione proposta.", "Validazione su strada nelle prove del dimostratore (A14.5), con gli stessi indicatori "
+           "e protocolli di A12.5, e confronto con la percezione simulata nel digital twin (OR6).")),
+    ("e", ("Novità e incertezza.", "L'incertezza riguarda lo scarto fra le prestazioni misurate in laboratorio e quelle "
+           "su strada, e le condizioni non coperte dai dati di sviluppo.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Piano di prova condiviso con A14.5."),
+    ("t", "2. Acquisizione dei dati durante le prove."),
+    ("t", "3. Analisi per classe di oggetto e per condizione."),
+    ("t", "4. Rapporto di validazione."),
+    ("e", ("Risultati misurabili.", "Rapporto di validazione della percezione su strada (D13.5). Indicatori:")),
+    ("p", "indicatori di A12.2-A12.4 confermati su strada entro il 10% dei valori di laboratorio;"),
+    ("p", "risultati riportati per condizione di luce: giorno, notte, bassa visibilità."),
+])
+
+
 # ================================================================ RISORSE E COSTI PER ATTIVITÀ E PER OR (23/11)
 # Questa sezione deve restare l'ultima del file: i testi nuovi degli OR si aggiungono sopra questo marcatore.
 # Per ogni attività: tabella del personale e dei servizi attribuiti all'attività; per ogni OR: riepilogo con
