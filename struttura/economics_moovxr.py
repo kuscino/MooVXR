@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Configurazione del modello economico MooVXR per toolchain/toolchain/economics_finanziato.py.
 
+Versione 18 (23/11/2026): valori obiettivo dei KPI (aggiorna_v18_kpi.py).
 Versione 17 (23/11/2026): donne del Politecnico, K6, titolo di A14.3 (aggiorna_v17.py).
 Versione 16 (23/11/2026): donne per fascia di Aubay (aggiorna_v16_donne.py).
 Versione 15 (23/11/2026): team di Anitia (rev2), capofila GSNet (aggiorna_v15_anitia.py).
@@ -2224,8 +2225,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Finale',
           'Ambienti simulati (OR10) e prove su strada (OR14)',
           'Regole fisse di serie',
-          None,
-          'Da definire con i partner'),
+          15,
+          'Piano di Sviluppo, A1.3 e A10.5 (23/11/2026): riduzione di almeno il 15%'),
          ('K2',
           'Contenuti disponibili nel momento utile',
           'Quota di contenuti geolocalizzati consegnati prima del punto di fruizione',
@@ -2242,8 +2243,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Finale',
           'Banco ottico (OR11) e veicolo di prova (OR14)',
           'Specifica di progetto',
-          None,
-          'Da definire con il Politecnico e con GSNet'),
+          5,
+          'Piano di Sviluppo, A9.2 e A11.3 (23/11/2026): errore inferiore a 5 mrad al 95° percentile'),
          ('K4',
           "Visibilità residua dell'HUD passeggero dal posto di guida",
           'Luminanza percepita dal posto di guida rispetto a quella nominale',
@@ -2251,8 +2252,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Finale',
           'Veicolo di prova (OR14)',
           'Soglia di non visibilità',
-          None,
-          'Da definire con nLight e Politecnico'),
+          2,
+          'Piano di Sviluppo, A11.2 e A11.5 (23/11/2026): non superiore al 2% della luminanza nominale'),
          ('K5',
           'Incidenza della cinetosi',
           "Variazione dell'incidenza con contenuti sincronizzati rispetto a non sincronizzati",
@@ -2260,8 +2261,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Intermedio',
           'Prove sui passeggeri (OR10, OR4)',
           'Contenuti non sincronizzati',
-          None,
-          'Da definire con il Politecnico'),
+          30,
+          "Piano di Sviluppo, A10.3 (23/11/2026): riduzione dell'incidenza di almeno il 30%"),
          ('K6',
           'Scarto fra digital twin e prove reali',
           'Differenza fra indicatori simulati e misurati sugli stessi percorsi (percezione, consegna dei contenuti, '
@@ -2279,8 +2280,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Intermedio',
           'Scenari simulati e registrati (OR1, OR6)',
           'Specifica di progetto',
-          20,
-          'Testo di OR1 nel Piano di Sviluppo: inferiore a 20 ms nel 95% dei casi')],
+          50,
+          'Piano di Sviluppo, A1.2 e A1.5 (23/11/2026): inferiore a 50 ms nel 95% dei casi')],
  'donne': {'Aubay Italia': {'Medio': 3, 'Basso': 6},
            'Anitia': {'Medio': 1, 'Basso': 3},
            'Politecnico di Milano': {'Alto': 1, 'Basso': 1}},
