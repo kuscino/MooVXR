@@ -882,7 +882,7 @@ for _k in PARTI_I_III:
 
 # III.1.2: la tabella dei costi del documento ricevuto (20 M€, quote superate) si sostituisce con
 # quella generata dal modello economico corrente (foglio Riepilogo) e dagli OR della configurazione.
-MODELLO = QUI.parent / "Modello_Economico_MooVXR_v20.xlsx"
+MODELLO = QUI.parent / "Modello_Economico_MooVXR_v21.xlsx"
 
 
 def _euro(v):
