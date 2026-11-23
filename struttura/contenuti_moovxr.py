@@ -1136,6 +1136,139 @@ _OR14 = [
 ]
 CONTENUTI["II.7.2/OR14"] = _blocchi(_OR14)
 
+_OR14 += [
+    _sotto_task("A14.2"),
+    ("e", ("Problema.", "Il dimostratore collega al veicolo componenti di cinque soggetti, servizi cloud, la piattaforma "
+           "OTA e dispositivi personali come gli occhiali AR. Ogni interfaccia è un possibile punto di attacco:")),
+    ("p", "un contenuto manipolato potrebbe raggiungere il guidatore aggirando le policy;"),
+    ("p", "un aggiornamento non autorizzato potrebbe alterare il software di bordo;"),
+    ("p", "i dati degli occupanti potrebbero essere esposti."),
+    ("t", "L'analisi dei rischi dei singoli componenti non copre gli scenari che nascono dalla loro combinazione."),
+    ("e", ("Soluzione proposta.", "Un'analisi dei rischi del sistema completo (TARA, threat analysis and risk "
+           "assessment) secondo la ISO/SAE 21434, condotta sull'architettura e sulla matrice delle interfacce di "
+           "A14.1. Ne derivano misure di protezione per i flussi critici:")),
+    ("p", "autenticazione e integrità dei contenuti lungo tutta la catena, dalla piattaforma di erogazione alle "
+          "superfici di visualizzazione;"),
+    ("p", "garanzia che nessun contenuto raggiunga una superficie visibile dal guidatore senza la decisione del "
+          "content policy engine;"),
+    ("p", "protezione degli aggiornamenti distribuiti tramite OTA e dei dati degli occupanti."),
+    ("t", "Le misure sono verificate da un penetration test indipendente dell'applicazione e del flusso dei contenuti. "
+          "Un assessment esterno ne verifica l'allineamento ai requisiti del Regolamento UNECE n. 155 e della ISO/SAE "
+          "21434."),
+    ("e", ("Novità e incertezza.", "La novità è estendere l'analisi dei rischi al flusso dei contenuti generati e "
+           "personalizzati, che entra nel veicolo da fonti esterne e da più fornitori. L'incertezza riguarda due "
+           "punti:")),
+    ("p", "se le misure di protezione rispettino i vincoli di latenza della consegna dei contenuti;"),
+    ("p", "se restino efficaci quando i componenti dei partner vengono aggiornati in modo indipendente."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Identificazione dei beni da proteggere e degli scenari di minaccia sull'architettura di A14.1."),
+    ("t", "2. Valutazione dei rischi e definizione degli obiettivi di sicurezza."),
+    ("t", "3. Progetto e realizzazione delle misure di protezione con i partner."),
+    ("t", "4. Penetration test indipendente e assessment esterno."),
+    ("t", "5. Correzione delle vulnerabilità e nuova verifica."),
+    ("e", ("Risultati misurabili.", "Analisi dei rischi e misure di protezione dei contenuti (D14.2). Indicatori:")),
+    ("p", "analisi dei rischi estesa al 100% delle interfacce della matrice di A14.1;"),
+    ("p", "nessuna vulnerabilità critica o alta aperta a fine progetto."),
+]
+CONTENUTI["II.7.2/OR14"] = _blocchi(_OR14)
+
+_OR14 += [
+    _sotto_task("A14.3"),
+    ("e", ("Problema.", "Il dimostratore esegue a bordo modelli AI di più partner: il modello del contesto, la componente "
+           "adattiva e i profili degli occupanti (OR1), e i modelli di percezione della scena (OR12). I modelli "
+           "cambiano nel corso del progetto e possono degradare quando i dati in esercizio si discostano da quelli di "
+           "addestramento, per esempio per stagione, percorso o tipo di occupanti. Un modello aggiornato può anche "
+           "comportarsi in modo diverso da quello verificato rispetto alle policy. Il veicolo ha connettività "
+           "intermittente e risorse di calcolo limitate, quindi rilascio e controllo non possono dipendere da un "
+           "collegamento continuo al cloud.")),
+    ("e", ("Soluzione proposta.", "Un servizio di gestione del ciclo di vita dei modelli in esercizio, integrato con la "
+           "piattaforma OTA di OR8:")),
+    ("p", "criteri di rilascio: un modello è distribuito solo dopo aver superato le verifiche sugli scenari del digital "
+          "twin (OR6) e la verifica di coerenza con le policy;"),
+    ("p", "rilascio graduale: il modello entra sul veicolo per gradi, con ritorno automatico alla versione precedente "
+          "quando gli indicatori in esercizio superano le soglie;"),
+    ("p", "monitoraggio a bordo: drift dei dati e delle prestazioni, con invio di soli indicatori sintetici, non di dati "
+          "personali."),
+    ("t", "La distribuzione avviene con la piattaforma OTA di OR8; questa attività ne definisce i criteri e i controlli "
+          "applicati ai modelli."),
+    ("e", ("Novità e incertezza.", "La novità è un ciclo di vita dei modelli in cui rilascio e ritorno alla versione "
+           "precedente dipendono dalla coerenza con le policy sui contenuti, oltre che dall'accuratezza. L'incertezza "
+           "riguarda due punti:")),
+    ("p", "quali indicatori calcolabili a bordo rilevino il drift con anticipo sufficiente, senza falsi allarmi frequenti;"),
+    ("p", "se il ritorno alla versione precedente sia rapido e sicuro anche con connettività intermittente."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Censimento dei modelli in esercizio e dei relativi indicatori."),
+    ("t", "2. Definizione dei criteri di rilascio con i partner che sviluppano i modelli."),
+    ("t", "3. Realizzazione del servizio e integrazione con la piattaforma OTA."),
+    ("t", "4. Prove di rilascio, di drift simulato e di ritorno alla versione precedente sul veicolo di prova."),
+    ("e", ("Risultati misurabili.", "Servizio di gestione del ciclo di vita dei modelli (D14.3). Indicatori:")),
+    ("p", "ritorno alla versione precedente verificato sul veicolo in non più di 15 minuti;"),
+    ("p", "100% dei modelli in esercizio rilasciati secondo i criteri e monitorati."),
+]
+CONTENUTI["II.7.2/OR14"] = _blocchi(_OR14)
+
+_OR14 += [
+    _sotto_task("A14.4"),
+    ("e", ("Problema.", "Componenti verificati separatamente, in laboratorio o in simulazione, possono non funzionare "
+           "insieme sul veicolo. Le latenze si sommano lungo la catena che va dalla percezione alla visualizzazione, i "
+           "componenti si contendono le risorse di calcolo di bordo, e il servizio perde continuità quando cala la "
+           "connettività. I servizi di terra devono poi reggere il carico di una flotta, non di un solo veicolo. Le "
+           "prove su strada aperta, infine, richiedono un protocollo che ne garantisca sicurezza e ripetibilità.")),
+    ("e", ("Soluzione proposta.", "")),
+    ("p", "Integrazione: i componenti si installano per gradi sul veicolo di prova di OR4, insieme al kit di percezione "
+          "di OR13, secondo la matrice delle interfacce di A14.1 e con verifiche a ogni passo."),
+    ("p", "Misure: un sistema di acquisizione dati sincronizzata, a noleggio, registra su una base temporale comune "
+          "segnali del veicolo, sensori, decisioni del content policy engine e contenuti visualizzati. Le registrazioni "
+          "alimentano anche la validazione del digital twin (A6.4)."),
+    ("p", "Prove di carico: i servizi di terra sono sollecitati, su infrastruttura cloud a consumo, con il traffico "
+          "simulato di una flotta di veicoli."),
+    ("p", "Protocollo di prova: percorsi, condizioni, criteri di interruzione e cautele per le prove su strada aperta, "
+          "come la presenza di un operatore di prova a bordo e la scelta di percorsi e fasce orarie a basso traffico."),
+    ("e", ("Novità e incertezza.", "La novità è misurare latenza e continuità sull'intera catena, dalla percezione della "
+           "scena alla superficie di visualizzazione, con il veicolo in movimento. L'incertezza riguarda due punti:")),
+    ("p", "se la latenza complessiva resti entro il valore obiettivo quando tutti i componenti condividono le risorse di "
+          "bordo;"),
+    ("p", "se la continuità dei contenuti regga nelle zone con copertura di rete scarsa."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Piano di integrazione e ordine di installazione dei componenti."),
+    ("t", "2. Integrazione progressiva sul veicolo, con verifiche di interfaccia."),
+    ("t", "3. Prove di carico dei servizi di terra."),
+    ("t", "4. Misura di latenza e continuità sui percorsi di prova."),
+    ("t", "5. Redazione del protocollo per le prove su strada."),
+    ("e", ("Risultati misurabili.", "Dimostratore integrato e rapporto delle prove di carico (D14.4). Indicatori:")),
+    ("p", "latenza end-to-end, dalla percezione della scena alla visualizzazione, non superiore a 100 ms;"),
+    ("p", "almeno il 95% dei contenuti disponibili nel momento utile sui percorsi di prova (K2)."),
+]
+CONTENUTI["II.7.2/OR14"] = _blocchi(_OR14)
+
+_OR14 += [
+    _sotto_task("A14.5"),
+    ("e", ("Problema.", "I valori obiettivo del progetto sono stati misurati finora in laboratorio, in simulazione o su "
+           "dati registrati. Solo le prove su strada mostrano il comportamento del sistema completo nelle condizioni "
+           "operative reali: traffico, luce variabile, occupanti che non conoscono il sistema, connettività reale. Le "
+           "prove devono essere sicure, ripetibili e confrontabili con i risultati del digital twin.")),
+    ("e", ("Soluzione proposta.", "Campagne di prova su strada, con occupanti a bordo, secondo il protocollo di A14.4 e "
+           "sui percorsi e nelle condizioni definiti con i partner. Si concentrano sui casi non verificabili in "
+           "simulazione, selezionati in A6.5. Per ciascun valore obiettivo il rapporto di sperimentazione riporta:")),
+    ("p", "il valore misurato e il confronto con il riferimento di partenza;"),
+    ("p", "le condizioni di misura: percorso, luce, meteo, copertura di rete;"),
+    ("p", "lo scarto rispetto al valore previsto dal digital twin sugli stessi percorsi."),
+    ("e", ("Novità e incertezza.", "La novità è verificare su strada, con lo stesso veicolo e sugli stessi percorsi, "
+           "indicatori di sicurezza, di esperienza degli occupanti e di fedeltà del digital twin. L'incertezza riguarda "
+           "due punti:")),
+    ("p", "se i valori obiettivo raggiunti in laboratorio e in simulazione si confermino nelle condizioni reali;"),
+    ("p", "se la variabilità delle condizioni su strada consenta misure ripetibili con il numero di prove previsto."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Definizione dei percorsi e del piano delle prove."),
+    ("t", "2. Esecuzione delle campagne con acquisizione sincronizzata."),
+    ("t", "3. Elaborazione dei dati e confronto con il digital twin."),
+    ("t", "4. Rapporto di sperimentazione."),
+    ("e", ("Risultati misurabili.", "Rapporto di sperimentazione (D14.5). Indicatori:")),
+    ("p", "K1, K3, K4 e K6 misurati sui percorsi di prova;"),
+    ("p", "valori obiettivo degli OR verificati su strada, come previsto dal criterio di accettazione di D14.5."),
+]
+CONTENUTI["II.7.2/OR14"] = _blocchi(_OR14)
+
 
 # ================================================================ RISORSE E COSTI PER ATTIVITÀ E PER OR (23/11)
 # Questa sezione deve restare l'ultima del file: i testi nuovi degli OR si aggiungono sopra questo marcatore.
