@@ -1772,6 +1772,264 @@ CONTENUTI["II.7.2/OR9"] = _blocchi([
 ])
 
 
+# ---------------------------------------------------------------- OR10 (Politecnico), forma Frascati dal testo del 23/11
+# Parte agentica tolta (raccomandazioni come oggetto delle prove, uscita di A1.6); A10.5 come verifica con
+# partecipanti; rilascio preliminare delle linee guida al mese 18 proposto al Politecnico; valori obiettivo proposti.
+CONTENUTI["II.7.1/OR10"] = _blocchi([
+    _intestazione("Contenuti a bordo, attenzione degli occupanti e cinetosi", "Politecnico di Milano",
+                  "ricerca industriale", "Dipartimento di Energia, Campus Bovisa, Milano (Lombardia)"),
+    ("t", "L'obiettivo realizzativo indaga su basi sperimentali quali contenuti, in quale forma e su quale superficie "
+          "sono compatibili con una guida sicura, e come ridurre la cinetosi dei passeggeri che usano HUD, schermi e "
+          "visori. Le prove usano gli scenari del digital twin (OR6) e misurano gli effetti delle decisioni del content "
+          "policy engine (OR1)."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: verificano sperimentalmente le "
+          "interazioni fra modalità di presentazione, attenzione e cinetosi in un abitacolo con più superfici. La "
+          "configurazione MooVXR richiede evidenze congiunte, che non si ricavano dalle prestazioni dei singoli display."),
+])
+CONTENUTI["II.7.2/OR10"] = _blocchi([
+    ("s", "A10.1"),
+    ("e", ("Problema.", "I protocolli disponibili non bastano a caratterizzare insieme gli effetti di HUD del guidatore, "
+           "HUD laterale del passeggero, visori, audio e raccomandazioni del sistema sull'attenzione e sul comfort. Le "
+           "metriche dei singoli display non misurano i conflitti fra superfici.")),
+    ("e", ("Soluzione proposta.", "Un protocollo con ipotesi falsificabili, condizioni di controllo, classi di rischio e "
+           "scenari di guida di complessità crescente. Gli scenari includono raccomandazioni corrette, incerte e da "
+           "sopprimere, e decisioni del content policy engine con diversi livelli di affidabilità segnalati dalla "
+           "Cognitive Mesh (A9.3).")),
+    ("e", ("Novità e incertezza.", "La novità è valutare insieme il comportamento del sistema e i fattori umani in un "
+           "abitacolo con più superfici. L'incertezza riguarda il contributo delle interazioni fra superfici e dei "
+           "diversi profili di utenti.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Protocollo preregistrabile con campionamento giustificato, randomizzazione o disegno crossover, calcolo "
+          "della potenza statistica."),
+    ("t", "2. Condizioni di riferimento a contenuto fisso e senza adattamento."),
+    ("t", "3. Criteri di arresto, piano etico e di protezione dei dati."),
+    ("e", ("Risultati misurabili.", "Protocollo sperimentale e matrice degli scenari (D10.1). Indicatori:")),
+    ("p", "100% degli scenari critici concordati con OR1 e OR6 inclusi nella matrice;"),
+    ("p", "potenza statistica di almeno 0,8 per gli effetti attesi."),
+    ("t", "Il Politecnico definisce e valuta gli esperimenti. Aubay fornisce le policy da verificare (OR1) e gli scenari "
+          "del digital twin (OR6). GSNet fornisce le superfici applicative (OR3) e la fruizione su visori (OR4). nLight "
+          "(OR12) e Anitia (OR8) forniscono i segnali necessari, secondo specifiche concordate."),
+
+    ("s", "A10.2"),
+    ("e", ("Problema.", "DMS, eye tracking e misure di prestazione di guida non chiariscono l'effetto causale di "
+           "notifiche multimodali, raccomandazioni e cambi repentini di superficie. Gli effetti combinati di superfici e "
+           "modalità di interazione, come un contenuto proiettato sul finestrino del passeggero, non sono "
+           "caratterizzati. Un errore di temporizzazione può inoltre falsare anche risultati apparentemente positivi.")),
+    ("e", ("Soluzione proposta.", "Esperimenti sulla postazione di guida simulata che misurano carico visivo e "
+           "cognitivo e ripartizione dell'attenzione con contenuti diversi sulle varie superfici: HUD del guidatore, "
+           "schermo centrale, HUD del passeggero, audio. Le prove comprendono raccomandazioni, spiegazioni sintetiche e "
+           "priorità di sicurezza.")),
+    ("e", ("Novità e incertezza.", "La novità è legare le scelte di presentazione del sistema agli effetti osservati sul "
+           "guidatore, in un abitacolo con più superfici. L'incertezza riguarda gli effetti individuali e le condizioni "
+           "di emergenza.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Prove in simulatore con eye tracking, deviazione di corsia, tempi di risposta, rilevazione dei pericoli e "
+          "misure soggettive."),
+    ("t", "2. Condizioni controbilanciate."),
+    ("t", "3. Analisi con modelli a effetti misti."),
+    ("e", ("Risultati misurabili.", "Dataset pseudonimizzato e rapporto sperimentale (D10.2). Indicatori:")),
+    ("p", "tempo di sguardo fuori strada, tempo di reazione, deviazione di traiettoria e carico di lavoro misurati per "
+          "ogni combinazione di superficie e contenuto, con intervalli di confidenza;"),
+    ("p", "almeno 40 partecipanti."),
+    ("t", "Il content policy engine e l'HMI restano ad Aubay (OR1) e a GSNet (OR3): il Politecnico misura e definisce "
+          "vincoli osservabili, senza sostituire il motore decisionale. I segnali DMS sono acquisiti tramite le API "
+          "della piattaforma IoT (OR8)."),
+
+    ("s", "A10.3"),
+    ("e", ("Problema.", "Non è chiara la relazione fra moto del veicolo, ritardo visivo, tracciamento della testa e "
+           "cinetosi quando più superfici e visori mostrano contenuti XR. Le scale soggettive, da sole, non distinguono "
+           "il ruolo di latenza, postura e carico attentivo.")),
+    ("e", ("Soluzione proposta.", "Prove di sincronizzazione visuo-vestibolare con contenuti statici, compensati e "
+           "sincronizzati con il moto del veicolo, con adattamento della densità dei contenuti e pause su segnali non "
+           "diagnostici. Le indicazioni risultanti confluiscono nelle linee guida di A10.4 e, da lì, nelle regole del "
+           "content policy engine (OR1).")),
+    ("e", ("Novità e incertezza.", "La novità è modellare l'effetto dei parametri temporali e prospettici dei contenuti "
+           "sul comfort dei passeggeri, in un abitacolo con più superfici. L'incertezza riguarda la variabilità fra "
+           "profili di passeggeri.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Confronto intra-soggetto fra contenuti statici, compensati e sincronizzati."),
+    ("t", "2. Tracciamento della posa e questionari standardizzati."),
+    ("t", "3. Controlli di wash-out e criteri di interruzione."),
+    ("e", ("Risultati misurabili.", "Dati sperimentali su passeggeri e cinetosi (D10.3). Indicatori:")),
+    ("p", "incidenza della cinetosi ridotta di almeno il 30% con contenuti sincronizzati rispetto a contenuti non "
+          "sincronizzati (K5);"),
+    ("p", "tempo di insorgenza dei sintomi misurato per ciascuna condizione."),
+    ("t", "GSNet realizza le esperienze su visori (OR4); il Politecnico imposta e analizza il protocollo. OR9 e OR11 "
+          "forniscono la qualità degli ancoraggi e la geometria dell'HUD. La decisione sui contenuti resta al content "
+          "policy engine (OR1), e il Politecnico non formula valutazioni cliniche."),
+
+    ("s", "A10.4"),
+    ("e", ("Problema.", "Le linee guida generiche su distrazione e display non si traducono direttamente in criteri "
+           "eseguibili da un sistema che decide i contenuti su più superfici. Il rischio è confondere un indicatore "
+           "sperimentale con una regola validata.")),
+    ("e", ("Soluzione proposta.", "Una tassonomia di eventi, ruoli, superfici, priorità e confidenza, con comportamenti "
+           "vietati, condizionati e ammessi, e una matrice che collega ogni requisito alle evidenze sperimentali e ai "
+           "casi di prova. Il formato è quello del linguaggio di regole del content policy engine (A1.2). Una versione "
+           "preliminare delle linee guida è rilasciata intorno al mese 18, per consentirne il recepimento nella "
+           "verifica formale (A1.5); la versione definitiva arriva al mese 24.")),
+    ("e", ("Novità e incertezza.", "La novità è tradurre in modo motivato i fattori umani in requisiti verificabili. "
+           "L'incertezza riguarda la trasferibilità delle evidenze sperimentali a scenari non provati.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Sintesi dei risultati di A10.2 e A10.3."),
+    ("t", "2. Revisione di esperti."),
+    ("t", "3. Test di coerenza sui casi limite e tracciamento fra requisiti ed evidenze."),
+    ("e", ("Risultati misurabili.", "Linee guida e matrice requisiti, regole e prove (D10.4). Indicatori:")),
+    ("p", "nessuna contraddizione fra le regole proposte, verificata con lo strumento di A1.2;"),
+    ("p", "100% delle regole supportate da evidenza sperimentale o da riferimento normativo."),
+    ("t", "Il Politecnico trasferisce requisiti e casi di prova; Aubay codifica e mantiene il content policy engine "
+          "(A1.2-A1.5), che resta l'unica autorità esecutiva sulle regole. GSNet riceve i vincoli per le superfici che "
+          "gestisce (OR3, OR4)."),
+
+    ("s", "A10.5"),
+    ("e", ("Problema.", "Una policy adattiva può superare i test funzionali e la verifica formale e peggiorare comunque "
+           "l'attenzione in scenari nuovi, oppure proporre raccomandazioni corrette ma mal temporizzate. La sola "
+           "verifica del codice non dimostra la sicurezza dell'HMI.")),
+    ("e", ("Soluzione proposta.", "Prove con partecipanti sulla postazione di guida simulata, che confrontano regole "
+           "fisse e regole adattive del content policy engine (OR1) sugli scenari del digital twin (OR6), con stress "
+           "test a latenza variabile e riproduzione di eventi rari. Le prove verificano anche la visibilità dell'HUD del "
+           "passeggero dal posto di guida. L'attività è distinta dalla verifica formale (A1.5) e dalla campagna virtuale "
+           "(A6.5): è l'unica verifica con persone.")),
+    ("e", ("Novità e incertezza.", "La questione di ricerca è stabilire in quali condizioni l'adattamento non peggiora "
+           "gli indicatori di attenzione. L'incertezza riguarda gli effetti negli scenari rari e la variabilità fra "
+           "guidatori.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Prove in cieco con condizioni controbilanciate."),
+    ("t", "2. Analisi statistiche predefinite di non inferiorità e superiorità."),
+    ("t", "3. Esame del cono di visibilità dell'HUD laterale."),
+    ("e", ("Risultati misurabili.", "Rapporto di verifica delle regole adattive (D10.5). Indicatori:")),
+    ("p", "sguardi fuori strada ridotti di almeno il 15% con le regole adattive rispetto alle regole fisse, a parità di "
+          "informazioni utili (K1);"),
+    ("p", "nessun peggioramento statisticamente significativo degli altri indicatori di attenzione."),
+    ("t", "Il motore è fornito da Aubay (OR1); il Politecnico valuta comportamenti e sicurezza dell'HMI e non sviluppa il "
+          "content policy engine. Le prove su strada del dimostratore sono in OR14."),
+])
+
+
+# ---------------------------------------------------------------- OR11 (Politecnico), forma Frascati dal testo del 23/11
+# L'HUD riceve i contenuti autorizzati dal content policy engine e dalla Cognitive Mesh solo lo stato di affidabilità;
+# A11.5 limitata alla verifica del prototipo di laboratorio; valori obiettivo proposti.
+CONTENUTI["II.7.1/OR11"] = _blocchi([
+    _intestazione("HUD per il passeggero a proiezione sul finestrino", "Politecnico di Milano", "ricerca industriale",
+                  "Dipartimento di Energia, Campus Bovisa, Milano (Lombardia); prove anche sul veicolo di prova"),
+    ("t", "L'obiettivo realizzativo riguarda la progettazione e la costruzione di un prototipo di laboratorio di HUD per "
+          "il passeggero. Il dispositivo proietta i contenuti su una porzione definita del finestrino laterale; "
+          "l'ancoraggio al paesaggio esterno e l'invisibilità dal posto di guida sono requisiti da verificare "
+          "sperimentalmente. Esistono ricerche e soluzioni di visualizzazione trasparente in abitacolo, ma resta da "
+          "dimostrare la fattibilità di questa configurazione specifica: proiezione XR sul finestrino laterale, "
+          "registrazione sulla scena e limitazione dell'interferenza visiva per il guidatore."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD, che vi comprende espressamente la "
+          "costruzione di prototipi in ambiente di laboratorio. Il prototipo è installabile sul veicolo di prova (OR4) "
+          "per le verifiche, senza integrazione nell'abitacolo di serie."),
+])
+CONTENUTI["II.7.2/OR11"] = _blocchi([
+    ("s", "A11.1"),
+    ("e", ("Problema.", "I display trasparenti e gli HUD esistenti non garantiscono da soli la leggibilità su un "
+           "finestrino laterale, l'isolamento della visuale del guidatore, la correzione dinamica del punto di vista e "
+           "la compatibilità con i vincoli passivi dell'abitacolo, come airbag laterali e rivestimenti.")),
+    ("e", ("Soluzione proposta.", "Requisiti ottici, geometrici, ergonomici e di temporizzazione. Comprendono i segnali "
+           "che l'HUD riceve dal content policy engine (OR1) e dalla Cognitive Mesh (stato di affidabilità, A9.3) e le "
+           "condizioni di soppressione della proiezione. I vincoli di sicurezza passiva sono verificati con una "
+           "consulenza di dominio automotive.")),
+    ("e", ("Novità e incertezza.", "La novità è formulare insieme i vincoli per un HUD laterale adattivo. L'incertezza "
+           "riguarda la regione operativa effettivamente realizzabile.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Revisione documentata di brevetti, pubblicazioni e prototipi."),
+    ("t", "2. Modellazione geometrica dell'abitacolo e dei punti di vista."),
+    ("t", "3. Analisi dei rischi e confronto con esperti di dominio."),
+    ("e", ("Risultati misurabili.", "Requisiti dell'HUD per il passeggero, interfacce dati e criteri di prova (D11.1). "
+           "Indicatori:")),
+    ("p", "campo visivo, eye-box, contrasto, escursione del movimento della testa e visibilità dal posto di guida "
+          "specificati con valori obiettivo misurabili;"),
+    ("p", "100% dei vincoli di installazione verificati con la consulenza di dominio."),
+    ("t", "Il Politecnico definisce i requisiti dell'HUD sperimentale. GSNet resta titolare dell'applicazione di bordo "
+          "(OR3) e delle esperienze su visori (OR4)."),
+
+    ("s", "A11.2"),
+    ("e", ("Problema.", "Il finestrino inclinato produce distorsioni, riflessi, luce ambiente variabile e una eye-box "
+           "mobile. Proiettori convenzionali e HUD frontali non si trasferiscono a questa geometria senza perdite di "
+           "contrasto e visibilità involontaria.")),
+    ("e", ("Soluzione proposta.", "Combinazioni di percorso ottico, superfici selettive, vignettatura, focalizzazione e "
+           "compensazione dinamica della finestra visuale, con il proiettore alloggiato sopra il poggiabraccio. L'HUD "
+           "riceve dal content policy engine (OR1) i contenuti autorizzati e i vincoli temporali; nessuna logica esterna "
+           "pilota direttamente le ottiche.")),
+    ("e", ("Novità e incertezza.", "La novità è usare il finestrino laterale come superficie di proiezione per un "
+           "passeggero libero di muovere la testa. L'incertezza riguarda come conciliare la leggibilità in pieno sole "
+           "con la non interferenza sul guidatore.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Simulazioni con ray tracing."),
+    ("t", "2. Prove su banco di configurazioni alternative."),
+    ("t", "3. Analisi di sensibilità alla posizione della testa e alla luminanza ambientale, con confronto rispetto a "
+          "configurazioni senza correzione."),
+    ("e", ("Risultati misurabili.", "Progetto ottico, disegni e matrice dei compromessi (D11.2). Indicatori:")),
+    ("p", "contrasto di almeno 3:1 con luminanza esterna di 10.000 cd/m²;"),
+    ("p", "luminanza residua dal posto di guida non superiore al 2% di quella nominale (K4)."),
+    ("t", "Il Politecnico firma il progetto scientifico e le verifiche ottiche; ottiche e supporti sono forniture "
+          "esecutive esterne."),
+
+    ("s", "A11.3"),
+    ("e", ("Problema.", "Le trasformazioni statiche fra proiettore e vetro non compensano il movimento del passeggero, le "
+           "deformazioni prospettiche e il ritardo dei segnali di scena. Senza allineamento temporale, anche una "
+           "posizione del veicolo accurata produce contenuti che sembrano muoversi.")),
+    ("e", ("Soluzione proposta.", "Stima del punto di vista del passeggero, warping prospettico e allineamento fra gli "
+           "orologi delle sorgenti, per comporre i contenuti XR sull'HUD laterale. Le pose e la loro qualità arrivano da "
+           "OR9, la geometria della scena da OR12, contenuti e priorità dal content policy engine (OR1). Il renderer "
+           "sperimentale li converte in primitive calibrate.")),
+    ("e", ("Novità e incertezza.", "La novità è una correzione dinamica specifica per il finestrino inclinato. "
+           "L'incertezza riguarda la precisione residua con movimenti rapidi della testa e dati sensoriali degradati.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Confronto di modelli geometrici e dinamici su scene con ground truth."),
+    ("t", "2. Tracciati della posa della testa e replay sincronizzato degli eventi."),
+    ("e", ("Risultati misurabili.", "Algoritmi di correzione prospettica e registrazione (D11.3). Indicatori:")),
+    ("p", "errore di riproiezione inferiore a 5 mrad al 95° percentile (K3);"),
+    ("p", "latenza motion-to-photon inferiore a 20 ms."),
+    ("t", "La correzione è specifica del finestrino: non sostituisce l'ancoraggio di GSNet per gli occhiali (OR5) né "
+          "l'applicazione multi-display (OR3)."),
+
+    ("s", "A11.4"),
+    ("e", ("Problema.", "Il prototipo deve reggere le condizioni ottiche e temporali di laboratorio senza essere "
+           "scambiato per un componente automotive omologato. Sono critiche la calibrazione ripetibile e la diagnostica "
+           "dei guasti.")),
+    ("e", ("Soluzione proposta.", "Un prototipo sperimentale modulare che esegue la catena completa: autorizzazione del "
+           "contenuto, composizione, correzione geometrica e proiezione. Ha interfacce controllate verso il content "
+           "policy engine e la Cognitive Mesh e registra ingressi, latenze ed eventi di arresto. Ottiche, proiettore e "
+           "supporti sono affidati a fornitori esterni. Il prototipo verifica la fattibilità dei principi ottici e "
+           "algoritmici e non è un componente pronto per la produzione.")),
+    ("e", ("Novità e incertezza.", "La novità è integrare in modo verificabile geometria dinamica e decisioni del "
+           "content policy engine in un proiettore laterale. L'incertezza riguarda la calibrazione ripetibile e le "
+           "prestazioni ottiche.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Integrazione incrementale su banco."),
+    ("t", "2. Test di sincronizzazione fra moduli, iniezione di guasti, replay deterministico."),
+    ("t", "3. Verifiche di alimentazione e di montaggio reversibile."),
+    ("e", ("Risultati misurabili.", "Prototipo di laboratorio dell'HUD per il passeggero (D11.4). Indicatori:")),
+    ("p", "deriva della calibrazione inferiore a 2 mrad dopo 8 ore di funzionamento;"),
+    ("p", "arresto sicuro della proiezione entro 100 ms dal comando di soppressione."),
+    ("t", "L'integrazione del prototipo sul veicolo di prova è coordinata nell'integrazione di sistema (OR14, Aubay)."),
+
+    ("s", "A11.5"),
+    ("e", ("Problema.", "La validazione sul solo banco può nascondere riflessi dinamici, vibrazioni, variazioni del punto "
+           "di vista e visibilità indesiderata. La dimostrazione di fattibilità richiede risultati replicabili, con e "
+           "senza contenuto e con diversi livelli di incertezza.")),
+    ("e", ("Soluzione proposta.", "Un protocollo ripetibile che misura leggibilità, contrasto, accuratezza geometrica e "
+           "visibilità residua dal posto di guida al variare di luce, velocità e posa. Le misure si fanno su banco e sul "
+           "veicolo di prova; sul veicolo servono come verifica del prototipo di laboratorio, non come convalida in "
+           "condizioni operative. Se i requisiti sono raggiunti solo in parte, il rapporto documenta limiti e condizioni "
+           "d'impiego.")),
+    ("e", ("Novità e incertezza.", "La novità è caratterizzare sperimentalmente l'area di funzionamento sicuro dell'HUD "
+           "laterale. L'incertezza riguarda gli effetti di riflessi dinamici, vibrazioni e variazioni del punto di "
+           "vista, che su banco non emergono.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Campagne su banco e sul veicolo di prova con misure fotometriche."),
+    ("t", "2. Acquisizione del punto di vista del guidatore."),
+    ("t", "3. Registrazione sincronizzata degli eventi e replay delle condizioni critiche."),
+    ("e", ("Risultati misurabili.", "Rapporto delle verifiche di visibilità e leggibilità (D11.5). Indicatori:")),
+    ("p", "luminanza residua dal posto di guida non superiore al 2% di quella nominale (K4);"),
+    ("p", "leggibilità corretta in almeno il 90% delle prove con luce diurna."),
+    ("t", "Il Politecnico esegue la misura scientifica dell'HUD. GSNet supporta gli scenari applicativi (OR3, OR4), "
+          "Anitia fornisce i dati del veicolo (OR8). Gli esiti alimentano la verifica con partecipanti di A10.5."),
+])
+
+
 # ================================================================ RISORSE E COSTI PER ATTIVITÀ E PER OR (23/11)
 # Questa sezione deve restare l'ultima del file: i testi nuovi degli OR si aggiungono sopra questo marcatore.
 # Per ogni attività: tabella del personale e dei servizi attribuiti all'attività; per ogni OR: riepilogo con
