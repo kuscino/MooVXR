@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Configurazione del modello economico MooVXR per toolchain/toolchain/economics_finanziato.py.
 
+Versione 20 (23/11/2026): donne per fascia di GSNet (aggiorna_v20_donne.py).
 Versione 19 (23/11/2026): team e servizi di nLight, rev2 (aggiorna_v19_nlight.py).
 Versione 18 (23/11/2026): valori obiettivo dei KPI (aggiorna_v18_kpi.py).
 Versione 17 (23/11/2026): donne del Politecnico, K6, titolo di A14.3 (aggiorna_v17.py).
@@ -2285,6 +2286,7 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Piano di Sviluppo, A1.2 e A1.5 (23/11/2026): inferiore a 50 ms nel 95% dei casi')],
  'donne': {'Aubay Italia': {'Medio': 3, 'Basso': 6},
            'Anitia': {'Medio': 1, 'Basso': 3},
-           'Politecnico di Milano': {'Alto': 1, 'Basso': 1}},
+           'Politecnico di Milano': {'Alto': 1, 'Basso': 1},
+           'GSNet': {'Medio': 2, 'Basso': 3}},
  'addetti': {'Politecnico di Milano': {'Alto': 5, 'Medio': 2, 'Basso': 11},
              'nLight': {'Alto': 0, 'Medio': 1, 'Basso': 5}}}
