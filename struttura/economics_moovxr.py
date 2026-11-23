@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Configurazione del modello economico MooVXR per toolchain/toolchain/economics_finanziato.py.
 
+Versione 16 (23/11/2026): donne per fascia di Aubay (aggiorna_v16_donne.py).
 Versione 15 (23/11/2026): team di Anitia (rev2), capofila GSNet (aggiorna_v15_anitia.py).
 Versione 14 (23/11/2026): Wiki-RAG e servizi LLM di Aubay (aggiorna_v14_aubay.py).
 Versione 13 (23/11/2026): costi del Politecnico del 22/11 (aggiorna_v13_polimi.py).
@@ -2279,5 +2280,5 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Specifica di progetto',
           20,
           'Testo di OR1 nel Piano di Sviluppo: inferiore a 20 ms nel 95% dei casi')],
- 'donne': {'Anitia': {'Medio': 1, 'Basso': 3}},
+ 'donne': {'Aubay Italia': {'Medio': 3, 'Basso': 6}, 'Anitia': {'Medio': 1, 'Basso': 3}},
  'addetti': {'Politecnico di Milano': {'Alto': 5, 'Medio': 2, 'Basso': 11}}}
