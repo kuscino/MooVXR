@@ -882,7 +882,7 @@ for _k in PARTI_I_III:
 
 # III.1.2: la tabella dei costi del documento ricevuto (20 M€, quote superate) si sostituisce con
 # quella generata dal modello economico corrente (foglio Riepilogo) e dagli OR della configurazione.
-MODELLO = QUI.parent / "Modello_Economico_MooVXR_v21.xlsx"
+MODELLO = QUI.parent / "Modello_Economico_MooVXR_v23.xlsx"
 
 
 def _euro(v):
@@ -2464,6 +2464,116 @@ CONTENUTI["II.7.2/OR5"] = _blocchi([
 ])
 
 
+# ---------------------------------------------------------------- Sintesi numerica: Tab. 1-4 per proponente (23/11)
+# Compilate dal modello economico (MODELLO): fogli Costi per proponente, Personale, Ore per OR, Attrezzature, Tariffe.
+# Una tabella per proponente, preceduta dal nome, come richiesto per i progetti congiunti.
+_PROF = importlib.import_module("profili.mimit_accordi_automotive")
+
+
+def _n(v, dec=0):
+    return "" if v in (None, "") else _num(v, dec)
+
+
+def _dati_modello():
+    import openpyxl
+    wb = openpyxl.load_workbook(MODELLO, data_only=True)
+    prop = [(p[0], p[1], p[4]) for p in CFG["proponenti"]]          # nome, tipo tariffa, regione
+    # Tab. 1: costi per voce
+    cpp, cur = {}, None
+    for r in wb["Costi per proponente"].iter_rows(values_only=True):
+        if r[0] in [p[0] for p in prop]:
+            cur = r[0]; cpp[cur] = {}
+        elif cur and r[0] and str(r[0])[:5] in ("A.1.1", "A.1.2", "A.1.3", "A.1.4", "A.2.1", "A.2.2", "A.2.3", "A.2.4"):
+            cpp[cur][str(r[0])[:5]] = r[1] or 0
+    attr = [r for r in wb["Attrezzature"].iter_rows(min_row=2, values_only=True) if r[0] and r[10]]
+    pers = {(r[0], r[1]): r for r in wb["Personale"].iter_rows(min_row=2, values_only=True) if r[0] and r[1]}
+    ore = [r for r in wb["Ore per OR"].iter_rows(min_row=2, values_only=True) if r[0] and str(r[0]).startswith("OR")]
+    return prop, cpp, attr, pers, ore
+
+
+_PROP, _CPP, _ATTRZ, _PERS, _ORE = _dati_modello()
+
+
+def _titolo_prop(nome):
+    return para(run(nome, bold=True, size=20), spacing='<w:spacing w:before="240" w:after="80"/>')
+
+
+def _tab1():
+    out = []
+    for nome, tipo, reg in _PROP:
+        c, d = _CPP[nome], {"regioni": [reg, "", ""]}
+        for lett, k in (("A.1", "RI"), ("A.2", "SS")):
+            blocco, tot = {}, [0, 0]
+            # spesa prevista delle attrezzature (prima dell'imputazione), ripartita fra RI e SS
+            spesa_att = sum((a[11] or 0) * ((a[5] or 0) if k == "SS" else 1 - (a[5] or 0)) for a in _ATTRZ if a[10] == nome)
+            for i in (1, 2, 3, 4):
+                costo = c.get("%s.%d" % (lett, i), 0)
+                spesa = spesa_att if i == 3 else costo
+                perc = (costo / spesa * 100) if spesa else 0
+                blocco[str(i)] = [_n(spesa), (_n(perc, 1) + "%") if spesa else "", _n(costo), _n(costo), "", ""]
+                tot[0] += spesa; tot[1] += costo
+            blocco["tot"] = [_n(tot[0]), "", _n(tot[1]), _n(tot[1]), "", ""]
+            blocco["regioni"] = d["regioni"]
+            d[lett] = blocco
+        sp = sum(float(d[l]["tot"][0].replace(".", "").replace(",", ".") or 0) for l in ("A.1", "A.2"))
+        co = sum(float(d[l]["tot"][2].replace(".", "").replace(",", ".") or 0) for l in ("A.1", "A.2"))
+        d["tot"] = [_n(sp), "", _n(co), _n(co), "", ""]
+        out += [_titolo_prop(nome), _PROF.tab1(d)]
+    return out
+
+
+def _tab2():
+    out = []
+    for nome, tipo, reg in _PROP:
+        d = {"tipo": {"Impresa": "Imprese", "Università": "Università"}.get(tipo, tipo)}
+        tot = [0, 0, 0, 0]
+        for f in ("Alto", "Medio", "Basso"):
+            r = _PERS.get((nome, f))
+            if not r:
+                continue
+            d[f] = [_n(r[2]), _n(r[3]), _n(r[4]), _n(r[5]), _n(r[6])]
+            tot = [tot[0] + (r[2] or 0), tot[1] + (r[3] or 0), tot[2] + (r[4] or 0), tot[3] + (r[6] or 0)]
+        d["tot"] = [_n(tot[0]), _n(tot[1]), _n(tot[2]), "", _n(tot[3])]
+        out += [_titolo_prop(nome), _PROF.tab2(d)]
+    return out
+
+
+def _tab3():
+    out = []
+    for nome, tipo, reg in _PROP:
+        rr = [r for r in _ORE if r[1] == nome]
+        righe = [[r[0], r[2], _n(r[3]), _n(r[4]), _n(r[5]), "", _n(r[6]), _n(r[6]), "", ""] for r in rr]
+        def somma(filtro):
+            s = [sum(r[i] or 0 for r in rr if filtro(r)) for i in (3, 4, 5, 6)]
+            return ["", _n(s[0]), _n(s[1]), _n(s[2]), "", _n(s[3]), _n(s[3]), "", ""]
+        tar = {t[1]: t[3] for t in CFG["tariffe"] if t[0] == tipo}
+        d = {"regioni": [reg, "", ""], "righe": righe, "TOTALE": somma(lambda r: True),
+             "RI": somma(lambda r: r[2] == "RI"), "SS": somma(lambda r: r[2] == "SS"),
+             "COSTO": ["", _n(tar["Alto"]), _n(tar["Medio"]), _n(tar["Basso"]), "", "", "", "", ""]}
+        out += [_titolo_prop(nome), _PROF.tab3(dati=d)]
+    return out
+
+
+def _tab4():
+    out = []
+    for nome, tipo, reg in _PROP:
+        aa = [a for a in _ATTRZ if a[10] == nome]
+        righe = [[a[0] + (", n. %d" % a[3] if a[3] and a[3] > 1 else ""), _n(a[11]), a[2], _n((a[5] or 0) * 100) + "%",
+                  _n(a[6]), _n(a[7]), _n((a[8] or 0) * 100) + "%", _n(a[12]), _n(a[12]), "", ""] for a in aa]
+        def somma(col_spesa, col_costo):
+            return [_n(sum(col_spesa(a) for a in aa)), "", "", "", "", "", _n(sum(col_costo(a) for a in aa)),
+                    _n(sum(col_costo(a) for a in aa)), "", ""]
+        d = {"regioni": [reg, "", ""], "righe": righe,
+             "TOTALE": somma(lambda a: a[11] or 0, lambda a: a[12] or 0),
+             "RI": somma(lambda a: (a[11] or 0) * (1 - (a[5] or 0)), lambda a: a[13] or 0),
+             "SS": somma(lambda a: (a[11] or 0) * (a[5] or 0), lambda a: a[14] or 0)}
+        out += [_titolo_prop(nome), _PROF.tab4(dati=d)]
+    return out
+
+
+CONTENUTI["TAB1"], CONTENUTI["TAB2"], CONTENUTI["TAB3"], CONTENUTI["TAB4"] = _tab1, _tab2, _tab3, _tab4
+
+
 # ================================================================ RISORSE E COSTI PER ATTIVITÀ E PER OR (23/11)
 # Questa sezione deve restare l'ultima del file: i testi nuovi degli OR si aggiungono sopra questo marcatore.
 # Per ogni attività: tabella del personale e dei servizi attribuiti all'attività; per ogni OR: riepilogo con
@@ -2486,7 +2596,7 @@ def _carica_costi():
     att = {}
     for r in wb["Attività"].iter_rows(min_row=2, values_only=True):
         if r[1]:
-            att[r[1]] = dict(OR=r[0], ini=r[3], fine=r[4], n=(r[6], r[7], r[8]), imp=r[9], ore=(r[20], r[21], r[22]),
+            att[r[1]] = dict(OR=r[0], ini=r[3], fine=r[4], n=(r[6], r[7], r[8]), imp=r[9], impf=(r[31], r[32], r[33]), dur=r[14], oa=r[19], ore=(r[20], r[21], r[22]),
                              tar=(r[23], r[24], r[26]), costo=r[25], ruoli=(r[27], r[28], r[29]))
     serv = [dict(ogg=r[1], OR=r[2], imp=r[3], mot=r[4], att=r[8], ruolo=r[9])
             for r in wb["Consulenze e servizi"].iter_rows(min_row=2, values_only=True) if r[1] and r[2]]
@@ -2519,19 +2629,27 @@ def _tab(larghezze, intest, righe, totale=None):
 
 def _tab_personale(cod):
     a = _ATT[cod]
-    righe, fte, ore, costo = [], 0, 0, 0
+    # addetti (persone distinte per fascia) solo se interi, cioè indicati dal proponente come roster
+    con_add = all(abs(x - round(x)) < 1e-6 for x in a["n"])
+    righe, add, fte, ore, costo = [], 0, 0, 0, 0
     for k, fascia in enumerate(("Alto", "Medio", "Basso")):
         if not a["ore"][k]:
             continue
-        f = a["n"][k] * a["imp"]
+        f = a["n"][k] * (a["impf"][k] if a["impf"][k] is not None else a["imp"])
+        assert abs(f * a["dur"] * a["oa"] / 12 - a["ore"][k]) <= 0.6, (cod, fascia, f)
         c = a["ore"][k] * a["tar"][k]
-        righe.append([(fascia, "left"), (a["ruoli"][k] or "", "left"), (_num(f, 2), "right"),
-                      (_num(a["ore"][k]), "right"), (_num(a["tar"][k]), "right"), (_eur(c), "right")])
-        fte += f; ore += a["ore"][k]; costo += c
+        righe.append([(fascia, "left"), (a["ruoli"][k] or "", "left")] +
+                     ([(_num(a["n"][k]), "right")] if con_add else []) +
+                     [(_num(f, 2), "right"), (_num(a["ore"][k]), "right"), (_num(a["tar"][k]), "right"),
+                      (_eur(c), "right")])
+        add += a["n"][k]; fte += f; ore += a["ore"][k]; costo += c
     assert round(costo) == round(a["costo"]), (cod, costo, a["costo"])
-    return _tab([1450, 4176, 800, 900, 700, 1500], ["Fascia", "Profilo e ruolo", "FTE", "Ore", "€/h", "Costo"], righe,
-                [("Totale personale", "left"), ("", "left"), (_num(fte, 2), "right"), (_num(ore), "right"),
-                 ("", "right"), (_eur(costo), "right")])
+    tot = ([("Totale personale", "left"), ("", "left")] + ([(_num(add), "right")] if con_add else []) +
+           [(_num(fte, 2), "right"), (_num(ore), "right"), ("", "right"), (_eur(costo), "right")])
+    if con_add:
+        return _tab([1350, 3576, 800, 800, 900, 600, 1500],
+                    ["Fascia", "Profilo e ruolo", "Addetti", "FTE", "Ore", "€/h", "Costo"], righe, tot)
+    return _tab([1450, 4176, 800, 900, 700, 1500], ["Fascia", "Profilo e ruolo", "FTE", "Ore", "€/h", "Costo"], righe, tot)
 
 
 def _tab_servizi(lista, col="Ruolo nell'attività"):
@@ -2619,3 +2737,223 @@ for _o in [o[0] for o in CFG["or"]]:
         _out += [_sotto_task(_c)] + _blocco_attivita(_c)
     _out += _blocco_or(_o)
     CONTENUTI[_k] = _render(_out)
+
+
+# ---------------------------------------------------------------- Parte II generale: II.1-II.5BIS, II.8-II.11 (23/11)
+# Testi confermati il 23/11; numeri, tabelle, Gantt e voci di spesa generati dal modello (MODELLO, CFG) e dai dati
+# dell'Allegato 4bis (dnsh_moovxr.py).
+def _riep_tot():
+    import openpyxl
+    ws = openpyxl.load_workbook(MODELLO, data_only=True)["Riepilogo"]
+    return next(r for r in ws.iter_rows(values_only=True) if r and r[0] == "TOTALE PROGETTO")
+
+
+_TOT = _riep_tot()
+_PCT = lambda v: ("%.1f%%" % (v * 100)).replace(".", ",")
+_VERSO = {"K1": "≥", "K2": "≥", "K3": "≤", "K4": "≤", "K5": "≥", "K6": "≤", "K7": "<"}
+_DOC_KPI = {"K1": "D10.5, D14.5", "K2": "D3.2, D14.4", "K3": "D9.2, D11.3, D14.5", "K4": "D11.5, D14.5",
+            "K5": "D10.3", "K6": "D6.4", "K7": "D1.2, D1.5"}
+
+
+def _tabw(larghezze, intest, righe):
+    return _tab(larghezze, intest, [[(c, "left") for c in r] for r in righe])
+
+
+def _valore_kpi(k):
+    v = k[7]
+    u = k[3]
+    return "%s %s%s" % (_VERSO.get(k[0], ""), _num(v) if float(v).is_integer() else str(v).replace(".", ","),
+                        u if u == "%" else " " + u)
+
+
+CONTENUTI["II.1"] = _render([
+    ("t", "Titolo del progetto: MooVXR – Mobilità stradale connessa e localizzazione cooperativa. Durata: %d mesi."
+     % max(o[5] for o in CFG["or"])),
+    ("t", "Il progetto è avviato dopo la presentazione della domanda di agevolazione e comunque entro 3 mesi dalla data "
+          "del decreto di concessione."),
+])
+
+CONTENUTI["II.2"] = _render([
+    ("t", "Il progetto si colloca nell'area di intervento 2 dell'Allegato A del DD, \"Sviluppo di parti, componenti, "
+          "sistemi e tecnologie avanzate per la mobilità sostenibile, autonoma, connessa, intelligente e sicura\", "
+          "unica area del progetto come richiesto dall'art. 3, comma 3, lett. c), del DD. Sviluppa le seguenti linee "
+          "dell'area:"),
+    ("p", "tecnologie basate sull'intelligenza artificiale applicate ai sistemi, ai componenti e ai servizi per la "
+          "mobilità: content policy engine (OR1), storytelling generativo (OR2), fusione dei dati esterni (OR7), "
+          "percezione della scena (OR12);"),
+    ("p", "servizi digitali per la mobilità intelligente e connessa: piattaforma di erogazione (OR3), piattaforma "
+          "collaborativa e marketplace (OR4), piattaforma IoT (OR8);"),
+    ("p", "tecnologie per la guida autonoma e connessa, compresi i Software Defined Vehicle: aggiornamento OTA del "
+          "software e dei modelli AI (OR8, OR14) e comunicazione V2X (OR7);"),
+    ("p", "attività di testing fisico e virtuale e validazione funzionali alla verifica delle prestazioni e "
+          "dell'affidabilità: digital twin (OR6), prove con partecipanti (OR10), verifiche dell'HUD (OR11), dimostratore "
+          "e prove su strada (OR14)."),
+])
+
+CONTENUTI["II.3"] = _render([
+    ("t", "MooVXR sviluppa una piattaforma per l'abitacolo del veicolo connesso che decide quali contenuti mostrare a "
+          "ciascun occupante, in quale forma e su quale superficie, in funzione della situazione di guida, della scena "
+          "rilevata e dell'attenzione del guidatore. Al centro c'è un content policy engine con regole verificate "
+          "formalmente (OR1). Governa contenuti culturali e turistici generati da modelli di AI generativa ancorati a "
+          "fonti verificate (OR2) e le esperienze dei passeggeri su occhiali AR, visori e un HUD proiettato sul "
+          "finestrino (OR4, OR5, OR11). Il sistema si basa su:"),
+    ("p", "percezione multispettrale e LiDAR della scena laterale e localizzazione di precisione, per ancorare i "
+          "contenuti agli oggetti reali (OR9, OR12, OR13);"),
+    ("p", "dati del veicolo, dati da strada e infrastruttura e aggiornamento OTA tramite una piattaforma IoT (OR7, OR8);"),
+    ("p", "erogazione dei contenuti con prefetch predittivo e applicazione di bordo multi-display (OR3);"),
+    ("p", "studi sperimentali su attenzione degli occupanti e cinetosi (OR10);"),
+    ("p", "un digital twin per la verifica virtuale e un dimostratore su veicolo validato su strada (OR6, OR14)."),
+    ("t", "Il progetto dura %d mesi e ha un costo di %s, per il %s in ricerca industriale e per il %s in sviluppo "
+          "sperimentale. Lo realizzano GS NET - ITALIA, capofila, Aubay Italia, Anitia, NLIGHT EUROPE e il Politecnico "
+          "di Milano. I risultati sono misurati da sette indicatori con valori obiettivo, fra cui la riduzione degli "
+          "sguardi fuori strada del guidatore e la disponibilità dei contenuti nel momento utile."
+     % (max(o[5] for o in CFG["or"]), _eur(_TOT[4]), _PCT(_TOT[2] / _TOT[4]), _PCT(_TOT[3] / _TOT[4]))),
+])
+
+CONTENUTI["II.4"] = _render([
+    ("t", "Il veicolo sta diventando una piattaforma software. L'architettura Software Defined Vehicle e "
+          "l'aggiornamento OTA consentono di aggiungere funzioni e servizi durante la vita del veicolo, e l'abitacolo "
+          "ospita un numero crescente di superfici di visualizzazione. Per il guidatore lo scenario regolatorio va "
+          "nella direzione opposta: la Raccomandazione 2008/653/CE limita la distrazione visivo-manuale, e il "
+          "Regolamento (UE) 2019/2144 prevede sistemi di avviso della distrazione del guidatore. Oggi i due aspetti "
+          "sono gestiti separatamente, con regole fisse che bloccano i contenuti oltre una certa velocità e non "
+          "distinguono fra guidatore e passeggeri."),
+    ("t", "La finalità del progetto è conciliare queste due direttrici:"),
+    ("p", "rendere l'abitacolo un ambiente di contenuti personalizzati per i passeggeri, con esperienze AR e XR legate ai "
+          "luoghi attraversati;"),
+    ("p", "garantire che nessun contenuto distragga il guidatore, con decisioni verificabili e adattate al singolo "
+          "guidatore;"),
+    ("p", "costituire una filiera italiana di componenti (software di bordo, percezione, ottica, piattaforme IoT) da "
+          "offrire ai costruttori e ai loro fornitori."),
+    ("t", "Le stesse tecnologie hanno applicazione anche fuori dall'autovettura: autobus turistici, veicoli per il "
+          "trasporto di personalità, servizi di sicurezza e ricognizione del territorio."),
+])
+
+_PROBLEMI = [
+    ("Decidere i contenuti per più occupanti e superfici senza distrarre il guidatore",
+     "Content policy engine con regole verificate formalmente e componente adattiva che può solo restringere", "OR1, OR10"),
+    ("Generare contenuti affidabili", "Retrieval-augmented generation con verifica affermazione-fonte", "OR2"),
+    ("Agganciare i contenuti agli oggetti reali da un veicolo in movimento",
+     "Localizzazione di precisione, ancoraggio temporizzato, separazione del moto testa-veicolo", "OR5, OR9, OR11"),
+    ("Percepire la scena laterale anche di notte", "Percezione multispettrale e LiDAR con stabilizzazione inerziale",
+     "OR12, OR13"),
+    ("Consegnare i contenuti con connettività variabile", "Prefetch predittivo con mappa di copertura", "OR3"),
+    ("Proiettare sul finestrino senza essere visibili dal guidatore",
+     "Architettura ottica e correzione prospettica dedicate", "OR11"),
+    ("Integrare in sicurezza componenti di più fornitori",
+     "Interfacce comuni, Cognitive Mesh, analisi dei rischi ISO/SAE 21434, OTA", "OR8, OR9, OR14"),
+    ("Ridurre e mirare le prove su strada", "Digital twin validato sui dati reali", "OR6"),
+]
+CONTENUTI["II.5"] = _render([
+    ("t", "L'obiettivo finale è un dimostratore su veicolo in cui il sistema MooVXR funziona integrato e viene validato "
+          "su strada. Il dimostratore comprende:"),
+    ("p", "il content policy engine e la personalizzazione dei contenuti per ciascun occupante;"),
+    ("p", "lo storytelling generativo e i contenuti della piattaforma collaborativa, erogati con prefetch predittivo;"),
+    ("p", "l'applicazione di bordo multi-display, gli occhiali AR, i visori e il prototipo di HUD sul finestrino del "
+          "passeggero;"),
+    ("p", "il kit di percezione multispettrale e LiDAR, con unità di calcolo di bordo;"),
+    ("p", "la piattaforma IoT con aggiornamento OTA del software e dei modelli AI."),
+    ("t", "Le prestazioni attese sono espresse dai sette indicatori del progetto:"),
+    ("x", _tabw([700, 2300, 3726, 1300, 1500], ["Codice", "Indicatore", "Definizione", "Valore obiettivo", "Riferimento"],
+                [[k[0], k[1], k[2], _valore_kpi(k), k[6]] for k in CFG["kpi"]])),
+    ("t", "Le principali problematiche tecnico-scientifiche e le soluzioni previste sono:"),
+    ("x", _tabw([3700, 4626, 1200], ["Problematica tecnico-scientifica", "Soluzione prevista", "OR"],
+                [list(r) for r in _PROBLEMI])),
+])
+
+_spd = importlib.util.spec_from_file_location("dnsh_moovxr", QUI / "dnsh_moovxr.py")
+_DN = importlib.util.module_from_spec(_spd); _spd.loader.exec_module(_DN)
+_OBI = {"Contributo sostanziale alla mitigazione dei cambiamenti climatici": "Mitigazione dei cambiamenti climatici",
+        "Contributo sostanziale alla transizione verso un’economia circolare": "Economia circolare"}
+CONTENUTI["II.5BIS"] = _render(
+    [("t", "Il progetto rispetta il principio DNSH (art. 17 del Reg. (UE) 2020/852). L'autovalutazione completa è "
+           "nell'Allegato 4bis; se ne riportano gli elementi principali."),
+     ("t", "Contributi positivi dichiarati:")]
+    + [("p", "%s: %s" % (_OBI.get(tit, tit), m)) for tit, _c, voci in _DN.CONTRIBUTI for q, r, m in voci if r == "Si"]
+    + [("t", "Possibili impatti sui sei obiettivi ambientali:"),
+       ("x", _tabw([2900, 1300, 5326], ["Obiettivo ambientale", "Valutazione", "Motivazione"],
+                   [[o, r, m] for o, r, m in _DN.IMPATTI])),
+       ("t", "Il piano di monitoraggio, previsto per i progetti di importo superiore a 10 milioni di euro, verifica a "
+             "ogni stato di avanzamento:")]
+    + [("p", "%s: %s;" % (o, i[0].lower() + i[1:])) for o, i, f, r in _DN.MONITORAGGIO]
+    + [("t", "La conformità giuridica dell'operazione è garantita nel rispetto della legislazione ambientale "
+             "applicabile, in particolare:")]
+    + [("p", x) for x in _DN.LEGISLAZIONE]
+    + [("t", "Il progetto non ricade negli ambiti di esclusione dell'art. 7 del Reg. (UE) 2021/1058. Non riguarda "
+             "centrali nucleari, attività soggette al sistema ETS, tabacco, infrastrutture aeroportuali, discariche, "
+             "impianti di trattamento dei rifiuti residui né combustibili fossili. Nessuna impresa proponente è impresa "
+             "in difficoltà ai sensi dell'art. 2, punto 18, del Reg. (UE) n. 651/2014, come dichiarato nelle DSAN dei "
+             "requisiti (Allegato 6a).")])
+
+_MI = next(m for m in CFG["milestone"] if m[2] == "Intermedia")
+_MF = next(m for m in CFG["milestone"] if m[2] == "Finale")
+CONTENUTI["II.8"] = _render([
+    ("t", "La verifica intermedia si svolge al mese %d e riguarda la milestone \"%s\". Sono oggetto di verifica i "
+          "deliverable in scadenza entro il mese %d, con i rispettivi criteri:" % (_MI[0], _MI[1], _MI[0])),
+    ("x", _tabw([1000, 3726, 700, 4100], ["Deliverable", "Titolo", "Mese", "Criterio di verifica"],
+                [[d[1], d[2], str(d[3]), d[4]] for d in sorted(CFG["deliverable"], key=lambda d: (d[3], d[1]))
+                 if d[3] <= _MI[0]])),
+] + [("t", "È inoltre verificato l'indicatore intermedio %s, %s, con valore obiettivo %s." % (k[0], k[1].lower(),
+                                                                                              _valore_kpi(k)))
+     for k in CFG["kpi"] if k[4] == "Intermedio"])
+
+CONTENUTI["II.9"] = _render([
+    ("t", "Il risultato finale è la milestone del mese %d, \"%s\". La corretta realizzazione del progetto si verifica "
+          "con la misura degli indicatori dell'obiettivo finale, secondo le modalità seguenti:" % (_MF[0], _MF[1])),
+    ("x", _tabw([700, 2900, 3426, 1000, 1500], ["Codice", "Indicatore", "Dove si misura", "Momento", "Deliverable"],
+                [[k[0], k[1], k[5], k[4], _DOC_KPI.get(k[0], "")] for k in CFG["kpi"]])),
+    ("t", "I deliverable conclusivi sono: %s." % "; ".join("%s, %s" % (d[1], d[2][0].lower() + d[2][1:])
+                                                          for d in CFG["deliverable"] if d[3] == _MF[0])),
+])
+
+
+def _gantt_fig():
+    import copy
+    from gantt_finanziato import gantt
+    out = []
+    ors = [o[0] for o in CFG["or"]]
+    for i, gruppo in enumerate((ors[:7], ors[7:])):
+        c = copy.deepcopy(CFG)
+        c["or"] = [o for o in CFG["or"] if o[0] in gruppo]
+        c["attivita"] = [a for a in CFG["attivita"] if a[0] in gruppo]
+        f = QUI / "img" / ("gantt_moovxr_%d.png" % (i + 1))
+        gantt(c, str(f))
+        out.append(immagine(f, 16.5, "Figura %d. Diagramma temporale, %s-%s: obiettivi realizzativi, attività e "
+                                     "deliverable." % (i + 1, gruppo[0], gruppo[-1])))
+    return out
+
+
+def _ii10():
+    return [testo("Il diagramma riporta, per ciascun obiettivo realizzativo, le attività con i mesi di inizio e di fine, "
+                  "i deliverable e la verifica intermedia del mese %d." % _MI[0])] + _gantt_fig()
+
+
+CONTENUTI["II.10"] = _ii10
+
+
+def _ii11():
+    out = [testo("Le attività di ciascun proponente si svolgono nella regione della sua sede operativa: %s. I materiali "
+                 "rientrano nelle spese generali e materiali calcolate in misura forfettaria pari al 20%% (DD, art. 10, "
+                 "comma 2) e non sono esposti in modo analitico." % "; ".join(
+                     "%s, %s" % (p[0], p[4]) for p in CFG["proponenti"]))]
+    for nome, tipo, reg in _PROP:
+        out.append(_titolo_prop(nome))
+        aa = [a for a in _ATTRZ if a[10] == nome]
+        if aa:
+            out.append(testo("Attrezzature e strumentazioni:"))
+            for a in aa:
+                uso = ("intero costo, vita utile entro la durata del progetto" if a[9] == "Sì"
+                       else "quota d'uso di %d mesi su %d di ammortamento" % (a[7], a[6]))
+                out.append(punto("%s%s (%s): %s, costo ammissibile %s." % (
+                    a[0], ", n. %d" % a[3] if a[3] and a[3] > 1 else "", a[2], uso, _eur(a[12]))))
+        ss = [s for s in _SERV if s["OR"] in [o[0] for o in CFG["or"] if o[2] == nome]]
+        if ss:
+            out.append(testo("Consulenze, prestazioni e servizi:"))
+            for s in ss:
+                dove = s["OR"] + (", " + s["att"] if s["att"] else "")
+                out.append(punto("%s (%s): %s. %s." % (s["ogg"], dove, _eur(s["imp"]),
+                                                       (s["mot"] or "").rstrip("."))))
+    return out
+
+
+CONTENUTI["II.11"] = _ii11
