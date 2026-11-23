@@ -1343,6 +1343,52 @@ _OR14 += [
 CONTENUTI["II.7.2/OR14"] = _blocchi(_OR14)
 
 
+# ---------------------------------------------------------------- OR7 e OR8 (Anitia), testi della rev1 (23/11)
+# Testi del documento di revisione di Anitia (MooVXR_Anitia_revisione_rev1.docx), estratti con
+# importa_testi_partner.py in testi_anitia_moovxr.py, con le correzioni ai riferimenti confermate il 23/11.
+_sp = importlib.util.spec_from_file_location("testi_anitia_moovxr", QUI / "testi_anitia_moovxr.py")
+_ma = importlib.util.module_from_spec(_sp); _sp.loader.exec_module(_ma)
+TESTI_ANITIA = _ma.TESTI_ANITIA
+
+
+def _correggi(testi, vecchio, nuovo):
+    """Sostituisce un passaggio che deve comparire una sola volta nei testi di un partner."""
+    n = 0
+    for o in testi.values():
+        for sez in o.values():
+            for i, (k, v) in enumerate(sez):
+                if isinstance(v, tuple):
+                    if vecchio in v[1]:
+                        sez[i] = (k, (v[0], v[1].replace(vecchio, nuovo))); n += 1
+                elif vecchio in v:
+                    sez[i] = (k, v.replace(vecchio, nuovo)); n += 1
+    assert n == 1, (vecchio, n)
+
+
+for _v, _n in [
+    ("sono trattati nei servizi di contenuto di OR4 (Aubay)",
+     "sono trattati nella raccomandazione personalizzata di Aubay (A1.6)"),
+    ("Il dimostratore integrato è disponibile solo dal mese 24. Per questo le prove si svolgono sul veicolo di prova "
+     "di OR5 (GSNet)",
+     "Il dimostratore integrato è disponibile solo dal mese 25 (A14.4). Per questo le prove si svolgono sul veicolo di "
+     "prova messo a disposizione da GSNet (OR4)"),
+    ("confluisce nelle prove di A3.7.", "confluisce nelle prove su strada di A14.5."),
+    ("Aubay quella di applicazione e contenuti (A3.4).", "Aubay quella di applicazione e contenuti (A14.2)."),
+    ("Le centraline di serie sono escluse.",
+     "Le centraline di serie sono escluse. Il servizio distribuisce anche i modelli AI dei partner, secondo i criteri "
+     "di rilascio e di ritorno alla versione precedente definiti in A14.3."),
+    ("Le prove di carico della piattaforma di erogazione dei contenuti restano in A3.5 (Aubay), con cui si concordano "
+     "profili di flotta comuni.",
+     "Le prove di carico del sistema completo si svolgono nell'integrazione del dimostratore (A14.4, Aubay), con cui si "
+     "concordano profili di flotta comuni."),
+]:
+    _correggi(TESTI_ANITIA, _v, _n)
+
+for _o in ("OR7", "OR8"):
+    CONTENUTI["II.7.1/%s" % _o] = _blocchi(TESTI_ANITIA[_o]["7.1"])
+    CONTENUTI["II.7.2/%s" % _o] = _blocchi(TESTI_ANITIA[_o]["7.2"])
+
+
 # ================================================================ RISORSE E COSTI PER ATTIVITÀ E PER OR (23/11)
 # Questa sezione deve restare l'ultima del file: i testi nuovi degli OR si aggiungono sopra questo marcatore.
 # Per ogni attività: tabella del personale e dei servizi attribuiti all'attività; per ogni OR: riepilogo con
