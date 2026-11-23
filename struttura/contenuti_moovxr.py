@@ -881,3 +881,162 @@ _righe[0][0]["t"] = "Disponibilità"
 for _r in _righe[1:]:
     if _r[0]["t"] != "Da individuare":
         _r[0]["t"] = "In organico"
+
+
+# ---------------------------------------------------------------- OR6 e OR14 (Aubay), testi in forma Frascati (23/11)
+# I sottotitoli delle attività (codice, titolo, mesi) si generano dalla configurazione del modello.
+def _sotto_task(cod):
+    a = next(x for x in CFG["attivita"] if x[1] == cod)
+    return ("s", "%s %s (mesi %d-%d)" % (cod, a[2], a[3], a[4]))
+
+
+CONTENUTI["II.7.1/OR6"] = _blocchi([
+    _intestazione("Validazione virtuale del sistema di bordo (digital twin)", "Aubay Italia", "ricerca industriale",
+                  "Roma (Lazio)"),
+    ("t", "L'obiettivo realizzativo sviluppa un digital twin del sistema di bordo, cioè un modello eseguibile del "
+          "veicolo, del percorso, degli occupanti, delle superfici di visualizzazione, dei sensori e della "
+          "connettività. Il digital twin serve a verificare in simulazione il comportamento del content policy "
+          "engine, della percezione della scena e dell'HMI prima delle prove su strada."),
+    ("t", "Gli strumenti di simulazione disponibili sono nati per lo sviluppo di ADAS e della guida autonoma: CARLA "
+          "simula veicolo, scena e sensori, SUMO il traffico, esmini esegue scenari descritti nello standard ASAM "
+          "OpenSCENARIO, ns-3 le reti di comunicazione. Nessuno modella gli occupanti, le superfici di "
+          "visualizzazione multiple o la consegna dei contenuti. Non esiste inoltre un metodo consolidato per "
+          "misurare lo scarto fra indicatori simulati e misurati su strada per l'esperienza a bordo."),
+    ("t", "L'obiettivo produce tre risultati:"),
+    ("p", "un ambiente di co-simulazione che collega scena, traffico, rete, occupanti e superfici su una base "
+          "temporale comune;"),
+    ("p", "modelli validati sui dati reali, con lo scarto rispetto alle prove misurato per ciascun indicatore;"),
+    ("p", "una campagna di verifica virtuale su scenari parametrici, compresi i casi rari difficili da riprodurre su "
+          "strada."),
+    ("t", "I risultati sono usati dal content policy engine (OR1) per verificare le policy sugli scenari e "
+          "dall'integrazione di sistema (OR14) per concentrare le prove su strada sui casi non verificabili in "
+          "simulazione."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: acquisiscono nuove "
+          "conoscenze tramite interfacce di simulazione e dati registrati in altri obiettivi realizzativi, senza "
+          "realizzazione in condizioni operative reali."),
+])
+
+_OR6 = [
+    _sotto_task("A6.1"),
+    ("e", ("Problema.", "Il digital twin riceve modelli e dati da quattro obiettivi realizzativi:")),
+    ("p", "il modello del contesto e le policy (OR1);"),
+    ("p", "la localizzazione (OR9);"),
+    ("p", "le linee guida sull'attenzione degli occupanti (OR10);"),
+    ("p", "la percezione della scena (OR12)."),
+    ("t", "Questi arrivano con formati, frequenze e granularità diversi. Nessun simulatore disponibile copre insieme "
+          "scena, traffico, rete, occupanti e superfici. Combinare più simulatori introduce errori di "
+          "sincronizzazione che, alle scale di tempo dell'HMI, possono falsare gli indicatori."),
+    ("e", ("Soluzione proposta.", "Un'architettura di co-simulazione in cui i simulatori di scena, traffico e rete e "
+           "i modelli di occupanti e superfici avanzano su una base temporale comune, con interfacce definite per lo "
+           "scambio dei dati. Gli scenari sono descritti in ASAM OpenSCENARIO, così gli stessi casi si eseguono in "
+           "simulazione e si riproducono su strada. La specifica fissa, per ciascun indicatore richiesto dai "
+           "partner, le grandezze da simulare e la loro accuratezza.")),
+    ("e", ("Novità e incertezza.", "La novità è l'integrazione in un unico ambiente dei domini della guida e "
+           "dell'esperienza degli occupanti, finora simulati separatamente. L'incertezza riguarda due punti:")),
+    ("p", "se la sincronizzazione fra simulatori eterogenei raggiunga l'accuratezza richiesta dagli indicatori di HMI;"),
+    ("p", "se il costo di calcolo consenta campagne con migliaia di varianti di scenario."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Raccolta dei requisiti dei partner che usano il digital twin e degli indicatori da calcolare."),
+    ("t", "2. Confronto degli strumenti di simulazione disponibili e scelta dell'architettura."),
+    ("t", "3. Prototipo di co-simulazione su uno scenario di riferimento."),
+    ("t", "4. Misura della deriva di sincronizzazione e del costo di calcolo."),
+    ("t", "5. Specifica del digital twin."),
+    ("e", ("Risultati misurabili.", "Specifica del digital twin (D6.1). Indicatori:")),
+    ("p", "100% degli indicatori richiesti da OR1, OR10 e OR12 associati a grandezze simulate;"),
+    ("p", "deriva di sincronizzazione fra simulatori non superiore a 10 ms sullo scenario di riferimento."),
+]
+CONTENUTI["II.7.2/OR6"] = _blocchi(_OR6)
+
+_OR6 += [
+    _sotto_task("A6.2"),
+    ("e", ("Problema.", "I simulatori disponibili offrono modelli di camere nel visibile e di LiDAR generici. Il kit "
+           "di percezione del progetto (OR12) combina visibile, infrarosso, termico e LiDAR. Le sue prestazioni "
+           "dipendono da illuminazione, condizioni meteo e temperatura delle superfici, che i modelli generici non "
+           "rappresentano. Anche la connettività incide sull'esperienza a bordo: perdite e ritardi della rete lungo "
+           "il percorso determinano se un contenuto arriva prima del punto di fruizione.")),
+    ("e", ("Soluzione proposta.", "")),
+    ("p", "Sensori: modelli dei sensori multispettrali tarati sui dati di caratterizzazione dei sensori di sviluppo "
+          "forniti da OR12, che riproducono rumore, risoluzione e degrado per condizione ambientale."),
+    ("p", "Connettività: un modello del canale basato su ns-3, alimentato dai profili di copertura misurati lungo i "
+          "percorsi di prova."),
+    ("p", "Scene: ricostruite dai dati di localizzazione (OR9) e dai percorsi registrati in A12.5."),
+    ("e", ("Novità e incertezza.", "La novità è simulare sulla stessa scena i sensori termici e infrarossi insieme "
+           "alla consegna dei contenuti. L'incertezza riguarda due punti:")),
+    ("p", "quale fedeltà sia raggiungibile, in condizioni di scarsa visibilità, per le classi di oggetti a cui si "
+          "agganciano i contenuti, come edifici, monumenti e segnaletica;"),
+    ("p", "se i profili di copertura misurati rappresentino la variabilità della rete nel tempo."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Raccolta dei dati di caratterizzazione dei sensori e dei profili di copertura."),
+    ("t", "2. Sviluppo dei modelli dei sensori e del canale."),
+    ("t", "3. Ricostruzione delle scene dei percorsi registrati."),
+    ("t", "4. Confronto fra rilevazioni simulate e registrate, per classe di oggetto e condizione ambientale."),
+    ("e", ("Risultati misurabili.", "Modelli di scena, sensori e connettività eseguibili nell'ambiente di "
+           "simulazione (D6.2). Indicatori:")),
+    ("p", "scarto di recall fra rilevazioni simulate e registrate non superiore a 10 punti percentuali sui percorsi "
+          "di A12.5, per ciascuna classe di oggetto;"),
+    ("p", "tutte e quattro le modalità del kit di percezione modellate: visibile, infrarosso, termico e LiDAR."),
+]
+CONTENUTI["II.7.2/OR6"] = _blocchi(_OR6)
+
+_OR6 += [
+    _sotto_task("A6.3"),
+    ("e", ("Problema.", "Per valutare l'HMI in simulazione occorre sapere cosa vede ciascun occupante, dove e quando. I "
+           "simulatori disponibili rappresentano il veicolo come un corpo con sensori, senza occupanti né superfici di "
+           "visualizzazione. Il progetto usa superfici con geometrie e luminanze diverse:")),
+    ("p", "l'HUD di serie del guidatore;"),
+    ("p", "l'HUD del passeggero a proiezione sul finestrino (OR11);"),
+    ("p", "gli occhiali AR (OR5)."),
+    ("t", "Che un contenuto destinato al passeggero non sia visibile dal posto di guida è un requisito di sicurezza "
+          "(K4)."),
+    ("e", ("Soluzione proposta.", "")),
+    ("p", "Occupanti: modelli parametrici con posizione, direzione dello sguardo e stato di attenzione, derivati dai "
+          "dati e dalle linee guida dell'obiettivo sull'attenzione degli occupanti (OR10)."),
+    ("p", "Superfici: modelli geometrici e fotometrici che calcolano, per ciascun occupante, l'area visibile e la "
+          "luminanza percepita di ogni contenuto, compresa la visibilità residua dell'HUD del passeggero dal posto di "
+          "guida."),
+    ("e", ("Novità e incertezza.", "La novità è rappresentare in simulazione più occupanti e più superfici, calcolando "
+           "cosa vede ciascuno. L'incertezza riguarda due punti:")),
+    ("p", "se i modelli di sguardo e attenzione, derivati da prove controllate, rappresentino il comportamento in marcia;"),
+    ("p", "quale accuratezza fotometrica sia raggiungibile per la proiezione sul finestrino al variare della luce esterna."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Definizione dei parametri degli occupanti con OR10."),
+    ("t", "2. Acquisizione delle geometrie e delle caratteristiche ottiche delle superfici da OR5 e OR11."),
+    ("t", "3. Sviluppo dei modelli e integrazione nella co-simulazione."),
+    ("t", "4. Confronto della visibilità stimata con le misure su banco di OR11."),
+    ("e", ("Risultati misurabili.", "Modelli di occupanti e superfici eseguibili nell'ambiente di simulazione (D6.3). "
+           "Indicatori:")),
+    ("p", "errore della visibilità stimata dal posto di guida non superiore al 15% rispetto alle misure su banco di OR11;"),
+    ("p", "tutte le superfici del progetto modellate: HUD del guidatore, HUD del passeggero e occhiali AR."),
+]
+CONTENUTI["II.7.2/OR6"] = _blocchi(_OR6)
+
+_OR6 += [
+    _sotto_task("A6.4"),
+    ("e", ("Problema.", "Un digital twin è utile solo se lo scarto fra ciò che simula e ciò che accade su strada è noto. "
+           "Per gli indicatori del progetto (percezione della scena, consegna dei contenuti, attenzione degli "
+           "occupanti) non esistono metriche consolidate di confronto fra simulazione e prova reale. I dati reali "
+           "arrivano in due momenti: i percorsi registrati con i sensori di sviluppo (A12.5) entro il mese 18 e le "
+           "registrazioni del dimostratore (OR14) dal mese 26.")),
+    ("e", ("Soluzione proposta.", "Una validazione in due tempi sugli stessi percorsi:")),
+    ("p", "prima sui percorsi registrati da nLight con i sensori di sviluppo;"),
+    ("p", "poi sulle registrazioni sincronizzate del dimostratore."),
+    ("t", "Per ogni percorso il digital twin riproduce le condizioni registrate (traiettoria, illuminazione, meteo, "
+          "copertura di rete), calcola gli indicatori e li confronta con quelli misurati. Lo scarto è scomposto per "
+          "modello (scena, sensori, rete, occupanti), per capire dove intervenire nella calibrazione."),
+    ("e", ("Novità e incertezza.", "La novità è un protocollo che misura lo scarto fra simulazione e realtà sugli "
+           "indicatori dell'esperienza a bordo, cioè la consegna dei contenuti e l'attenzione degli occupanti, oltre "
+           "che sulla percezione della scena. L'incertezza riguarda due punti:")),
+    ("p", "se la calibrazione dei modelli basti a riportare lo scarto entro il valore obiettivo, o se servano modelli "
+          "di fedeltà superiore;"),
+    ("p", "se la validazione resti valida nelle condizioni non coperte dalle registrazioni."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Definizione delle metriche di confronto per ciascun indicatore."),
+    ("t", "2. Riproduzione nel digital twin dei percorsi registrati in A12.5 e calcolo dello scarto."),
+    ("t", "3. Calibrazione dei modelli."),
+    ("t", "4. Ripetizione del confronto sulle registrazioni del dimostratore."),
+    ("t", "5. Rapporto di validazione con lo scarto residuo per indicatore e per condizione."),
+    ("e", ("Risultati misurabili.", "Rapporto di validazione del digital twin (D6.4). Indicatori:")),
+    ("p", "scarto fra indicatori simulati e misurati sugli stessi percorsi non superiore al 10% (K6);"),
+    ("p", "scarto riportato separatamente per percezione, consegna dei contenuti e attenzione degli occupanti."),
+]
+CONTENUTI["II.7.2/OR6"] = _blocchi(_OR6)
