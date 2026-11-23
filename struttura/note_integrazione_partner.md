@@ -77,6 +77,11 @@ Punti che nLight deve confermare o integrare:
 - Dati mancanti: valore della produzione degli ultimi due esercizi, sede operativa e regione, CCNL
   applicato con le ore annue, nominativo e CV del referente tecnico, certificazione della parità
   di genere e rating di legalità.
+- Costi rev2 del 23/11 (MooVXR_nLight_costi_rev2.xlsx), integrati nel modello v19: nessuna fascia Alta, fascia Media
+  ridotta, 2 persone in fascia Bassa per attività, impegno OR12 95% e OR13 66%; servizio di realizzazioni prototipali
+  per la selezione dei fornitori (OR12) esteso alle schede elettroniche, da 75.000 a 120.000 €. nLight 1.994.284 €
+  (OR12 1.050.402, OR13 943.882), pari al loro file; quota 10,79%; contributo 860.886 €. Da segnalare: nessun
+  responsabile tecnico di fascia Alta. Tab. 2 fissata sugli addetti del loro file (0/1/5) con il campo "addetti".
 
 ## GSNet (OR2, OR3, OR4, OR5)
 
