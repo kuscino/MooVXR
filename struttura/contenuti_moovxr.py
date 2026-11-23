@@ -2030,6 +2030,440 @@ CONTENUTI["II.7.2/OR11"] = _blocchi([
 ])
 
 
+# ---------------------------------------------------------------- OR2 (GSNet), forma Frascati (23/11)
+# Dalla bozza del 20/11 (bozze_testi_frascati.md); A2.6 riformulata come studio di una IMU per l'uso in veicolo,
+# distinta da A4.4: proposta da confermare con GSNet.
+CONTENUTI["II.7.1/OR2"] = _blocchi([
+    _intestazione("Storytelling geo-temporale generativo", "GSNet", "ricerca industriale", "Roma (Lazio)"),
+    ("t", "L'obiettivo realizzativo studia i metodi con cui le informazioni storiche e culturali sui luoghi diventano "
+          "racconti generati da modelli di AI generativa, adatti al viaggio e ancorati a fonti verificate. Lo stato "
+          "dell'arte offre due strumenti, ciascuno con un limite:"),
+    ("p", "i modelli linguistici producono testi scorrevoli ma possono inventare fatti, soprattutto sui luoghi minori;"),
+    ("p", "le audioguide geolocalizzate usano testi fissi attivati dalla posizione, e non si adattano né al tempo che "
+          "separa il veicolo dal luogo né agli occupanti."),
+    ("t", "Manca un metodo che garantisca insieme l'attribuzione di ogni affermazione a una fonte e la sincronizzazione "
+          "del racconto con il viaggio. L'obiettivo produce tre risultati:"),
+    ("p", "un knowledge graph culturale, che collega luoghi, epoche, eventi, persone e fonti;"),
+    ("p", "un motore di generazione ancorato alle fonti;"),
+    ("p", "i metodi per valutare l'attendibilità dei contributi e la qualità dei racconti."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: acquisiscono nuove conoscenze su "
+          "generazione controllata dei contenuti e valutazione della loro attendibilità, verificate su territori pilota "
+          "senza realizzazione in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR2"] = _blocchi([
+    ("s", "A2.1"),
+    ("e", ("Problema.", "Le informazioni sono distribuite fra archivi diversi (Europeana, Wikidata, cataloghi regionali), "
+           "con modelli dati, licenze e precisione di posizione ed epoca diversi. Molti luoghi non hanno coordinate "
+           "precise, molti eventi hanno datazione incerta.")),
+    ("e", ("Soluzione proposta.", "Un modello concettuale basato su CIDOC-CRM, lo standard internazionale per la "
+           "documentazione del patrimonio culturale, esteso alla georeferenziazione con la sua precisione, alla licenza "
+           "e all'attendibilità della fonte. Procedure automatiche di acquisizione riconoscono quando fonti diverse "
+           "descrivono lo stesso luogo o evento, e le collegano.")),
+    ("e", ("Novità e incertezza.", "La novità è modellare insieme incertezza spaziale, incertezza temporale e "
+           "attendibilità, in una base interrogabile in viaggio. Non sono noti a priori la qualità dell'allineamento "
+           "automatico e la copertura ottenibile sui territori pilota.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Scelta dei territori pilota e delle fonti."),
+    ("t", "2. Modello concettuale."),
+    ("t", "3. Acquisizione e collegamento delle entità."),
+    ("t", "4. Controllo di qualità su un campione validato da esperti."),
+    ("e", ("Risultati misurabili.", "Modello e prima popolazione del knowledge graph (D2.1). Indicatori:")),
+    ("p", "almeno 2.000 entità georeferenziate per territorio pilota;"),
+    ("p", "precisione dell'allineamento di almeno il 90% sul campione;"),
+    ("p", "fonte e licenza tracciate per il 100% delle entità."),
+
+    ("s", "A2.2"),
+    ("e", ("Problema.", "I modelli linguistici possono inventare fatti, soprattutto per i luoghi poco documentati, e un "
+           "errore fattuale compromette l'affidabilità del servizio.")),
+    ("e", ("Soluzione proposta.", "Retrieval-augmented generation: il modello scrive il racconto a partire dai fatti "
+           "recuperati dal knowledge graph, non dalla propria memoria. Un verificatore controlla a posteriori che ogni "
+           "affermazione sia sostenuta da un fatto con citazione. Le parti interpretative sono marcate; le affermazioni "
+           "non sostenute sono riformulate o eliminate.")),
+    ("e", ("Novità e incertezza.", "La novità è la verifica automatica affermazione per affermazione, rispetto alle "
+           "fonti, in un dominio culturale multilingue. Non sono noti a priori il tasso residuo di errori raggiungibile "
+           "senza perdere scorrevolezza e l'affidabilità del verificatore.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Insieme di valutazione annotato da esperti."),
+    ("t", "2. Confronto di strategie di recupero e di vincolo."),
+    ("t", "3. Sviluppo del verificatore."),
+    ("t", "4. Misura degli errori con annotazione cieca."),
+    ("e", ("Risultati misurabili.", "Motore di storytelling, prima release (D2.2). Indicatori:")),
+    ("p", "almeno il 95% delle affermazioni fattuali sostenute da una fonte;"),
+    ("p", "errori fattuali non oltre il 2%;"),
+    ("p", "100% delle citazioni tracciabili."),
+
+    ("s", "A2.3"),
+    ("e", ("Problema.", "Il racconto è utile solo se inizia e finisce mentre il luogo è visibile o vicino, ma i tempi di "
+           "arrivo sono variabili. Gli occupanti differiscono per lingua, età e interessi, e al guidatore sono ammessi "
+           "solo brevi contenuti audio, nei limiti del content policy engine.")),
+    ("e", ("Soluzione proposta.", "Il racconto è diviso in blocchi di durata stimata, pianificati sulla stima del tempo "
+           "di arrivo e ripianificati in viaggio, con profili per occupante e una versione audio per il guidatore a "
+           "durata vincolata.")),
+    ("e", ("Novità e incertezza.", "La novità è una pianificazione narrativa con tempi incerti. Non è noto se la "
+           "ripianificazione in viaggio conservi la coerenza del racconto.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Modello della durata dei blocchi."),
+    ("t", "2. Pianificazione e ripianificazione."),
+    ("t", "3. Simulazione su tracce di percorso."),
+    ("t", "4. Prove con utenti."),
+    ("e", ("Risultati misurabili.", "Moduli di adattamento al contesto (D2.3). Indicatori:")),
+    ("p", "almeno il 90% dei racconti conclusi nella finestra di visibilità o prossimità;"),
+    ("p", "scarto medio inferiore a 10 s fra inizio del racconto e ingresso nella finestra;"),
+    ("p", "coerenza giudicata almeno 4 su 5."),
+
+    ("s", "A2.4"),
+    ("e", ("Problema.", "I contributi della piattaforma collaborativa (OR4) hanno qualità variabile, e vanno integrati "
+           "senza ridurre l'affidabilità del knowledge graph.")),
+    ("e", ("Soluzione proposta.", "Un punteggio di attendibilità basato su:")),
+    ("p", "provenienza, cioè livello aperto o professionale;"),
+    ("p", "coerenza con i fatti già presenti;"),
+    ("p", "conferma da altre fonti;"),
+    ("p", "storico del contributore."),
+    ("t", "Il punteggio decide, con soglie, fra integrazione automatica, revisione ed esclusione. La provenienza è "
+          "tracciata secondo W3C PROV, lo standard per descrivere la provenienza dei dati."),
+    ("e", ("Novità e incertezza.", "La novità è stimare l'attendibilità di contenuti nuovi, senza riscontro diretto. Non "
+           "sono note a priori la calibrazione ottenibile con pochi dati etichettati e la resistenza a contributi "
+           "manipolati.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Campione etichettato da esperti."),
+    ("t", "2. Confronto fra modelli."),
+    ("t", "3. Calibrazione."),
+    ("t", "4. Prove di robustezza."),
+    ("e", ("Risultati misurabili.", "Metodo di valutazione dell'attendibilità dei contributi (D2.4). Indicatori:")),
+    ("p", "AUC di almeno 0,85, su una scala da 0,5 (scelta casuale) a 1 (distinzione perfetta);"),
+    ("p", "scarto inferiore a 0,1 fra punteggio e frequenza reale degli errori;"),
+    ("p", "provenienza tracciata per il 100% dei contributi integrati."),
+
+    ("s", "A2.5"),
+    ("e", ("Problema.", "La qualità dei racconti non si misura con le sole metriche automatiche.")),
+    ("e", ("Soluzione proposta.", "Un protocollo ripetibile su tre dimensioni:")),
+    ("p", "correttezza fattuale, valutata da esperti con una consulenza di dominio culturale;"),
+    ("p", "coerenza con la posizione, verificata sulle tracce;"),
+    ("p", "gradimento, rilevato su campioni di utenti."),
+    ("t", "Protocollo e dataset sono riusabili su altri territori."),
+    ("e", ("Novità e incertezza.", "Non è nota a priori la correlazione fra metriche automatiche e giudizio esperto.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Scelta dei racconti in proporzione a territori, tipi di luogo e lingue."),
+    ("t", "2. Annotazione cieca di almeno due esperti, con misura dell'accordo."),
+    ("t", "3. Prove con utenti."),
+    ("t", "4. Analisi di correlazione."),
+    ("e", ("Risultati misurabili.", "Rapporto di valutazione dello storytelling (D2.5). Indicatori:")),
+    ("p", "accordo fra esperti (kappa di Cohen) di almeno 0,7;"),
+    ("p", "gradimento medio di almeno 4 su 5;"),
+    ("p", "correlazione fra metriche automatiche e giudizio esperto misurata e riportata."),
+
+    ("s", "A2.6"),
+    ("e", ("Problema.", "Gli occhiali AR commerciali integrano sensori inerziali pensati per l'uso da fermi. Rumore, drift "
+           "e frequenza di campionamento non bastano a separare il moto della testa da quello del veicolo (A5.1) "
+           "durante accelerazioni, frenate e curve. Non è noto quali caratteristiche debba avere un'unità inerziale "
+           "(IMU) dedicata, solidale al passeggero o al veicolo, per migliorare la stabilità dei contenuti.")),
+    ("e", ("Soluzione proposta.", "Uno studio di fattibilità di una IMU dedicata all'uso in veicolo:")),
+    ("p", "requisiti di rumore, banda e sincronizzazione ricavati dalle prove di A5.1 e A5.4;"),
+    ("p", "confronto fra configurazioni (sugli occhiali, sul sedile, nell'abitacolo);"),
+    ("p", "prototipo di valutazione su banco, con firmware di acquisizione sincronizzata."),
+    ("e", ("Novità e incertezza.", "La novità è dimensionare un sensore inerziale sui requisiti della separazione del "
+           "moto testa-veicolo, anziché sull'uso generico. L'incertezza riguarda il guadagno reale rispetto ai sensori "
+           "integrati negli occhiali commerciali.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Analisi dei dati di A5.1 e A5.4."),
+    ("t", "2. Requisiti e configurazioni candidate."),
+    ("t", "3. Prototipo di valutazione e prove su banco con traiettorie note."),
+    ("e", ("Risultati misurabili.", "Studio per la realizzazione di una IMU (D2.6). Indicatori:")),
+    ("p", "requisiti di rumore, banda e sincronizzazione specificati con valori misurabili;"),
+    ("p", "errore di stima del moto relativo della testa ridotto di almeno il 20% rispetto ai sensori degli occhiali "
+          "commerciali, su banco."),
+    ("t", "La localizzazione del veicolo resta in OR9 (Politecnico), la stabilizzazione del modulo di percezione in "
+          "A12.3 (nLight)."),
+])
+
+
+# ---------------------------------------------------------------- OR3 (GSNet), forma Frascati (23/11)
+# 7.1 nuova; A3.1-A3.3 dalla bozza del 20/11 (bozze_testi_frascati.md).
+CONTENUTI["II.7.1/OR3"] = _blocchi([
+    _intestazione("Piattaforma di erogazione dei contenuti e applicazione di bordo", "GSNet", "sviluppo sperimentale",
+                  "Roma (Lazio); prove sul veicolo di prova"),
+    ("t", "L'obiettivo realizzativo sviluppa la filiera software che porta i contenuti dentro il veicolo:"),
+    ("p", "una piattaforma di erogazione distribuita fra cloud, nodi edge e cache di bordo;"),
+    ("p", "lo streaming adattivo con prefetch predittivo e funzionamento offline;"),
+    ("p", "l'applicazione di bordo multi-display, che presenta i contenuti sulle superfici del veicolo eseguendo le "
+          "decisioni del content policy engine (OR1), con integrazione verso l'HUD di serie del guidatore."),
+    ("t", "I contenuti provengono dallo storytelling (OR2) e dalla piattaforma collaborativa (OR4); i dati del veicolo "
+          "dalla piattaforma IoT (OR8). Le attività sono sviluppo sperimentale ai sensi dell'art. 1 del DD: prototipi "
+          "della piattaforma e dell'applicazione convalidati su percorsi di prova e sul veicolo di prova, in condizioni "
+          "operative reali."),
+])
+CONTENUTI["II.7.2/OR3"] = _blocchi([
+    ("s", "A3.1"),
+    ("e", ("Problema.", "I contenuti legati al luogo hanno una scadenza: servono prima che il veicolo raggiunga il punto "
+           "di fruizione. La connettività è variabile e i veicoli contemporanei possono essere molti, quindi "
+           "un'architettura solo cloud non garantisce i tempi di consegna.")),
+    ("e", ("Soluzione proposta.", "Un'architettura distribuita su tre livelli, con i requisiti di latenza allocati fra "
+           "i livelli:")),
+    ("p", "cloud centrale;"),
+    ("p", "nodi edge vicini alla rete mobile;"),
+    ("p", "cache di bordo."),
+    ("e", ("Novità e incertezza.", "La novità è ripartire i contenuti legati al luogo fra cloud, edge e veicolo in "
+           "funzione del tempo di arrivo. L'incertezza riguarda la ripartizione ottimale e la disponibilità reale di "
+           "risorse edge presso gli operatori.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Requisiti."),
+    ("t", "2. Alternative architetturali."),
+    ("t", "3. Simulazione di ritardi e costi su tracce di connettività."),
+    ("t", "4. Scelta motivata."),
+    ("e", ("Risultati misurabili.", "Documento di architettura della piattaforma di erogazione (D3.1). Indicatori:")),
+    ("p", "100% dei requisiti di latenza allocati fra cloud, edge e bordo;"),
+    ("p", "latenza stimata inferiore a 500 ms nel 95% dei casi per i contenuti non precaricati;"),
+    ("p", "costo per veicolo stimato e documentato."),
+
+    ("s", "A3.2"),
+    ("e", ("Problema.", "Lo streaming adattivo regola la qualità sulla banda disponibile, ma non anticipa le zone senza "
+           "copertura. Un contenuto atteso in galleria o in un'area rurale arriva in ritardo, oppure non arriva.")),
+    ("e", ("Soluzione proposta.", "Un prefetch sulla cache di bordo basato sulla stima del percorso e del tempo di "
+           "arrivo e su una mappa di copertura costruita dai veicoli. La cache gestisce priorità e scadenze e consente "
+           "il funzionamento offline.")),
+    ("e", ("Novità e incertezza.", "La novità è un prefetch guidato insieme dal percorso stimato e dalla copertura "
+           "misurata. L'incertezza riguarda l'accuratezza della previsione su percorsi non pianificati e il "
+           "dimensionamento della cache.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Raccolta di tracce di percorso e di copertura."),
+    ("t", "2. Algoritmi confrontati con strategie di base."),
+    ("t", "3. Simulazione."),
+    ("t", "4. Prove su strada."),
+    ("e", ("Risultati misurabili.", "Servizi di streaming e prefetch (D3.2). Indicatori:")),
+    ("p", "almeno il 95% dei contenuti disponibili nel momento utile (K2);"),
+    ("p", "meno di un'interruzione percepita per ora di viaggio;"),
+    ("p", "traffico scaricato e non usato inferiore al 30%."),
+
+    ("s", "A3.3"),
+    ("e", ("Problema.", "Le superfici del veicolo hanno interfacce diverse e spesso chiuse. Lo schermo centrale dipende "
+           "dal sistema infotainment del costruttore, e l'HUD di serie è limitato a navigazione e assistenza alla "
+           "guida. Integrarle senza modificare l'hardware è un problema aperto.")),
+    ("e", ("Soluzione proposta.", "Uno strato di astrazione con adattatori per:")),
+    ("p", "lo schermo centrale;"),
+    ("p", "l'HUD di serie del guidatore, tramite la piattaforma IoT (OR8);"),
+    ("p", "l'HUD del passeggero (OR11);"),
+    ("p", "i dispositivi XR dei passeggeri (OR4, OR5)."),
+    ("t", "L'applicazione esegue le decisioni del content policy engine (OR1) e offre un'interfaccia vocale."),
+    ("e", ("Novità e incertezza.", "La novità è un'applicazione unica per più superfici eterogenee, governata in tempo "
+           "reale da decisioni esterne. L'incertezza riguarda il livello di accesso ottenibile all'HUD di serie e i "
+           "tempi di aggiornamento delle superfici.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Censimento delle interfacce su due sistemi infotainment."),
+    ("t", "2. Progetto dello strato di astrazione."),
+    ("t", "3. Sviluppo."),
+    ("t", "4. Prove su banco e sul veicolo di prova."),
+    ("e", ("Risultati misurabili.", "Applicazione di bordo integrata (D3.3). Indicatori:")),
+    ("p", "aggiornamento della superficie inferiore a 100 ms nel 95% dei casi;"),
+    ("p", "100% delle decisioni del content policy engine applicate nelle prove su banco;"),
+    ("p", "integrazione su almeno due sistemi infotainment."),
+])
+
+
+# ---------------------------------------------------------------- OR4 (GSNet), forma Frascati (23/11)
+# Dagli abstract del Piano e dalla revisione di GSNet; A4.4 riformulata come applicazione di bordo per le applicazioni
+# XR e le prove con i passeggeri, distinta da A2.6 e da A14.4: proposta da confermare con GSNet.
+CONTENUTI["II.7.1/OR4"] = _blocchi([
+    _intestazione("Piattaforma collaborativa, marketplace ed esperienze AR e XR per i passeggeri", "GSNet",
+                  "sviluppo sperimentale", "Roma (Lazio); prove sul veicolo di prova"),
+    ("t", "L'obiettivo realizzativo sviluppa i servizi e le applicazioni con cui i passeggeri fruiscono dei contenuti:"),
+    ("p", 'la piattaforma collaborativa Open Heritage Cloud, in cui cittadini, istituzioni e operatori pubblicano contenuti georeferenziati, con moderazione e gestione dei diritti;'),
+    ("p", 'il marketplace delle esperienze immersive fruibili a bordo;'),
+    ("p", 'le applicazioni per occhiali AR e visori, sincronizzate con il moto del veicolo e adattate alla scena rilevata;'),
+    ("p", "l'applicazione di bordo che acquisisce e registra posizione e orientamento per le applicazioni XR e per le prove con i passeggeri."),
+    ("t", "L'OR comprende il veicolo di prova a noleggio, usato da più partner per le verifiche. Le attività sono sviluppo sperimentale ai sensi dell'art. 1 del DD: prototipi di piattaforma e applicazioni convalidati con campioni di passeggeri sul veicolo di prova."),
+])
+CONTENUTI["II.7.2/OR4"] = _blocchi([
+    ("s", "A4.1"),
+    ("e", ('Problema.', 'Fotografie, racconti, audio, video e modelli 3D sui luoghi sono prodotti da contributori eterogenei (cittadini, musei, enti, operatori), con metadati incompleti o incoerenti su posizione, periodo, fonte, autore e licenza. Senza metadati affidabili, i contenuti non sono utilizzabili né a bordo né dallo storytelling.')),
+    ("e", ('Soluzione proposta.', 'Una piattaforma di pubblicazione con:')),
+    ("p", 'un modello di metadati obbligatori e controllati: posizione e sua precisione, periodo, fonte, autore, licenza;'),
+    ("p", 'compilazione assistita da suggerimenti automatici e validazione al caricamento;'),
+    ("p", "API verso lo storytelling (OR2) e l'erogazione (OR3)."),
+    ("e", ('Novità e incertezza.', "La novità è ottenere metadati strutturati e affidabili da contributori non professionali, su contenuti georeferenziati. L'incertezza riguarda la qualità ottenibile con la compilazione assistita e l'adesione dei contributori.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Modello dei metadati coerente con il knowledge graph di A2.1.'),
+    ("t", '2. Sviluppo della piattaforma e degli strumenti di compilazione assistita.'),
+    ("t", '3. Pubblicazione pilota sui territori di OR2.'),
+    ("t", '4. Misura di completezza e correttezza dei metadati.'),
+    ("e", ('Risultati misurabili.', 'Piattaforma collaborativa, prima release (D4.1). Indicatori:')),
+    ("p", 'almeno il 95% dei contenuti pubblicati con metadati obbligatori completi;'),
+    ("p", 'almeno 1.000 contenuti caricati sui territori pilota.'),
+    ("s", "A4.2"),
+    ("e", ('Problema.', "Un contenuto pubblicato può violare diritti d'autore, contenere dati personali di terzi o essere inappropriato. Musei ed enti richiedono regole diverse da quelle per i contributori privati, e ogni contenuto deve portare con sé licenza e consensi lungo tutta la catena, fino al veicolo.")),
+    ("e", ('Soluzione proposta.', 'Servizi di moderazione assistita e verifica, versionamento dei contenuti e gestione di diritti e consenso, su due livelli:')),
+    ("p", 'aperto, per cittadini e operatori;'),
+    ("p", 'professionale, per musei ed enti.'),
+    ("t", "Le regole sono definite con una consulenza legale di dominio su diritto d'autore e protezione dei dati."),
+    ("e", ('Novità e incertezza.', "La novità è propagare licenze e consensi dal contributore alla fruizione a bordo, su contenuti multimediali georeferenziati. L'incertezza riguarda l'accuratezza della moderazione assistita e il carico di revisione manuale che resta.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Definizione delle regole con la consulenza legale.'),
+    ("t", '2. Moderazione assistita e flussi di revisione.'),
+    ("t", '3. Versionamento e tracciamento di licenze e consensi.'),
+    ("t", '4. Prove su contenuti pilota.'),
+    ("e", ('Risultati misurabili.', 'Servizi di moderazione e gestione dei diritti (D4.2). Indicatori:')),
+    ("p", '100% dei contenuti pubblicati con licenza e consensi tracciati;'),
+    ("p", 'almeno il 90% dei contenuti inappropriati intercettati dalla moderazione assistita prima della pubblicazione.'),
+    ("s", "A4.3"),
+    ("e", ('Problema.', 'Le esperienze immersive vanno distribuite rispettando i vincoli del viaggio (durata, posizione, dispositivo disponibile) e remunerando in modo trasparente i contributori. I marketplace di app e contenuti esistenti non considerano questi vincoli.')),
+    ("e", ('Soluzione proposta.', 'Un marketplace collegato alla piattaforma di erogazione (OR3), che seleziona e propone le esperienze compatibili con percorso, tempo disponibile e dispositivo a bordo, con regole trasparenti su diritti e remunerazione dei contributori.')),
+    ("e", ('Novità e incertezza.', "La novità è distribuire le esperienze in funzione del contesto del viaggio. L'incertezza riguarda la stima della compatibilità di un'esperienza con un viaggio in corso, con tempi di arrivo variabili.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Modello delle esperienze e dei loro vincoli.'),
+    ("t", '2. Sviluppo del marketplace e delle regole di remunerazione.'),
+    ("t", "3. Integrazione con l'erogazione."),
+    ("t", '4. Prove su percorsi simulati e reali.'),
+    ("e", ('Risultati misurabili.', 'Marketplace di esperienze (D4.3). Indicatori:')),
+    ("p", 'almeno il 90% delle esperienze proposte completabili nel tempo di viaggio disponibile;'),
+    ("p", '100% delle fruizioni registrate con attribuzione della remunerazione.'),
+    ("s", "A4.4"),
+    ("e", ('Problema.', "Le applicazioni per occhiali e visori e le prove con i passeggeri richiedono a bordo posizione, orientamento e quota del veicolo in tempo reale, sincronizzati con i dati delle applicazioni, oltre alla registrazione delle sessioni per l'analisi. Ricevitori e sensori di bordo forniscono flussi separati, con orologi e frequenze diversi.")),
+    ("e", ('Soluzione proposta.', "Un'applicazione di bordo che acquisisce in modo sincronizzato i dati GNSS, inerziali e altimetrici, li allinea e li combina, e li rende disponibili alle applicazioni XR (A4.5-A4.7). Offre funzioni di registrazione delle sessioni, visualizzazione, diagnostica, esportazione e calibrazione, e usa come riferimento la localizzazione di precisione di OR9. È distinta dall'acquisizione dell'intero sistema per integrazione e prove su strada (A14.4).")),
+    ("e", ('Novità e incertezza.', "La novità è un flusso di posa sincronizzato con le applicazioni XR, a costo contenuto, disponibile sui dispositivi dei passeggeri. L'incertezza riguarda la precisione della sincronizzazione fra sensori del veicolo e dispositivi XR, e la continuità in assenza di segnale GNSS.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Requisiti dalle applicazioni XR e dalle prove con i passeggeri.'),
+    ("t", '2. Sviluppo di acquisizione, allineamento e registrazione.'),
+    ("t", '3. Calibrazione e confronto con la localizzazione di OR9.'),
+    ("t", '4. Prove sul veicolo di prova.'),
+    ("e", ('Risultati misurabili.', 'Applicazione di bordo per acquisizione sincronizzata dei dati GNSS, inerziali e altimetrici (D4.4). Indicatori:')),
+    ("p", 'scarto di sincronizzazione con le applicazioni XR inferiore a 5 ms;'),
+    ("p", '100% delle sessioni di prova registrate ed esportabili.'),
+    ("s", "A4.5"),
+    ("e", ('Problema.', 'Le applicazioni AR commerciali presuppongono un utente fermo o a piedi. In un veicolo in movimento le etichette sui luoghi devono restare agganciate agli oggetti reali mentre il paesaggio scorre, e integrarsi con i racconti e con i contenuti della piattaforma collaborativa.')),
+    ("e", ('Soluzione proposta.', "Un'applicazione per occhiali AR e dispositivi mobili che mostra etichette e informazioni ancorate ai luoghi. Usa il tracking in veicolo di OR5, gli ancoraggi di OR9 e i contenuti di OR2 e A4.1.")),
+    ("e", ('Novità e incertezza.', "La novità è portare su un dispositivo commerciale gli algoritmi di tracking in veicolo sviluppati nella ricerca industriale. L'incertezza riguarda le prestazioni ottenibili con le risorse di calcolo e di batteria dei dispositivi.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Porting degli algoritmi di OR5 sul dispositivo.'),
+    ("t", "2. Sviluppo dell'interfaccia e dell'integrazione con i contenuti."),
+    ("t", '3. Prove su banco e su percorsi.'),
+    ("e", ('Risultati misurabili.', 'Applicazione per occhiali AR (D4.5). Indicatori:')),
+    ("p", 'prototipo funzionante su almeno un dispositivo commerciale;'),
+    ("p", 'errore di allineamento delle etichette entro 5 mrad (K3) su percorsi a velocità urbana.'),
+    ("s", "A4.6"),
+    ("e", ('Problema.', 'Un visore che mostra contenuti immersivi a un passeggero in movimento crea un conflitto fra movimento percepito e movimento visto, che è la causa principale della cinetosi. I dispositivi hanno inoltre limiti di calcolo e di batteria.')),
+    ("e", ('Soluzione proposta.', 'Esperienze immersive su visore sincronizzate con accelerazioni e curve del veicolo, ricevute dalla piattaforma IoT (OR8) e da A4.4, secondo le indicazioni sperimentali del Politecnico sulla cinetosi (A10.3).')),
+    ("e", ('Novità e incertezza.', "La novità è sincronizzare le esperienze immersive con il moto reale del veicolo. L'incertezza riguarda la coerenza percepita, date le latenze e le risorse dei dispositivi.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Recepimento delle indicazioni di A10.3.'),
+    ("t", '2. Sviluppo della sincronizzazione e delle esperienze.'),
+    ("t", '3. Prove su banco con moto simulato e sul veicolo di prova.'),
+    ("e", ('Risultati misurabili.', 'Applicazione per visori (D4.6). Indicatori:')),
+    ("p", "latenza fra moto del veicolo e aggiornamento dell'immagine inferiore a 20 ms;"),
+    ("p", 'durata della batteria di almeno 2 ore in uso continuo.'),
+    ("s", "A4.7"),
+    ("e", ('Problema.', "I contenuti posizionati solo in base alla mappa ignorano ciò che accade nella scena: un'etichetta può coprire un veicolo o un pedone, oppure restare ferma mentre il monumento si avvicina.")),
+    ("e", ('Soluzione proposta.', "Un modulo che usa gli oggetti rilevati e tracciati dal kit di percezione (OR12) per riposizionare, filtrare o mettere in evidenza i contenuti. Per esempio, un'etichetta segue un monumento in avvicinamento, oppure un contenuto si sposta quando coprirebbe un oggetto.")),
+    ("e", ('Novità e incertezza.', "La novità è adattare in tempo reale la presentazione alla scena rilevata. L'incertezza, la più alta dell'OR, riguarda la dipendenza dalla qualità della percezione in condizioni reali.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Regole di adattamento per classe di oggetto.'),
+    ("t", '2. Sviluppo del modulo sui dati di OR12.'),
+    ("t", '3. Prove su percorsi registrati e sul veicolo di prova.'),
+    ("e", ('Risultati misurabili.', 'Modulo di adattamento dei contenuti alla scena (D4.7). Indicatori:')),
+    ("p", 'nessun contenuto che copra veicoli o pedoni rilevati, nelle prove su percorsi registrati;'),
+    ("p", 'contenuti riposizionati entro 100 ms dal rilevamento.'),
+    ("s", "A4.8"),
+    ("e", ('Problema.', 'Le applicazioni XR devono ricevere i contenuti dalla piattaforma di erogazione e rispettare le decisioni del content policy engine, che può sospendere o ridurre i contenuti in particolari situazioni di guida. Senza integrazione, ogni applicazione gestirebbe sospensioni e riprese in modo diverso.')),
+    ("e", ('Soluzione proposta.', 'Integrazione delle applicazioni XR con la piattaforma di erogazione (OR3) e con il content policy engine (OR1), con un comportamento uniforme di sospensione, riduzione e ripresa dei contenuti su tutte le applicazioni.')),
+    ("e", ('Novità e incertezza.', "L'incertezza riguarda i tempi di risposta delle applicazioni alle decisioni del motore e la continuità dell'esperienza dopo una sospensione.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Specifica delle interfacce con OR1 e OR3, secondo la matrice di A14.1.'),
+    ("t", '2. Integrazione.'),
+    ("t", '3. Prove su banco e sul veicolo di prova.'),
+    ("e", ('Risultati misurabili.', 'Integrazione delle applicazioni XR (D4.8). Indicatori:')),
+    ("p", '100% delle decisioni di sospensione applicate dalle applicazioni XR nelle prove;'),
+    ("p", 'sospensione applicata entro 100 ms dalla decisione.'),
+    ("s", "A4.9"),
+    ("e", ('Problema.', 'Gradimento, cinetosi e autonomia dei dispositivi si misurano solo con passeggeri reali, su percorsi reali.')),
+    ("e", ('Soluzione proposta.', 'Prove con campioni di passeggeri sul veicolo di prova, con reclutamento affidato a un fornitore esterno. Si misurano gradimento, incidenza della cinetosi e durata della batteria in uso continuo, con protocolli coerenti con quelli del Politecnico (OR10).')),
+    ("e", ('Novità e incertezza.', "L'incertezza riguarda la conferma su strada dei risultati ottenuti in laboratorio e in simulazione.")),
+    ("e", ('Metodo.', '')),
+    ("t", '1. Protocollo e campionamento, concordati con OR10.'),
+    ("t", '2. Prove su percorsi diversi.'),
+    ("t", '3. Analisi dei dati registrati con A4.4.'),
+    ("e", ('Risultati misurabili.', 'Rapporto delle prove con i passeggeri (D4.9). Indicatori:')),
+    ("p", 'gradimento medio di almeno 4 su 5;'),
+    ("p", 'incidenza della cinetosi coerente con la riduzione prevista da K5, rispetto a contenuti non sincronizzati;'),
+    ("p", 'almeno 30 passeggeri.'),
+])
+
+
+# ---------------------------------------------------------------- OR5 (GSNet), forma Frascati (23/11)
+# Dagli abstract del 19/11 e dalla revisione di GSNet; A5.4 qualificata come verifica dei metodi (ricerca industriale).
+CONTENUTI["II.7.1/OR5"] = _blocchi([
+    _intestazione("Occhiali AR in un veicolo in movimento", "GSNet", "ricerca industriale", "Roma (Lazio)"),
+    ("t", "L'obiettivo realizzativo riguarda i metodi per l'uso di occhiali AR da parte dei passeggeri di un veicolo in "
+          "movimento: i contenuti devono restare agganciati agli oggetti reali fuori dal finestrino, oppure "
+          "all'abitacolo. Il problema aperto è separare il moto della testa dal moto del veicolo."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD. Le verifiche si svolgono in "
+          "laboratorio e su percorsi di prova, senza realizzazione in condizioni operative reali."),
+])
+CONTENUTI["II.7.2/OR5"] = _blocchi([
+    ("s", "A5.1"),
+    ("e", ("Problema.", "I sensori inerziali degli occhiali registrano insieme il movimento della testa e quello del "
+           "veicolo. Accelerazioni, frenate e curve vengono scambiate per movimenti della testa, e il contenuto scivola "
+           "o trema.")),
+    ("e", ("Soluzione proposta.", "Una fusione fra i sensori degli occhiali e i dati di moto del veicolo ricevuti dalla "
+           "piattaforma IoT (OR8), che usa il veicolo come riferimento inerziale noto per isolare il moto relativo della "
+           "testa.")),
+    ("e", ("Novità e incertezza.", "La novità è usare il veicolo come riferimento inerziale noto per il tracking degli "
+           "occhiali. L'incertezza riguarda latenze e sincronizzazione fra le due fonti di dati.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Modelli di stima del moto relativo."),
+    ("t", "2. Sincronizzazione fra occhiali e veicolo."),
+    ("t", "3. Verifica su banco con traiettorie note."),
+    ("e", ("Risultati misurabili.", "Algoritmo di tracking in veicolo (D5.1). Indicatori:")),
+    ("p", "errore di orientamento della testa inferiore a 0,5° al 95° percentile, su banco con traiettorie note;"),
+    ("p", "drift inferiore a 1° in 10 minuti di moto del veicolo."),
+
+    ("s", "A5.2"),
+    ("e", ("Problema.", "I contenuti degli occhiali possono essere solidali all'abitacolo, come un pannello informativo, "
+           "o al mondo esterno, come un'etichetta su un monumento. Il passaggio da un riferimento all'altro produce "
+           "salti e discontinuità percepibili.")),
+    ("e", ("Soluzione proposta.", "Un modulo di ancoraggio con le due modalità e transizioni continue fra l'una e "
+           "l'altra, basato sul moto relativo della testa stimato in A5.1.")),
+    ("e", ("Novità e incertezza.", "La novità è gestire in modo continuo due riferimenti di ancoraggio in movimento "
+           "l'uno rispetto all'altro. L'incertezza riguarda come l'utente percepisce le transizioni.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Modelli dei due riferimenti."),
+    ("t", "2. Algoritmi di transizione."),
+    ("t", "3. Prove con utenti su banco."),
+    ("e", ("Risultati misurabili.", "Modulo di ancoraggio per occhiali AR (D5.2). Indicatori:")),
+    ("p", "due modalità di ancoraggio funzionanti;"),
+    ("p", "transizioni senza discontinuità percepite in almeno il 90% delle prove con utenti."),
+
+    ("s", "A5.3"),
+    ("e", ("Problema.", "Per agganciare i contenuti ai luoghi reali, il tracking degli occhiali va riferito alla "
+           "posizione del veicolo nel mondo e alla scena rilevata. Questi dati arrivano da altri componenti, ciascuno "
+           "con riferimenti e ritardi propri.")),
+    ("e", ("Soluzione proposta.", "Collegamento del tracking degli occhiali alla localizzazione di precisione del veicolo "
+           "(OR9) e ai dati di percezione della scena (OR12), con le trasformazioni definite in A9.2.")),
+    ("e", ("Novità e incertezza.", "L'incertezza riguarda come si propagano gli errori lungo la catena occhiali, "
+           "veicolo, mondo.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Specifica delle trasformazioni con OR9."),
+    ("t", "2. Integrazione."),
+    ("t", "3. Prove su percorsi registrati."),
+    ("e", ("Risultati misurabili.", "Integrazione con la localizzazione (D5.3). Indicatori:")),
+    ("p", "contenuti agganciati ai luoghi con errore entro 5 mrad (K3), su percorsi registrati."),
+
+    ("s", "A5.4"),
+    ("e", ("Problema.", "Gli algoritmi verificati su banco vanno provati su strade reali, con curve, accelerazioni e "
+           "fondo irregolare.")),
+    ("e", ("Soluzione proposta.", "Prove sul veicolo di prova su percorsi urbani, extraurbani, con curve e con fondo "
+           "irregolare, con un ground truth acquisito con motion capture da un fornitore esterno. Le prove verificano i "
+           "metodi in condizioni rappresentative e non costituiscono convalida di un prodotto in condizioni "
+           "operative.")),
+    ("e", ("Novità e incertezza.", "L'incertezza riguarda la tenuta delle prestazioni di banco nelle condizioni "
+           "dinamiche reali.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Piano delle prove per tipo di percorso."),
+    ("t", "2. Acquisizione con ground truth."),
+    ("t", "3. Analisi per condizione."),
+    ("e", ("Risultati misurabili.", "Rapporto delle prove in veicolo (D5.4). Indicatori:")),
+    ("p", "errore di posizionamento entro 5 mrad (K3) in accelerazione e in curva;"),
+    ("p", "motion-to-photon inferiore a 20 ms."),
+])
+
+
 # ================================================================ RISORSE E COSTI PER ATTIVITÀ E PER OR (23/11)
 # Questa sezione deve restare l'ultima del file: i testi nuovi degli OR si aggiungono sopra questo marcatore.
 # Per ogni attività: tabella del personale e dei servizi attribuiti all'attività; per ogni OR: riepilogo con
