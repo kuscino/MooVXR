@@ -1618,6 +1618,160 @@ CONTENUTI["II.7.2/OR13"] = _blocchi([
 ])
 
 
+# ---------------------------------------------------------------- OR9 (Politecnico), forma Frascati dal testo del 23/11
+# Testi riscritti da MooVXR_MVR-FINAL-01_CORRETTO.docx: struttura a 14 OR, Cognitive Mesh ricondotta a strato di
+# esecuzione e coordinamento a bordo (schema comune di affidabilità, orchestrazione, monitor), senza decisioni sui
+# contenuti, che restano a OR1 (decisione del 23/11). Valori obiettivo proposti da Aubay, da condividere.
+CONTENUTI["II.7.1/OR9"] = _blocchi([
+    _intestazione("Localizzazione di precisione, ancoraggio dei contenuti e calcolo a bordo", "Politecnico di Milano",
+                  "ricerca industriale", "Dipartimento di Energia, Campus Bovisa, Milano (Lombardia)"),
+    ("t", "L'obiettivo realizzativo riguarda i metodi per posizionare con precisione i contenuti sulla scena reale, sia "
+          "sugli HUD sia sugli occhiali, riconoscendo quando la precisione non è sufficiente. Comprende anche le "
+          "specifiche dell'unità di calcolo di bordo su cui eseguire gli algoritmi."),
+    ("t", "Il contributo trasversale è la Cognitive Mesh, uno strato di esecuzione e coordinamento a bordo. Rende "
+          "confrontabili le uscite dei moduli dei partner con uno schema comune di affidabilità, e ne orchestra "
+          "l'esecuzione sull'unità di calcolo con priorità, budget e monitor. Il content policy engine (OR1) usa queste "
+          "informazioni per decidere i contenuti: la Cognitive Mesh non prende decisioni sui contenuti."),
+    ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: producono nuove conoscenze su "
+          "localizzazione e registrazione dei contenuti per un componente di un sistema complesso, verificate su dati "
+          "registrati e su percorsi di prova."),
+])
+CONTENUTI["II.7.2/OR9"] = _blocchi([
+    ("s", "A9.1"),
+    ("e", ("Problema.", "GNSS RTK, navigazione inerziale e localizzazione visiva sono disponibili separatamente, ma la "
+           "loro continuità e riferibilità geometrica non sono garantite in galleria, nei canyon urbani, con riflessi o "
+           "perdita di visibilità. I sistemi di serie localizzano il veicolo per la navigazione. La registrazione "
+           "stabile di contenuti XR sugli oggetti reali richiede invece accuratezza, continuità e latenza adeguate alla "
+           "distanza degli oggetti e alla superficie di visualizzazione.")),
+    ("e", ("Soluzione proposta.", "Una fusione temporale probabilistica di osservazioni GNSS RTK, inerziali e visive, "
+           "con rappresentazione esplicita di covarianza, bias, disallineamento e ritardi. Stima insieme la posa del "
+           "veicolo, la sua qualità e la sua disponibilità.")),
+    ("e", ("Novità e incertezza.", "La novità è la stima congiunta di posa, qualità e disponibilità per l'ancoraggio "
+           "di contenuti XR su un veicolo in movimento. L'incertezza riguarda come contenere il drift e recuperare "
+           "l'allineamento dopo un'interruzione prolungata del segnale.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Benchmark con ground truth indipendente su percorsi ripetuti."),
+    ("t", "2. Confronto di filtri e metodi di ottimizzazione con baseline standard."),
+    ("t", "3. Ablation study su scenari nominali e degradati, come gallerie e canyon urbani."),
+    ("e", ("Risultati misurabili.", "Algoritmi, dataset e rapporto riproducibile (D9.1). Indicatori:")),
+    ("p", "errore di posizione inferiore a 10 cm al 95° percentile in condizioni nominali;"),
+    ("p", "errore di assetto inferiore a 0,1° al 95° percentile;"),
+    ("p", "recupero dell'allineamento entro 5 s dopo un'interruzione del segnale GNSS."),
+    ("t", "I dati di percezione e tracking sono prodotti da nLight (OR12). OR9 stima il riferimento globale e le "
+          "incertezze, che GSNet usa per gli occhiali AR (OR5) senza duplicare la stima del moto relativo della testa. "
+          "Le stime sono esposte secondo lo schema comune di affidabilità della Cognitive Mesh (A9.3)."),
+
+    ("s", "A9.2"),
+    ("e", ("Problema.", "Su HUD, occhiali e visori cambia il punto di vista, e i ritardi della catena che va dai sensori "
+           "alla presentazione causano errori di parallasse e instabilità. Con il veicolo in movimento e più superfici, "
+           "i metodi AR disponibili non garantiscono un riferimento geometrico e temporale coerente fra veicolo, scena "
+           "e dispositivi.")),
+    ("e", ("Soluzione proposta.", "Trasformazioni di coordinate versionate, mappe di ancoraggio temporizzate e "
+           "propagazione dell'incertezza fra posa del veicolo, scena e superficie di visualizzazione. Il punto di "
+           "partenza è la geometria della scena rilevata dal kit di percezione (OR12), per i punti di vista del "
+           "guidatore, del passeggero e di chi indossa gli occhiali.")),
+    ("e", ("Novità e incertezza.", "La novità è un ancoraggio temporizzato con incertezza esplicita, comune a più "
+           "superfici e punti di vista. L'incertezza riguarda la stabilità con occlusioni, velocità elevate e "
+           "disallineamenti temporali fra le sorgenti.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Prove con target noti, filmati sincronizzati e ricostruzioni multi-view, in diverse condizioni di luce e "
+          "velocità."),
+    ("t", "2. Confronto fra ancoraggio statico, compensato e temporizzato."),
+    ("e", ("Risultati misurabili.", "Algoritmi di ancoraggio e specifiche dei riferimenti (D9.2). Indicatori:")),
+    ("p", "scarto di registrazione inferiore a 5 mrad al 95° percentile;"),
+    ("p", "ancoraggio mantenuto dopo occlusioni fino a 1 s in almeno il 90% dei casi."),
+    ("t", "nLight (OR12) consegna geometrie e punti di interesse rilevati, il Politecnico produce ancoraggi e "
+          "trasformazioni. GSNet realizza calibrazione e applicazioni per occhiali e visori (OR4, OR5), oltre "
+          "all'erogazione e all'applicazione di bordo (OR3). A OR9 non è attribuita alcuna produzione di contenuti."),
+
+    ("s", "A9.3"),
+    ("e", ("Problema.", "La qualità della localizzazione non è costante, e un contenuto apparentemente preciso ma mal "
+           "posizionato distrae più di un contenuto assente. Soglie statiche e probabilità nominali non reggono le "
+           "variazioni ambientali e la correlazione degli errori. Inoltre ogni modulo del progetto (localizzazione, "
+           "percezione, dati esterni, stima dell'attenzione) esprime la propria affidabilità in modo diverso, o non la "
+           "esprime affatto. Il content policy engine riceve così ingressi non confrontabili.")),
+    ("e", ("Soluzione proposta.", "Due risultati:")),
+    ("p", "uno stimatore calibrato del rischio di registrazione della localizzazione, con una rappresentazione "
+          "multimodale dell'incertezza (posa, scena, ritardo, dati fuori distribuzione) e criteri di riduzione dei "
+          "contenuti espressi come livelli di servizio;"),
+    ("p", "lo schema comune di affidabilità della Cognitive Mesh: ogni modulo dei partner espone le proprie uscite con "
+          "una rappresentazione uniforme di confidenza, validità temporale e latenza, che il modello del contesto del "
+          "content policy engine (OR1, A1.1) usa direttamente."),
+    ("e", ("Novità e incertezza.", "La novità è trattare l'affidabilità come grandezza esplicita e confrontabile fra "
+           "moduli eterogenei, che governa la presentazione dei contenuti. L'incertezza riguarda due punti:")),
+    ("p", "come distinguere gli errori rari dalla mancanza di dati senza ridurre i contenuti troppo spesso;"),
+    ("p", "se una rappresentazione comune resti fedele a incertezze di natura diversa: geometrica, statistica e "
+          "temporale."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Validazione dello stimatore su eventi degradati, registrati e perturbati."),
+    ("t", "2. Curve di affidabilità e test con input incoerenti; confronto con soglie fisse."),
+    ("t", "3. Definizione dello schema comune con i partner che forniscono i moduli (OR7, OR10, OR12) e con Aubay per "
+          "il modello del contesto."),
+    ("e", ("Risultati misurabili.", "Stimatore di affidabilità, schema comune di affidabilità e raccomandazioni per "
+           "livelli di servizio (D9.3). Indicatori:")),
+    ("p", "errore di calibrazione dell'affidabilità inferiore a 0,05;"),
+    ("p", "falsi ancoraggi accettati inferiori all'1%;"),
+    ("p", "schema comune adottato dal 100% dei moduli che alimentano il modello del contesto."),
+    ("t", "La decisione vincolante sui contenuti, i livelli di funzionamento e il comportamento prudente restano al "
+          "content policy engine (OR1, A1.2-A1.4). Anitia (OR7) produce l'affidabilità dei dati esterni e la espone "
+          "secondo lo schema comune."),
+
+    ("s", "A9.4"),
+    ("e", ("Problema.", "Sul veicolo devono girare insieme percezione, stima geometrica, modelli AI compatti e "
+           "sincronizzazione dei contenuti XR, con vincoli di alimentazione, memoria, acceleratori, calore e "
+           "comunicazioni intermittenti. Moduli sviluppati da partner diversi competono per le stesse risorse senza un "
+           "coordinamento comune, e un dimensionamento generico fra bordo e cloud non garantisce latenze sicure con "
+           "carichi concorrenti.")),
+    ("e", ("Soluzione proposta.", "La Cognitive Mesh come strato di esecuzione e coordinamento a bordo, insieme alle "
+           "specifiche dell'unità di calcolo che la ospita:")),
+    ("p", "orchestrazione deterministica dei moduli dei partner: priorità e classi di criticità, budget di calcolo, "
+          "memoria ed energia, timeout e degradazione quando le risorse non bastano;"),
+    ("p", "monitor di esecuzione: rilevano ingressi incoerenti, ritardi e moduli fuori servizio e li segnalano al "
+          "content policy engine (OR1), che applica i livelli prudenti (A1.4);"),
+    ("p", "specifiche dell'unità: ripartizione fra bordo e cloud, isolamento dei processi, riferimento temporale comune."),
+    ("t", "Le specifiche sono la base del prototipo realizzato da nLight (OR13)."),
+    ("e", ("Novità e incertezza.", "La novità è uno strato di coordinamento che garantisce latenze e degradazione "
+           "controllata a moduli eterogenei di più fornitori, che condividono le stesse risorse di bordo. L'incertezza "
+           "riguarda la possibilità di soddisfare insieme qualità, consumi e scadenze con carichi concorrenti.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Profili di carico dei moduli dei partner."),
+    ("t", "2. Modelli prestazionali e simulazioni di saturazione."),
+    ("t", "3. Prototipo dell'orchestrazione e dei monitor su kit di sviluppo embedded, con iniezione di guasti e replay "
+          "deterministico."),
+    ("t", "4. Specifiche dell'unità di calcolo."),
+    ("e", ("Risultati misurabili.", "Specifiche dell'unità di calcolo di bordo, comprensive dello strato di "
+           "coordinamento (D9.4). Indicatori:")),
+    ("p", "latenza al 99° percentile dei carichi critici compatibile con il budget di consegna end-to-end di A14.4, "
+          "nelle simulazioni di saturazione;"),
+    ("p", "nessuna scadenza mancata per i processi critici nelle prove di schedulazione;"),
+    ("p", "guasti iniettati rilevati dai monitor entro 100 ms nel 99% dei casi."),
+    ("t", "Il Politecnico formula specifiche verificabili e prototipa lo strato di coordinamento; nLight progetta e "
+          "realizza kit e unità di calcolo (A13.1-A13.3). L'integrazione di sistema resta in OR14 (Aubay), con la "
+          "gestione dei modelli in esercizio in A14.3; il device management e l'OTA restano in OR8 (Anitia)."),
+
+    ("s", "A9.5"),
+    ("e", ("Problema.", "Gli algoritmi sperimentali richiedono spesso potenza e memoria non compatibili con i "
+           "processori automotive, e competono per le risorse con visione, audio e rendering. La semplice portabilità "
+           "del software non assicura riproducibilità né controllo del degrado.")),
+    ("e", ("Soluzione proposta.", "Distillazione, quantizzazione, pruning e caching selettivo dei modelli, con lo "
+           "scheduler della Cognitive Mesh (A9.4), attento alle scadenze e alla qualità delle informazioni. Tempi di "
+           "calcolo e consumi sono misurati sull'unità di bordo.")),
+    ("e", ("Novità e incertezza.", "La novità è ottimizzare insieme più algoritmi di percezione e ancoraggio sotto "
+           "scadenze comuni. L'incertezza riguarda la perdita di accuratezza nelle condizioni rare e gli effetti delle "
+           "contese di risorse.")),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Benchmark realistici."),
+    ("t", "2. Misure ripetute di consumo e latenza."),
+    ("t", "3. Stress test con dati fuori distribuzione e test di regressione."),
+    ("e", ("Risultati misurabili.", "Algoritmi ottimizzati e rapporto sui compromessi (D9.5). Indicatori:")),
+    ("p", "tempi di calcolo ridotti di almeno 3 volte rispetto alla versione non ottimizzata;"),
+    ("p", "perdita di accuratezza inferiore al 5%;"),
+    ("p", "almeno il 99% dei compiti completati entro la scadenza."),
+    ("t", "Le verifiche algoritmiche sono del Politecnico. nLight fornisce la piattaforma prototipale e le prove "
+          "ambientali (OR13), Aubay cura l'integrazione (OR14) e Anitia gli aggiornamenti (OR8)."),
+])
+
+
 # ================================================================ RISORSE E COSTI PER ATTIVITÀ E PER OR (23/11)
 # Questa sezione deve restare l'ultima del file: i testi nuovi degli OR si aggiungono sopra questo marcatore.
 # Per ogni attività: tabella del personale e dei servizi attribuiti all'attività; per ogni OR: riepilogo con
