@@ -40,6 +40,9 @@ Mail di Anitia del 23/11 (pianificazione rivista), integrata nel modello v12:
   precedente secondo A14.3; A8.4 limitata alla piattaforma IoT, prove del sistema completo in A14.4.
 - Chiesta ad Anitia una prima versione del canale OTA sul veicolo di prova verso i mesi 25-26 (A14.3, A14.4),
   con D8.3 definitivo al mese 30.
+- Modello v14 rivisto da Anitia (Modello_Economico_MooVXR_v14_Anitia-rev2.xlsx, 23/11), integrato nel modello
+  v15: persone per fascia e peso nell'OR di A7.1-A8.4, date e impegno invariati. Anitia 1.402.722 € (OR7 499.546,
+  OR8 903.176), pari al totale della mail; Tab. 2 1/5/10, donne 1 Media e 3 Bassa.
 
 ## nLight (OR12, OR13)
 
