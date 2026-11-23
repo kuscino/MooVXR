@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Configurazione del modello economico MooVXR per toolchain/toolchain/economics_finanziato.py.
 
+Versione 14 (23/11/2026): Wiki-RAG e servizi LLM di Aubay (aggiorna_v14_aubay.py).
 Versione 13 (23/11/2026): costi del Politecnico del 22/11 (aggiorna_v13_polimi.py).
 Versione 12 (23/11/2026): pianificazione rivista di Anitia (aggiorna_v12_anitia.py).
 Versione 11 (22/11/2026): team di GSNet dal nuovo Excel (aggiorna_v11_gsnet.py).
@@ -1894,7 +1895,47 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                  'qualificazione aperta',
                  'Ricerca contrattuale',
                  'A11.5',
-                 'Ottica e HUD')],
+                 'Ottica e HUD'),
+                ('42Rows',
+                 'Licenza dei sorgenti della soluzione Wiki-RAG per la base di conoscenza tecnica del progetto '
+                 '(requisiti, interfacce, configurazioni, evidenze di prova)',
+                 'OR14',
+                 90000,
+                 "Base di conoscenza tecnica dell'integrazione: tracciabilità fra requisiti, interfacce dei partner e "
+                 'prove del dimostratore',
+                 'Altri servizi e licenze',
+                 'A14.1',
+                 ''),
+                ('Fornitori da individuare',
+                 'Servizi di modelli linguistici di grandi dimensioni (LLM) a consumo e licenze di strumenti di '
+                 'sviluppo basati su LLM per il team del progetto, per la durata delle attività',
+                 'OR1',
+                 32000,
+                 "Consumo dei modelli LLM nelle attività dell'OR e strumenti di sviluppo assistito riservati al team "
+                 'del progetto',
+                 'Altri servizi e licenze',
+                 '',
+                 ''),
+                ('Fornitori da individuare',
+                 'Servizi di modelli linguistici di grandi dimensioni (LLM) a consumo e licenze di strumenti di '
+                 'sviluppo basati su LLM per il team del progetto, per la durata delle attività',
+                 'OR6',
+                 22000,
+                 "Consumo dei modelli LLM nelle attività dell'OR e strumenti di sviluppo assistito riservati al team "
+                 'del progetto',
+                 'Altri servizi e licenze',
+                 '',
+                 ''),
+                ('Fornitori da individuare',
+                 'Servizi di modelli linguistici di grandi dimensioni (LLM) a consumo e licenze di strumenti di '
+                 'sviluppo basati su LLM per il team del progetto, per la durata delle attività',
+                 'OR14',
+                 26000,
+                 "Consumo dei modelli LLM nelle attività dell'OR e strumenti di sviluppo assistito riservati al team "
+                 'del progetto',
+                 'Altri servizi e licenze',
+                 '',
+                 '')],
  'attrezzature': [('Workstation di sviluppo', 'Da definire', 'OR1', 4, 6000, 0.0, 60, 24, 1.0, 'No'),
                   ('Workstation GPU per il digital twin', 'Da definire', 'OR6', 6, 9000, 0.0, 60, 27, 1.0, 'No'),
                   ('Noleggio del sistema di acquisizione dati sincronizzata (canoni per 10 mesi: mesi 26-35)',
