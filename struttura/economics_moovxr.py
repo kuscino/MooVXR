@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Configurazione del modello economico MooVXR per toolchain/toolchain/economics_finanziato.py.
 
+Versione 17 (23/11/2026): donne del Politecnico, K6, titolo di A14.3 (aggiorna_v17.py).
 Versione 16 (23/11/2026): donne per fascia di Aubay (aggiorna_v16_donne.py).
 Versione 15 (23/11/2026): team di Anitia (rev2), capofila GSNet (aggiorna_v15_anitia.py).
 Versione 14 (23/11/2026): Wiki-RAG e servizi LLM di Aubay (aggiorna_v14_aubay.py).
@@ -1154,8 +1155,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
               ('OR14',
                'A14.3',
                'Gestione dei modelli AI in esercizio a bordo: criteri di rilascio e di ritorno alla versione '
-               'precedente, monitoraggio della deriva e coerenza con le policy, con distribuzione tramite la '
-               'piattaforma OTA di OR8',
+               'precedente, monitoraggio del drift e coerenza con le policy, con distribuzione tramite la piattaforma '
+               'OTA di OR8',
                22,
                35,
                0.21,
@@ -2269,8 +2270,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Finale',
           'Digital twin (OR6) e prove su strada (OR14)',
           'Indicatori misurati su strada',
-          None,
-          'Da definire'),
+          10,
+          'Piano di Sviluppo, A6.4 (23/11/2026): scarto non superiore al 10%'),
          ('K7',
           'Tempo di decisione del content policy engine',
           '95° percentile del tempo di valutazione delle regole per singola decisione',
@@ -2280,5 +2281,7 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
           'Specifica di progetto',
           20,
           'Testo di OR1 nel Piano di Sviluppo: inferiore a 20 ms nel 95% dei casi')],
- 'donne': {'Aubay Italia': {'Medio': 3, 'Basso': 6}, 'Anitia': {'Medio': 1, 'Basso': 3}},
+ 'donne': {'Aubay Italia': {'Medio': 3, 'Basso': 6},
+           'Anitia': {'Medio': 1, 'Basso': 3},
+           'Politecnico di Milano': {'Alto': 1, 'Basso': 1}},
  'addetti': {'Politecnico di Milano': {'Alto': 5, 'Medio': 2, 'Basso': 11}}}
