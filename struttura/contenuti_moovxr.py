@@ -944,6 +944,10 @@ _sostituisci("III.1.1", "spettante all’Ateneo è di € 3.000.000, pari al 15%
              "spettante all’Ateneo è di %s, pari al %s del totale" % (_euro(_c), _qs))
 
 
+# Correzione confermata il 23/11: nome del responsabile come nel paragrafo 6 della Parte II e nel CV.
+_sostituisci("III.1.2", "l’ing. Michel Amram assicura", "il dott. ing. Jean Michel Amram assicura")
+
+
 # Correzione confermata il 23/11: la tabella dei profili di GSNet in III.1.1 non riporta i nomi del
 # personale; la prima colonna indica se la risorsa è in organico o da individuare.
 _tab_gsnet = [b for b in PARTI_I_III["III.1.1"] if b[0] == "tab" and b[1]["righe"][0][0]["t"] == "Risorsa"]
@@ -2884,6 +2888,37 @@ CONTENUTI["II.5BIS"] = _render(
              "impianti di trattamento dei rifiuti residui né combustibili fossili. Nessuna impresa proponente è impresa "
              "in difficoltà ai sensi dell'art. 2, punto 18, del Reg. (UE) n. 651/2014, come dichiarato nelle DSAN dei "
              "requisiti (Allegato 6a).")])
+
+CONTENUTI["II.6"] = _render([
+    ("t", "Il responsabile del progetto è il dott. ing. Jean Michel Amram, che ne assume la direzione scientifica "
+          "per conto del capofila GSNet."),
+    ("t", "Laureato in Ingegneria Informatica all'Università degli Studi Roma Tre, ha conseguito il Master post laurea "
+          "in Information and Communication Security presso Reiss Romoli (Telecom Italia Learning Services) e ha "
+          "frequentato il percorso in marketing strategico di SDA Bocconi. Ha esperienza nel project management di "
+          "sistemi ICT e nella progettazione di iniziative finanziate:"),
+    ("p", "in Telecom Italia, dal 2007 al 2012, ha gestito progetti e risposte a bandi per la Pubblica "
+          "Amministrazione Centrale;"),
+    ("p", "dal 2012 al 2020, come consulente, si è occupato di project management con metodologie agile, della "
+          "costituzione di partenariati e della redazione di domande di finanziamento regionali, nazionali ed "
+          "europee;"),
+    ("p", "come socio fondatore e amministratore di Spazio42, dal 2014 al 2018, e di Salesmart, società del gruppo "
+          "Tiscali, dal 2020, dirige lo sviluppo di piattaforme software e le attività di R&D sull'applicazione di "
+          "tecnologie basate sull'intelligenza artificiale."),
+    ("t", "Possiede le certificazioni CCNA, CCSA e OPST. Il curriculum vitae in formato europeo è allegato, con i soli "
+          "dati relativi alla formazione e alle esperienze professionali."),
+    ("t", "Riferimenti del responsabile:"),
+    ("x", _tabw([2600, 2900, 1800, 2226], ["Nome", "Ruolo nel progetto", "Soggetto di riferimento", "Recapito"],
+                [["dott. ing. Jean Michel Amram", "Responsabile del progetto, direzione scientifica",
+                  "GSNet (capofila)", "michel.amram@salesmart.it"]])),
+    ("t", "Referenti dei proponenti:"),
+    ("x", _tabw([2400, 3200, 3926], ["Proponente", "Referente", "Ruolo"],
+                [["GSNet", "Massimiliano Pasquariello", "Responsabile tecnico"],
+                 ["Aubay Italia", "Marco Appetito", "Responsabile dell'area Digital"],
+                 ["Anitia", "Alberto Gaspari", "Referente tecnico"],
+                 ["Politecnico di Milano", "prof. Riccardo Enrico Zich",
+                  "Responsabile scientifico di OR9-OR11, Dipartimento di Energia"],
+                 ["nLight", "Alessio Califano, Giammarco Rossi", "Referenti"]])),
+])
 
 _MI = next(m for m in CFG["milestone"] if m[2] == "Intermedia")
 _MF = next(m for m in CFG["milestone"] if m[2] == "Finale")

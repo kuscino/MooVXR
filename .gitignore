@@ -5,3 +5,6 @@ __pycache__/
 .DS_Store
 ~$*
 toolchain/lavoro/
+
+# allegati con dati personali (CV), fuori dal repository
+allegati/
