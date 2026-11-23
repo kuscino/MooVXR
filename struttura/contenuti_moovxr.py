@@ -759,7 +759,7 @@ CONTENUTI["II.7.2/OR3"] = _blocchi(_estrai(_spec("II.7.2/OR3"), {"A3.1", "A3.2",
 CONTENUTI["II.7.2/OR4"] = _blocchi(
     _estrai(_spec("II.7.2/OR4"), {"A4.1", "A4.2", "A4.3"})
     + _estrai(_spec("II.7.2/OR6"), {"A6.1", "A6.2", "A6.3", "A6.4", "A6.5"},
-              {"A6.1": "A4.4", "A6.2": "A4.5", "A6.3": "A4.6", "A6.4": "A4.7", "A6.5": "A4.8"}))
+              {"A6.1": "A4.5", "A6.2": "A4.6", "A6.3": "A4.7", "A6.4": "A4.8", "A6.5": "A4.9"}))
 for _k in ("II.7.1/OR3", "II.7.1/OR4", "II.7.1/OR6", "II.7.2/OR6"):
     CONTENUTI.pop(_k, None)
 
@@ -1040,3 +1040,255 @@ _OR6 += [
     ("p", "scarto riportato separatamente per percezione, consegna dei contenuti e attenzione degli occupanti."),
 ]
 CONTENUTI["II.7.2/OR6"] = _blocchi(_OR6)
+
+_OR6 += [
+    _sotto_task("A6.5"),
+    ("e", ("Problema.", "Le prove su strada sono costose e poco ripetibili, e non possono riprodurre in sicurezza i casi "
+           "rari. Esempi sono l'ingresso in galleria con perdita del segnale, un evento improvviso mentre un occupante "
+           "fruisce di un contenuto, o traffico intenso con scarsa visibilità. Sono proprio questi i casi in cui il "
+           "content policy engine, la percezione della scena e l'HMI devono dimostrare un comportamento corretto.")),
+    ("e", ("Soluzione proposta.", "Una campagna sistematica di scenari parametrici nel digital twin validato. Da "
+           "ciascuno scenario di riferimento si generano varianti combinando traffico, illuminazione, meteo, copertura "
+           "di rete, occupanti e contenuti in fruizione. Per ogni variante si verifica che:")),
+    ("p", "il guidatore non riceva contenuti vietati dalle policy (OR1);"),
+    ("p", "la percezione mantenga gli oggetti di interesse entro i valori obiettivo di OR12;"),
+    ("p", "i contenuti destinati al passeggero restino non visibili dal posto di guida."),
+    ("t", "Gli scenari sono eseguiti su servizi cloud GPU a consumo. La campagna è distinta da altre due verifiche:"),
+    ("p", "la verifica formale delle regole (A1.5), che lavora sul modello delle regole;"),
+    ("p", "la verifica sperimentale con partecipanti (A10.5), che usa gli scenari del digital twin sulla postazione di "
+          "guida simulata."),
+    ("e", ("Novità e incertezza.", "La novità è verificare insieme policy, percezione e HMI su più superfici, sullo "
+           "stesso insieme di scenari. L'incertezza riguarda due punti:")),
+    ("p", "quale copertura dei casi critici sia raggiungibile con il calcolo disponibile;"),
+    ("p", "come scegliere le varianti più informative senza doverle eseguire tutte."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Definizione con i partner degli scenari critici e dei criteri di esito."),
+    ("t", "2. Generazione delle varianti parametriche."),
+    ("t", "3. Esecuzione su servizi cloud GPU."),
+    ("t", "4. Analisi delle violazioni e restituzione ai partner per la correzione."),
+    ("t", "5. Selezione dei casi da confermare su strada nell'integrazione di sistema (OR14)."),
+    ("e", ("Risultati misurabili.", "Rapporto delle verifiche virtuali (D6.5). Indicatori:")),
+    ("p", "100% degli scenari critici concordati con i partner eseguiti;"),
+    ("p", "nessuna violazione residua delle policy al termine della campagna;"),
+    ("p", "almeno 1.000 varianti di scenario eseguite."),
+]
+CONTENUTI["II.7.2/OR6"] = _blocchi(_OR6)
+
+
+CONTENUTI["II.7.1/OR14"] = _blocchi([
+    _intestazione("Integrazione di sistema, sicurezza e dimostratore su veicolo", "Aubay Italia",
+                  "sviluppo sperimentale", "Roma (Lazio)"),
+    ("t", "L'obiettivo realizzativo integra in un dimostratore su veicolo i componenti sviluppati da tutti i partner:"),
+    ("p", "il content policy engine e la personalizzazione (OR1);"),
+    ("p", "i contenuti generativi e la piattaforma di erogazione (OR2, OR3);"),
+    ("p", "le esperienze AR e XR e gli occhiali per i passeggeri (OR4, OR5);"),
+    ("p", "i dati esterni e la piattaforma IoT (OR7, OR8);"),
+    ("p", "la localizzazione, l'attenzione degli occupanti e l'HUD del passeggero (OR9, OR10, OR11);"),
+    ("p", "il kit di percezione (OR12, OR13)."),
+    ("t", "Il dimostratore è installato sul veicolo di prova di OR4 e verificato su strada."),
+    ("t", "Quando un sistema di bordo coinvolge più fornitori, i componenti nascono con interfacce, cicli di rilascio e "
+          "livelli di maturità diversi. Il Regolamento UNECE n. 155 richiede, per i veicoli omologati, un sistema di "
+          "gestione della cybersecurity, e la norma ISO/SAE 21434 ne definisce il processo di ingegneria. I modelli AI "
+          "in esercizio a bordo richiedono inoltre criteri di rilascio, monitoraggio e ritorno alla versione "
+          "precedente, adattati ai vincoli dei dispositivi del veicolo: connettività intermittente, risorse di calcolo "
+          "limitate, aggiornamento tramite OTA."),
+    ("t", "L'obiettivo produce quattro risultati:"),
+    ("p", "l'architettura di sistema e la matrice delle interfacce approvate dai partner;"),
+    ("p", "l'analisi dei rischi di sicurezza informatica e le misure di protezione dei contenuti, verificate da "
+          "penetration test indipendenti;"),
+    ("p", "un servizio di gestione dei modelli AI in esercizio, con distribuzione tramite la piattaforma OTA (OR8);"),
+    ("p", "il dimostratore integrato, verificato con prove di carico e prove su strada."),
+    ("t", "Le attività sono sviluppo sperimentale ai sensi dell'art. 1 del DD: comprendono la realizzazione di un "
+          "prototipo, la dimostrazione, il test e la convalida in un ambiente che riproduce le condizioni operative "
+          "reali."),
+])
+
+_OR14 = [
+    _sotto_task("A14.1"),
+    ("e", ("Problema.", "I componenti del dimostratore sono sviluppati da cinque soggetti in tredici obiettivi "
+           "realizzativi, con tecnologie, formati dei dati e cicli di rilascio diversi. Senza un'architettura comune e "
+           "interfacce specificate prima dell'integrazione, le incompatibilità emergono solo sul veicolo, quando "
+           "correggerle costa di più. La tracciabilità fra requisiti, interfacce e prove, che serve anche all'analisi "
+           "dei rischi di sicurezza, si disperde fra i documenti dei partner.")),
+    ("e", ("Soluzione proposta.", "")),
+    ("p", "Architettura: un'architettura di sistema che assegna le funzioni ai componenti e ai dispositivi di bordo e "
+          "di terra."),
+    ("p", "Interfacce: una matrice che, per ciascun flusso, fissa formato, frequenza, latenza ammessa e responsabile."),
+    ("p", "Base di conoscenza tecnica: costruita su una soluzione Wiki-RAG che collega requisiti, specifiche di "
+          "interfaccia, configurazioni ed evidenze di prova, e che i team dei partner interrogano in linguaggio "
+          "naturale."),
+    ("e", ("Novità e incertezza.", "La novità è usare una base di conoscenza interrogabile come strumento di "
+           "integrazione, che tiene allineati requisiti, interfacce e prove mentre i componenti evolvono. "
+           "L'incertezza riguarda due punti:")),
+    ("p", "se le interfacce specificate a metà progetto reggano l'evoluzione dei componenti di ricerca industriale "
+          "senza revisioni sostanziali;"),
+    ("p", "se la base di conoscenza resti affidabile al crescere dei documenti, cioè restituisca sempre la versione "
+          "corretta di una specifica."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Raccolta delle funzioni e dei vincoli dei componenti dei partner."),
+    ("t", "2. Definizione dell'architettura e allocazione delle funzioni."),
+    ("t", "3. Specifica delle interfacce e revisione con i partner."),
+    ("t", "4. Configurazione della base di conoscenza tecnica e caricamento di requisiti e specifiche."),
+    ("t", "5. Approvazione della matrice delle interfacce."),
+    ("e", ("Risultati misurabili.", "Architettura di sistema e matrice delle interfacce (D14.1). Indicatori:")),
+    ("p", "100% delle interfacce specificate e approvate da tutti i partner;"),
+    ("p", "100% dei requisiti del dimostratore tracciati verso almeno una prova."),
+]
+CONTENUTI["II.7.2/OR14"] = _blocchi(_OR14)
+
+
+# ================================================================ RISORSE E COSTI PER ATTIVITÀ E PER OR (23/11)
+# Questa sezione deve restare l'ultima del file: i testi nuovi degli OR si aggiungono sopra questo marcatore.
+# Per ogni attività: tabella del personale e dei servizi attribuiti all'attività; per ogni OR: riepilogo con
+# attrezzature, servizi assegnati all'OR e totali per voce. I dati si leggono dal modello economico (MODELLO),
+# senza ricalcoli; i totali per OR sono verificati sul foglio Riepilogo. I sottotitoli delle attività di tutti
+# gli OR si generano dal modello. I vecchi paragrafi "Risorse umane"
+# dei testi degli OR sono sostituiti dalle tabelle.
+def _num(v, dec=0):
+    s = format(v, ",.%df" % dec)
+    return s.replace(",", "§").replace(".", ",").replace("§", ".")
+
+
+def _eur(v):
+    return _num(round(v)) + " €"
+
+
+def _carica_costi():
+    import openpyxl
+    wb = openpyxl.load_workbook(MODELLO, data_only=True)
+    att = {}
+    for r in wb["Attività"].iter_rows(min_row=2, values_only=True):
+        if r[1]:
+            att[r[1]] = dict(OR=r[0], ini=r[3], fine=r[4], n=(r[6], r[7], r[8]), imp=r[9], ore=(r[20], r[21], r[22]),
+                             tar=(r[23], r[24], r[26]), costo=r[25], ruoli=(r[27], r[28], r[29]))
+    serv = [dict(ogg=r[1], OR=r[2], imp=r[3], mot=r[4], att=r[8], ruolo=r[9])
+            for r in wb["Consulenze e servizi"].iter_rows(min_row=2, values_only=True) if r[1] and r[2]]
+    attr = [dict(nome=r[0], OR=r[2], q=r[3], amm=r[6], uso=r[7], imput=r[8], intero=r[9], spesa=r[11], costo=r[12])
+            for r in wb["Attrezzature"].iter_rows(min_row=2, values_only=True) if r[0] and r[2]]
+    riep, dentro = {}, False
+    for r in wb["Riepilogo"].iter_rows(values_only=True):
+        if r[0] == "OR":
+            dentro = True
+            continue
+        if dentro and r[0] and str(r[0]).startswith("OR"):
+            riep[r[0]] = dict(pers=r[3], attr=r[4], serv=r[5], sg=r[6], tot=r[7])
+    assert att and riep, "modello non ricalcolato: %s" % MODELLO
+    return att, serv, attr, riep
+
+
+_ATT, _SERV, _ATTR, _RIEP = _carica_costi()
+_W = 9526
+
+
+def _tab(larghezze, intest, righe, totale=None):
+    R = [[{"t": x, "b": True, "al": "center" if i else "left", "sz": 16} for i, x in enumerate(intest)]]
+    for r in righe:
+        R.append([{"t": x, "sz": 16, "al": al} for x, al in r])
+    if totale:
+        R.append([{"t": x, "sz": 16, "b": True, "al": al} for x, al in totale])
+    assert sum(larghezze) == _W
+    return {"larghezze": larghezze, "righe": R, "testa": 1}
+
+
+def _tab_personale(cod):
+    a = _ATT[cod]
+    righe, fte, ore, costo = [], 0, 0, 0
+    for k, fascia in enumerate(("Alto", "Medio", "Basso")):
+        if not a["ore"][k]:
+            continue
+        f = a["n"][k] * a["imp"]
+        c = a["ore"][k] * a["tar"][k]
+        righe.append([(fascia, "left"), (a["ruoli"][k] or "", "left"), (_num(f, 2), "right"),
+                      (_num(a["ore"][k]), "right"), (_num(a["tar"][k]), "right"), (_eur(c), "right")])
+        fte += f; ore += a["ore"][k]; costo += c
+    assert round(costo) == round(a["costo"]), (cod, costo, a["costo"])
+    return _tab([1450, 4176, 800, 900, 700, 1500], ["Fascia", "Profilo e ruolo", "FTE", "Ore", "€/h", "Costo"], righe,
+                [("Totale personale", "left"), ("", "left"), (_num(fte, 2), "right"), (_num(ore), "right"),
+                 ("", "right"), (_eur(costo), "right")])
+
+
+def _tab_servizi(lista, col="Ruolo nell'attività"):
+    righe = [[(s["ogg"], "left"), (s["ruolo"] or s["mot"] or "", "left"), (_eur(s["imp"]), "right")] for s in lista]
+    tot = [("Totale servizi", "left"), ("", "left"), (_eur(sum(s["imp"] for s in lista)), "right")] if len(lista) > 1 else None
+    return _tab([3900, 4126, 1500], ["Servizi e licenze", col, "Importo"], righe, tot)
+
+
+def _tab_attrezzature(lista):
+    def uso(x):
+        if x["intero"] == "Sì":
+            return "intero costo, vita utile entro la durata"
+        s = "%d mesi su %d" % (x["uso"], x["amm"])
+        return s + ("" if (x["imput"] or 1) >= 1 else ", imputazione %d%%" % round(x["imput"] * 100))
+    righe = [[("%s%s" % (x["nome"], " (%d)" % x["q"] if x["q"] and x["q"] > 1 else ""), "left"),
+              (_eur(x["spesa"]), "right"), (uso(x), "left"), (_eur(x["costo"]), "right")] for x in lista]
+    tot = [("Totale", "left"), (_eur(sum(x["spesa"] for x in lista)), "right"), ("", "left"),
+           (_eur(sum(x["costo"] for x in lista)), "right")] if len(lista) > 1 else None
+    return _tab([3826, 1500, 2400, 1800], ["Strumenti e attrezzature", "Spesa prevista", "Ammortamento e utilizzo",
+                                           "Costo ammissibile"], righe, tot)
+
+
+def _blocco_attivita(cod):
+    a = _ATT[cod]
+    out = [("s", "Risorse e costi di %s, mesi %d-%d" % (cod, a["ini"], a["fine"])), ("x", _tab_personale(cod))]
+    s = [x for x in _SERV if x["att"] == cod]
+    if s:
+        out.append(("x", _tab_servizi(s)))
+    return out
+
+
+def _blocco_or(o):
+    out = [("s", "Riepilogo dei costi di %s" % o)]
+    attr = [x for x in _ATTR if x["OR"] == o]
+    serv = [x for x in _SERV if x["OR"] == o and not x["att"]]
+    if attr:
+        out.append(("x", _tab_attrezzature(attr)))
+    if serv:
+        out.append(("x", _tab_servizi(serv, "Ruolo nell'OR")))
+    r = _RIEP[o]
+    cod = [c for c, a in _ATT.items() if a["OR"] == o]
+    assert round(sum(_ATT[c]["costo"] for c in cod)) == round(r["pers"]), (o, "personale")
+    assert round(sum(x["costo"] for x in attr), 2) == round(r["attr"], 2), (o, "attrezzature")
+    assert round(sum(x["imp"] for x in _SERV if x["OR"] == o)) == round(r["serv"]), (o, "servizi")
+    righe = [[("Personale", "left"), (_eur(r["pers"]), "right")],
+             [("Strumenti e attrezzature (quota imputata)", "left"), (_eur(r["attr"]), "right")],
+             [("Servizi di consulenza e altri servizi", "left"), (_eur(r["serv"]), "right")],
+             [("Spese generali e materiali (20%)", "left"), (_eur(r["sg"]), "right")]]
+    out.append(("x", _tab([7026, 2500], ["Voce di costo", "Costo"], righe,
+                          [("Totale %s" % o, "left"), (_eur(r["tot"]), "right")])))
+    return out
+
+
+def _render(spec):
+    f = {"t": testo, "p": punto, "s": sottotitolo, "e": _etichetta}
+    return lambda: [v if k == "x" else f[k](v) for k, v in spec]
+
+
+_RE_TASK = _re.compile(r"^(A\d+\.\d+)\b")
+TESTI_SENZA_ATTIVITA, ATTIVITA_SENZA_TESTO = [], []
+for _o in [o[0] for o in CFG["or"]]:
+    _k = "II.7.2/%s" % _o
+    _sp = _spec(_k) if _k in CONTENUTI else []
+    _out, _cur, _skip = [], None, False
+    _visti = set()
+    for _t, _v in _sp + [("s", "§fine")]:
+        if _t == "s":
+            if _cur:
+                _out += _blocco_attivita(_cur)
+                _cur = None
+            _skip = _v.strip().lower().startswith("risorse umane")
+            _m = _RE_TASK.match(_v)
+            if _m:
+                if _m.group(1) in _ATT and _ATT[_m.group(1)]["OR"] == _o:
+                    _cur = _m.group(1); _visti.add(_cur)
+                    _v = _sotto_task(_cur)[1]          # sottotitolo (codice, titolo, mesi) dal modello
+                else:
+                    TESTI_SENZA_ATTIVITA.append("%s: %s" % (_o, _v[:60]))
+            if _v == "§fine" or _skip:
+                continue
+        if not _skip:
+            _out.append((_t, _v))
+    for _c in [c for c, a in _ATT.items() if a["OR"] == _o and c not in _visti]:
+        ATTIVITA_SENZA_TESTO.append(_c)
+        _out += [_sotto_task(_c)] + _blocco_attivita(_c)
+    _out += _blocco_or(_o)
+    CONTENUTI[_k] = _render(_out)
