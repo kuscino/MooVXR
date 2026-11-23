@@ -558,7 +558,8 @@ CONTENUTI["II.7.2/OR13"] = _blocchi([
 
 # ---------------------------------------------------------------- OR1, forma Frascati (approvato il 20/11)
 CONTENUTI["II.7.1/OR1"] = _blocchi([
-    _intestazione("Content policy engine adattivo", "Aubay Italia", "ricerca industriale"),
+    _intestazione("Content policy engine adattivo e personalizzazione dei contenuti", "Aubay Italia",
+                  "ricerca industriale", "Roma (Lazio)"),
     ("t", "L'obiettivo realizzativo studia i metodi e i modelli con cui un content policy engine stabilisce, "
           "istante per istante, quali contenuti presentare a ciascun occupante del veicolo, in quale forma e su "
           "quale superficie di visualizzazione. La decisione tiene conto della situazione di guida, della scena "
@@ -570,11 +571,13 @@ CONTENUTI["II.7.1/OR1"] = _blocchi([
           "velocità, i menu si riducono in marcia. I sistemi di monitoraggio del guidatore (DMS) previsti dal "
           "Regolamento (UE) 2019/2144 producono avvisi ma non governano i contenuti. Non esiste un criterio per "
           "arbitrare fra più superfici e più occupanti, né per adattarsi al singolo guidatore."),
-    ("t", "L'obiettivo produce tre risultati, usati dall'applicazione di bordo (OR3) e dalle esperienze per i "
-          "passeggeri (OR6):"),
+    ("t", "L'obiettivo produce cinque risultati, usati dall'applicazione di bordo (OR3) e dalle esperienze per i "
+          "passeggeri (OR4):"),
     ("p", "un modello del contesto con previsione a breve termine;"),
-    ("p", "un insieme di policy verificate formalmente;"),
-    ("p", "una componente adattiva che può solo restringere le policy validate."),
+    ("p", "un insieme di policy eseguibili, verificate formalmente;"),
+    ("p", "una componente adattiva che può solo restringere le policy validate;"),
+    ("p", "raccomandazioni personalizzate per ciascun occupante, entro i limiti decisi dalle policy;"),
+    ("p", "profili degli occupanti costruiti a bordo, senza trasferimento di dati personali."),
     ("t", "Le attività sono ricerca industriale ai sensi dell'art. 1, lett. o), del DD: acquisiscono nuove "
           "conoscenze per un componente di un sistema complesso, verificato in ambiente di simulazione e su dati "
           "registrati, senza realizzazione in condizioni operative reali."),
@@ -615,29 +618,29 @@ CONTENUTI["II.7.2/OR1"] = _blocchi([
           "passeggeri."),
 
     ("s", "A1.2 Traduzione delle linee guida in policy eseguibili (mesi 6-16)"),
-    ("e", ("Problema.", "Le linee guida di settore e quelle sperimentali prodotte nell'OR dedicato all'attenzione "
-           "degli occupanti sono descrittive e pensate per un display e per il solo guidatore. Tradotte in regole per "
+    ("e", ("Problema.", "Le linee guida di settore, come lo European Statement of Principles on HMI e le linee "
+           "guida NHTSA, sono descrittive e pensate per un display e per il solo guidatore. Tradotte in regole per "
            "più superfici e più occupanti producono conflitti e lacune. Per esempio, uno stesso contenuto può "
            "risultare ammesso sul display del passeggero e vietato su una superficie visibile dal guidatore.")),
     ("e", ("Soluzione proposta.", "Un linguaggio in cui le regole descrivono cosa è ammesso e in quali condizioni, "
            "con tre classi (sempre vietato, ammesso a condizioni, sempre consentito), condizioni sulle variabili del "
-           "modello del contesto, priorità e una regola di default prudente. Prima dell'esecuzione, uno strumento di "
-           "verifica controlla che le regole non si contraddicano e coprano tutti i casi. La codifica è rivista da "
-           "una consulenza di dominio su sicurezza funzionale e HMI, ISO 26262 e ISO 21448.")),
-    ("e", ("Novità e incertezza.", "La novità è la verifica formale di un insieme di regole HMI per più superfici "
-           "e più occupanti. L'incertezza riguarda due punti:")),
-    ("p", "se la verifica resti eseguibile in tempi ragionevoli quando crescono regole e superfici;"),
+           "modello del contesto, priorità e una regola di default prudente. Un controllo automatico segnala, già in "
+           "fase di codifica, le regole in conflitto e i casi non coperti. Le regole sperimentali dell'OR dedicato "
+           "all'attenzione degli occupanti (OR10), disponibili più avanti nel progetto, sono recepite nella verifica "
+           "formale del motore (A1.5).")),
+    ("e", ("Novità e incertezza.", "La novità è un linguaggio di regole HMI per più superfici e più occupanti, "
+           "con controllo automatico di conflitti e lacune. L'incertezza riguarda due punti:")),
+    ("p", "se il controllo resti eseguibile in tempi ragionevoli quando crescono regole e superfici;"),
     ("p", "se il linguaggio sia abbastanza espressivo da codificare tutte le linee guida senza eccezioni gestite a mano."),
     ("e", ("Metodo.", "")),
     ("t", "1. Censimento e normalizzazione delle linee guida."),
     ("t", "2. Progetto del linguaggio e dello strumento di verifica."),
     ("t", "3. Codifica delle regole."),
     ("t", "4. Verifica su casi di prova generati in modo sistematico, combinando contesto, superficie e occupante."),
-    ("t", "5. Revisione della consulenza di dominio."),
     ("e", ("Risultati misurabili.", "Prima release del motore con regole codificate (D1.2). Indicatori:")),
     ("p", "100% delle linee guida codificate o escluse con motivazione;"),
     ("p", "nessun conflitto residuo;"),
-    ("p", "tempo di valutazione dell'insieme di regole inferiore a 20 ms nel 95% dei casi."),
+    ("p", "tempo di valutazione dell'insieme di regole inferiore a 50 ms nel 95% dei casi (K7)."),
 
     ("s", "A1.3 Componente adattiva calibrata sul singolo guidatore (mesi 9-22)"),
     ("e", ("Problema.", "Le soglie fisse sono tarate su un guidatore medio. Sono troppo restrittive per chi gestisce "
@@ -659,8 +662,8 @@ CONTENUTI["II.7.2/OR1"] = _blocchi([
     ("t", "2. Modelli del singolo guidatore che si aggiornano a ogni sessione di guida."),
     ("t", "3. Dimostrazione formale del vincolo e prove automatiche che lo controllano su un gran numero di casi "
           "generati."),
-    ("t", "4. Valutazione in ambienti simulati su campioni di guidatori, con l'OR dedicato all'attenzione degli "
-          "occupanti."),
+    ("t", "4. Valutazione su dati di guida registrati e in simulazione; la verifica sperimentale con partecipanti è "
+          "svolta dall'OR dedicato all'attenzione degli occupanti (A10.5)."),
     ("e", ("Risultati misurabili.", "Componente adattiva e rapporto di prova (D1.3). Indicatori:")),
     ("p", "nessuna decisione più permissiva delle policy validate su tutti i casi di prova;"),
     ("p", "riduzione degli sguardi fuori strada di almeno il 15% rispetto alle regole fisse, a parità di "
@@ -694,25 +697,94 @@ CONTENUTI["II.7.2/OR1"] = _blocchi([
     ("p", "passaggio al livello prudente entro 200 ms dall'evento;"),
     ("p", "funzionamento in modalità degradata per meno del 5% del tempo in condizioni nominali."),
 
-    ("s", "A1.5 Verifica su scenari simulati e registrati (mesi 18-24)"),
-    ("e", ("Problema.", "Prima dell'integrazione su veicolo il motore va verificato su un numero di combinazioni di "
-           "contesto, occupanti e superfici che le prove reali non possono coprire.")),
-    ("e", ("Soluzione proposta.", "Una batteria di scenari simulati e registrati, costruita in modo sistematico ed "
-           "eseguita automaticamente, con esiti attesi derivati dalle policy.")),
-    ("e", ("Novità e incertezza.", "L'incertezza riguarda la capacità della batteria di coprire le situazioni "
-           "rilevanti, compresi i casi rari ma critici. Per questo la copertura è misurata, non assunta.")),
+    ("s", "A1.5 Verifica formale delle regole del content policy engine"),
+    ("e", ("Problema.", "Il content policy engine combina regole codificate, livelli di funzionamento degradato e una "
+           "componente adattiva. Le prove su casi di esempio mostrano che il motore si comporta correttamente nei casi "
+           "provati, ma non che un contenuto vietato non possa mai raggiungere il guidatore. Le regole sperimentali "
+           "dell'OR dedicato all'attenzione degli occupanti (OR10) arrivano inoltre quando il motore è già in "
+           "sviluppo, e vanno recepite senza introdurre conflitti.")),
+    ("e", ("Soluzione proposta.", "Una verifica formale del motore completo. Le regole, i livelli degradati e i vincoli "
+           "della componente adattiva sono tradotti in un modello su cui uno strumento di model checking dimostra "
+           "proprietà di sicurezza. La prima è che nessuno stato raggiungibile porti un contenuto vietato su una "
+           "superficie visibile dal guidatore. Quando una proprietà non è soddisfatta, lo strumento restituisce un "
+           "controesempio, cioè la sequenza di situazioni che porta alla violazione, e il controesempio serve a "
+           "correggere le regole. Nella stessa attività si misura il tempo di decisione sull'unità di calcolo di "
+           "riferimento. La verifica su scenari simulati del sistema completo è svolta nel digital twin (A6.5).")),
+    ("e", ("Novità e incertezza.", "La novità è la verifica formale di proprietà di sicurezza dei contenuti per più "
+           "superfici e più occupanti, sull'insieme delle regole e sui loro cambi di stato. L'incertezza riguarda due "
+           "punti:")),
+    ("p", "se la verifica resti trattabile al crescere di regole, superfici e livelli di funzionamento (state space "
+          "explosion);"),
+    ("p", "quale astrazione della componente adattiva consenta di verificarla senza perdere le proprietà da "
+          "dimostrare."),
     ("e", ("Metodo.", "")),
-    ("t", "1. Definizione dei criteri di copertura."),
-    ("t", "2. Generazione degli scenari: tutte le coppie di valori delle variabili di contesto, una tecnica che rileva "
-          "la maggior parte dei difetti con un numero contenuto di scenari, e scenari critici estratti dai dati "
-          "registrati."),
-    ("t", "3. Esecuzione automatica e confronto con gli esiti attesi."),
-    ("t", "4. Analisi dei fallimenti e correzione."),
-    ("e", ("Risultati misurabili.", "Rapporto di verifica (D1.5). Indicatori:")),
-    ("p", "copertura del 100% delle coppie di valori delle variabili di contesto;"),
-    ("p", "tempo di decisione inferiore a 50 ms nel 95% dei casi sull'unità di calcolo di riferimento;"),
-    ("p", "nessuna violazione delle policy."),
-    ("t", "La batteria è riproducibile ed è riusata nel protocollo di prova del dimostratore su veicolo."),
+    ("t", "1. Formalizzazione delle proprietà di sicurezza dei contenuti."),
+    ("t", "2. Traduzione di regole, livelli degradati e vincoli della componente adattiva nel modello verificabile."),
+    ("t", "3. Recepimento delle regole di OR10 e nuova verifica."),
+    ("t", "4. Analisi dei controesempi e correzione delle regole."),
+    ("t", "5. Misura del tempo di decisione sull'unità di calcolo di riferimento."),
+    ("e", ("Risultati misurabili.", "Rapporto di verifica formale delle regole (D1.5). Indicatori:")),
+    ("p", "nessuno stato raggiungibile in cui il guidatore riceva un contenuto vietato;"),
+    ("p", "100% delle regole di OR10 recepite e verificate;"),
+    ("p", "tempo di decisione completo, comprensivo del modello del contesto e della componente adattiva, inferiore a "
+          "250 ms nel 95% dei casi sull'unità di calcolo di riferimento (K7 per la sola valutazione delle regole)."),
+
+    ("s", "A1.6 Raccomandazione personalizzata"),
+    ("e", ("Problema.", "A bordo viaggiano più occupanti con interessi diversi, e il guidatore non può essere coinvolto "
+           "come i passeggeri. I sistemi di raccomandazione esistenti propongono contenuti a un singolo utente, senza "
+           "tenere conto dei limiti imposti dalla situazione di guida né del percorso. Per i veicoli elettrici le soste "
+           "di ricarica sono un'occasione per proporre contenuti e punti di interesse, ma nei dati aperti la "
+           "disponibilità delle colonnine non è nota in anticipo.")),
+    ("e", ("Soluzione proposta.", "Un motore di raccomandazione per occupante, che propone contenuti, punti di "
+           "interesse (POI) e soste lungo il percorso:")),
+    ("p", "le raccomandazioni tengono conto del profilo dell'occupante (A1.7), della posizione, del percorso e del tempo "
+          "disponibile;"),
+    ("p", "ogni raccomandazione passa dal content policy engine, che ne decide l'ammissibilità e la superficie di "
+          "presentazione;"),
+    ("p", "le soste di ricarica sono pianificate con servizi di routing esistenti, alimentati da dati aperti sulle "
+          "colonnine (Open Charge Map) e sui punti di interesse (OpenStreetMap, Overture Maps, Wikidata); la "
+          "disponibilità delle colonnine è stimata dai dati statici disponibili."),
+    ("e", ("Novità e incertezza.", "La novità è raccomandare insieme a più occupanti dello stesso veicolo, entro le "
+           "policy sui contenuti e in funzione del percorso e delle soste. L'incertezza riguarda due punti:")),
+    ("p", "come combinare le preferenze dei diversi occupanti in proposte condivise, come una sosta, senza "
+          "penalizzarne nessuno;"),
+    ("p", "quale accuratezza abbia la stima della disponibilità delle colonnine ricavata da dati statici."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Integrazione dei contenuti generati in OR2 e della piattaforma collaborativa di OR4 con i dati aperti su "
+          "POI e colonnine."),
+    ("t", "2. Modelli di raccomandazione per singolo occupante e per gruppo."),
+    ("t", "3. Integrazione con i servizi di routing e con il content policy engine."),
+    ("t", "4. Valutazione su percorsi registrati e in simulazione."),
+    ("e", ("Risultati misurabili.", "Motore di raccomandazione personalizzata (D1.6). Indicatori:")),
+    ("p", "100% delle raccomandazioni presentate entro i limiti decisi dal content policy engine;"),
+    ("p", "stima della disponibilità delle colonnine corretta in almeno l'80% dei casi sui dati di prova."),
+
+    ("s", "A1.7 Apprendimento a bordo dei profili degli occupanti"),
+    ("e", ("Problema.", "La personalizzazione richiede profili degli occupanti, ma i dati che li alimentano (preferenze, "
+           "abitudini, posizione, comportamento a bordo) sono dati personali. Trasferirli al cloud per costruire i "
+           "profili espone gli occupanti a rischi per la riservatezza e richiede le basi giuridiche e le misure di "
+           "protezione previste dal Regolamento (UE) 2016/679. In un veicolo condiviso, inoltre, ogni occupante deve "
+           "poter dare o negare il consenso in modo indipendente.")),
+    ("e", ("Soluzione proposta.", "")),
+    ("p", "Profili a bordo: i profili sono costruiti e aggiornati sull'unità di calcolo del veicolo, e i dati grezzi non "
+          "lasciano il veicolo."),
+    ("p", "Modelli comuni: migliorano con tecniche di federated learning, che trasferiscono solo aggiornamenti "
+          "aggregati dei parametri."),
+    ("p", "Consenso: il consenso di ciascun occupante è gestito con strumenti esistenti di consent management. Il "
+          "motore di raccomandazione (A1.6) usa un profilo solo se il relativo consenso è registrato."),
+    ("e", ("Novità e incertezza.", "La novità è costruire interamente a bordo, con risorse di calcolo limitate, i "
+           "profili di più occupanti dello stesso veicolo. L'incertezza riguarda due punti:")),
+    ("p", "se i profili costruiti con i soli dati di bordo diano raccomandazioni di qualità comparabile a quelle dei "
+          "profili costruiti in cloud;"),
+    ("p", "se i profili restino separati e corretti quando cambiano gli occupanti a bordo."),
+    ("e", ("Metodo.", "")),
+    ("t", "1. Definizione dei dati di profilo e delle regole di consenso."),
+    ("t", "2. Algoritmi di apprendimento a bordo e aggiornamento federato dei modelli comuni."),
+    ("t", "3. Integrazione con gli strumenti di consent management e con il motore di raccomandazione."),
+    ("t", "4. Verifica dei flussi di dati in uscita dal veicolo."),
+    ("e", ("Risultati misurabili.", "Profili costruiti a bordo (D1.7). Indicatori:")),
+    ("p", "nessun dato personale grezzo trasferito fuori dal veicolo, verificato sui flussi in uscita;"),
+    ("p", "consenso registrato per il 100% degli occupanti profilati."),
 
     ("s", "Risorse umane"),
     ("t", "Un responsabile tecnico, impegnato nelle attività A1.1 e A1.3, 8 profili senior e 11 sviluppatori, con "
@@ -1224,8 +1296,8 @@ _OR14 += [
           "simulato di una flotta di veicoli."),
     ("p", "Protocollo di prova: percorsi, condizioni, criteri di interruzione e cautele per le prove su strada aperta, "
           "come la presenza di un operatore di prova a bordo e la scelta di percorsi e fasce orarie a basso traffico."),
-    ("e", ("Novità e incertezza.", "La novità è misurare latenza e continuità sull'intera catena, dalla percezione della "
-           "scena alla superficie di visualizzazione, con il veicolo in movimento. L'incertezza riguarda due punti:")),
+    ("e", ("Novità e incertezza.", "La novità è misurare latenza e continuità sull'intera catena, dall'evento nella "
+           "scena alla presentazione del contenuto, con il veicolo in movimento. L'incertezza riguarda due punti:")),
     ("p", "se la latenza complessiva resti entro il valore obiettivo quando tutti i componenti condividono le risorse di "
           "bordo;"),
     ("p", "se la continuità dei contenuti regga nelle zone con copertura di rete scarsa."),
@@ -1236,7 +1308,8 @@ _OR14 += [
     ("t", "4. Misura di latenza e continuità sui percorsi di prova."),
     ("t", "5. Redazione del protocollo per le prove su strada."),
     ("e", ("Risultati misurabili.", "Dimostratore integrato e rapporto delle prove di carico (D14.4). Indicatori:")),
-    ("p", "latenza end-to-end, dalla percezione della scena alla visualizzazione, non superiore a 100 ms;"),
+    ("p", "latenza end-to-end di consegna, dall'evento nella scena alla presentazione o rimozione del contenuto, non "
+          "superiore a 500 ms; l'allineamento dei contenuti AR è gestito localmente dai dispositivi ed è misurato da K3;"),
     ("p", "almeno il 95% dei contenuti disponibili nel momento utile sui percorsi di prova (K2)."),
 ]
 CONTENUTI["II.7.2/OR14"] = _blocchi(_OR14)
