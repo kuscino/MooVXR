@@ -98,7 +98,8 @@ Punti che nLight deve confermare o integrare:
 - Dati: valore della produzione € 5.671.268 nel 2024 e € 6.434.150 nel 2025, circa 40 dipendenti,
   sede a Roma (Lazio), PMI (documento Parti I e III). Mancano ore annue CCNL e referente tecnico
   con CV.
-- Da chiarire: capofila, GSNet nel documento Parti I e III, Aubay nel modello.
+- Capofila: GSNet (deciso il 23/11). Il flag nel modello è ancora su Aubay e va portato su GSNet
+  alla prossima versione del modello.
 
 - Nuovo Excel del 22/11 (MooVXR_GSNet_costi GSNET 2.xlsx), integrato nel modello v11: fascia Media ridotta
   su A2.1, A2.2, A3.1, A3.3, A4.1, A4.4, A4.5, A5.1. Totale ricalcolato dal team 5.198.917 € (OR2

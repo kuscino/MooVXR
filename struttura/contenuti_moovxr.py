@@ -762,3 +762,122 @@ CONTENUTI["II.7.2/OR4"] = _blocchi(
               {"A6.1": "A4.4", "A6.2": "A4.5", "A6.3": "A4.6", "A6.4": "A4.7", "A6.5": "A4.8"}))
 for _k in ("II.7.1/OR3", "II.7.1/OR4", "II.7.1/OR6", "II.7.2/OR6"):
     CONTENUTI.pop(_k, None)
+
+
+# ---------------------------------------------------------------- Parti I e III
+# Testi del documento ricevuto "Allegato 4 MooVXR Parti I e III" (20/11), importati senza
+# modifiche con importa_parti_I_III.py nel modulo di dati parti_I_III_moovxr.py.
+from docx_core import immagine
+
+_sp = importlib.util.spec_from_file_location("parti_I_III_moovxr", QUI / "parti_I_III_moovxr.py")
+_pm = importlib.util.module_from_spec(_sp)
+_sp.loader.exec_module(_pm)
+PARTI_I_III = _pm.BLOCCHI
+
+
+def _proponente(t):
+    return para(run(t, bold=True, size=22), spacing='<w:spacing w:before="240" w:after="80"/>')
+
+
+def _paragrafo(rr):
+    return para("".join(run(t, bold=b, italic=i) for t, b, i in rr),
+                spacing='<w:spacing w:before="60" w:after="60"/>')
+
+
+def _parte(chiave):
+    def f():
+        out = []
+        for b in PARTI_I_III[chiave]:
+            if b[0] == "proponente":
+                out.append(_proponente(b[1]))
+            elif b[0] == "sotto":
+                out.append(sottotitolo(b[1]))
+            elif b[0] == "punto":
+                out.append(punto(b[1]))
+            elif b[0] == "testo":
+                out.append(_paragrafo(b[1]))
+            elif b[0] == "img":
+                out.append(immagine(QUI / b[1], b[2], b[3]))
+            elif b[0] == "tab":
+                out.append(b[1])                    # specifica di tabella, resa da build_finanziato
+        return out
+    return f
+
+
+for _k in PARTI_I_III:
+    CONTENUTI[_k] = _parte(_k)
+
+
+# III.1.2: la tabella dei costi del documento ricevuto (20 M€, quote superate) si sostituisce con
+# quella generata dal modello economico corrente (foglio Riepilogo) e dagli OR della configurazione.
+MODELLO = QUI.parent / "Modello_Economico_MooVXR_v14.xlsx"
+
+
+def _euro(v):
+    return "€ " + format(round(v), ",d").replace(",", ".")
+
+
+def _tabella_costi():
+    import openpyxl
+    ws = openpyxl.load_workbook(MODELLO, data_only=True)["Riepilogo"]
+    righe, tot = [], None
+    for r in ws.iter_rows(min_row=2, values_only=True):
+        if r[0] == "TOTALE PROGETTO":
+            tot = r[4]
+            break
+        righe.append((r[0], r[4], r[5]))
+    assert tot and all(isinstance(c, (int, float)) for _, c, _ in righe), "modello non ricalcolato: " + str(MODELLO)
+    assert {p for p, _, _ in righe} == {o[2] for o in CFG["or"]}, "proponenti del modello diversi dalla configurazione"
+    assert round(sum(c for _, c, _ in righe), 2) == round(tot, 2)
+    W = [2002, 1719, 857, 4948]
+    testa = [{"t": t, "b": True} for t in ("Proponente", "Costo a carico", "Quota", "Obiettivi realizzativi di competenza")]
+    corpo = []
+    for p, c, q in righe:
+        ors = ", ".join(o[0] for o in CFG["or"] if o[2] == p)
+        corpo.append([{"t": p}, {"t": _euro(c), "al": "right"},
+                      {"t": ("%.2f%%" % (q * 100)).replace(".", ","), "al": "right"}, {"t": ors}])
+    corpo.append([{"t": "Totale", "b": True}, {"t": _euro(tot), "al": "right", "b": True},
+                  {"t": "100,00%", "al": "right", "b": True}, {"t": ""}])
+    return {"larghezze": W, "righe": [testa] + corpo, "testa": 1}
+
+
+PARTI_I_III["III.1.2"] = [("tab", _tabella_costi()) if b[0] == "tab" else b for b in PARTI_I_III["III.1.2"]]
+assert sum(1 for b in PARTI_I_III["III.1.2"] if b[0] == "tab") == 1
+
+
+# Correzioni confermate il 23/11 ai testi importati: costo e quota del Politecnico letti dal modello.
+def _quota_proponente(nome):
+    import openpyxl
+    ws = openpyxl.load_workbook(MODELLO, data_only=True)["Riepilogo"]
+    righe = {r[0]: r for r in ws.iter_rows(min_row=2, values_only=True) if r[0]}
+    return righe[nome][4], righe[nome][5], righe["TOTALE PROGETTO"][4]
+
+
+def _sostituisci(chiave, vecchio, nuovo):
+    n = 0
+    for b in PARTI_I_III[chiave]:
+        if b[0] == "testo":
+            for j, (t, bo, it) in enumerate(b[1]):
+                if vecchio in t:
+                    b[1][j] = (t.replace(vecchio, nuovo), bo, it)
+                    n += 1
+    assert n == 1, (chiave, vecchio, n)
+
+
+_c, _q, _t = _quota_proponente("Politecnico di Milano")
+_qs = ("%.2f%%" % (_q * 100)).replace(".", ",")
+_sostituisci("III.1.2", "Sostiene € 3.000.000 sul costo complessivo di € 20.000.000, pari al 15,00%",
+             "Sostiene %s sul costo complessivo di %s, pari al %s" % (_euro(_c), _euro(_t), _qs))
+_sostituisci("III.1.1", "spettante all’Ateneo è di € 3.000.000, pari al 15% del totale",
+             "spettante all’Ateneo è di %s, pari al %s del totale" % (_euro(_c), _qs))
+
+
+# Correzione confermata il 23/11: la tabella dei profili di GSNet in III.1.1 non riporta i nomi del
+# personale; la prima colonna indica se la risorsa è in organico o da individuare.
+_tab_gsnet = [b for b in PARTI_I_III["III.1.1"] if b[0] == "tab" and b[1]["righe"][0][0]["t"] == "Risorsa"]
+assert len(_tab_gsnet) == 1
+_righe = _tab_gsnet[0][1]["righe"]
+_righe[0][0]["t"] = "Disponibilità"
+for _r in _righe[1:]:
+    if _r[0]["t"] != "Da individuare":
+        _r[0]["t"] = "In organico"
