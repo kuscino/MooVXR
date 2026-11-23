@@ -27,6 +27,20 @@ MooVXR_Anitia_costi_rev1.xlsx), con queste modifiche:
    penetration test e all'assessment di Aubay (OR14).
 6. L'altro Accordo per l'innovazione in corso sarà dichiarato nella Parte III, par. 1.1.
 
+Mail di Anitia del 23/11 (pianificazione rivista), integrata nel modello v12:
+
+- A7.2 mesi 4-13 (D7.2 al mese 13), A8.2 mesi 19-30 (D8.2 al mese 30), A8.3 mesi 13-30 (D8.3 al mese 30).
+  In attesa del loro Excel con i team per task, le ore di ogni attività spostata restano quelle della rev1
+  (team riscalato sulla nuova durata): totale invariato 1.402.447 €, contro 1.402.722 € indicati da Anitia
+  (275 € di differenza dovuti alla ridistribuzione delle persone, da riprendere dal loro file).
+- Tab. 2: addette donne 1 in fascia Media e 3 in fascia Bassa; addetti di picco 1/6/8 (erano 1/8/11).
+- Testi da allineare nel Piano: colonnine e POI rinviati a A1.6 (OR1); A7.4 sul veicolo di prova di GSNet
+  (OR4), verifica sul dimostratore in A14.5; A8.3 con analisi dei rischi divisa fra Anitia (gateway e catena
+  OTA) e Aubay (A14.2) e distribuzione dei modelli AI dei partner tramite OTA con ritorno alla versione
+  precedente secondo A14.3; A8.4 limitata alla piattaforma IoT, prove del sistema completo in A14.4.
+- Chiesta ad Anitia una prima versione del canale OTA sul veicolo di prova verso i mesi 25-26 (A14.3, A14.4),
+  con D8.3 definitivo al mese 30.
+
 ## nLight (OR12, OR13)
 
 Costi: si integra la versione v2 (MooVXR_nLight_costi v2.xlsx), totale 2,02 M€. Testi: revisione di
@@ -105,6 +119,15 @@ lungo o anticipato, con i canoni aggiuntivi nei costi di OR4.
 Ritorno del 20/11 (MooVXR_Politecnico_revisione_CONSEGNA_20261120.docx e
 MooVXR_Politecnico_costi_CONSEGNA_20261120.xlsx): costi invariati, 3.991.024 € (OR9 1.299.330, OR10
 1.197.600, OR11 1.494.094), integrati nel modello dalla v4.
+
+Excel del 22/11 ("v13" del Politecnico, MooVXR_Politecnico_costi_CONSEGNA_20261122.xlsx), acquisito come è
+nel modello v13 del 23/11: totali per OR invariati; personale 1.950.000 € (gruppo nominativo di 18 posizioni:
+5 Alto, 2 Medio, 11 Basso), consulenze e ricerca contrattuale 624.000 € (CAT-01 … CAT-12, 11 classificate
+come ricerca contrattuale e CAT-09 come consulenza), attrezzature 481.853 € (20 voci, P-01 … P-14 nuove),
+servizi e licenze 270.000 €. Ore per fascia riportate a valori interi che danno esattamente lo stesso costo.
+Punti aperti: consulenze tecniche in contrasto con la regola "solo di dominio"; CAT-01 (GNSS/IMU) e CAT-08
+(verifica delle policy) sovrapposte ad altri partner; Tab. 2 del modello con 22/7/35 posizioni contro 18
+persone; testi ancora a 13 OR, Cognitive Mesh, A10.5 con il titolo vecchio, indicatori senza valori obiettivo.
 
 ### Nota da condividere con il Politecnico: A10.5 e ruoli delle verifiche
 
