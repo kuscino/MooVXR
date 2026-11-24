@@ -2821,8 +2821,8 @@ CONTENUTI["II.4"] = _render([
           "ospita un numero crescente di superfici di visualizzazione. Per il guidatore lo scenario regolatorio va "
           "nella direzione opposta: la Raccomandazione 2008/653/CE limita la distrazione visivo-manuale, e il "
           "Regolamento (UE) 2019/2144 prevede sistemi di avviso della distrazione del guidatore. Oggi i due aspetti "
-          "sono gestiti separatamente, con regole fisse che bloccano i contenuti oltre una certa velocità e non "
-          "distinguono fra guidatore e passeggeri."),
+          "sono gestiti separatamente, con regole fisse legate alla velocità e, nei casi più avanzati, con "
+          "l'oscuramento di un singolo schermo del passeggero quando il guidatore lo guarda."),
     ("t", "La finalità del progetto è conciliare queste due direttrici:"),
     ("p", "rendere l'abitacolo un ambiente di contenuti personalizzati per i passeggeri, con esperienze AR e XR legate ai "
           "luoghi attraversati;"),
@@ -2924,7 +2924,9 @@ CONTENUTI["II.6"] = _render([
 # III.2.1, fattibilità tecnica (24/11): contributo del Politecnico dalla loro revisione del 24/11, riscritto e
 # confermato; restano da redigere le parti degli altri proponenti e dotazioni possedute e procedure del Politecnico.
 from docx_core import segnaposto as _segnaposto
-CONTENUTI["III.2.1"] = _render([
+_spg = importlib.util.spec_from_file_location("testi_gsnet_parte3", QUI / "testi_gsnet_parte3.py")
+_GS = importlib.util.module_from_spec(_spg); _spg.loader.exec_module(_GS)
+CONTENUTI["III.2.1"] = _render([("s", "GSNet")] + _GS.III_2_1 + [
     ("s", "Politecnico di Milano"),
     ("t", "Il contributo si articola in tre linee di ricerca industriale: localizzazione e ancoraggio dei contenuti con "
           "stima dell'affidabilità (OR9), sperimentazione sui fattori umani e verifica delle regole adattive in "
@@ -2939,7 +2941,91 @@ CONTENUTI["III.2.1"] = _render([
     ("t", "La responsabilità scientifica di OR9-OR11 è del prof. Riccardo Enrico Zich. La gestione tecnica assicura la "
           "tracciabilità di protocolli, configurazioni di prova ed esiti, con il raccordo alle interfacce dei partner."),
     ("x", _segnaposto("[Testo da redigere: dotazioni e laboratori posseduti e procedure di R&S del Politecnico; "
-                      "fattibilità tecnica di GSNet, Aubay Italia, Anitia e nLight]")),
+                      "fattibilità tecnica di Aubay Italia, Anitia e nLight]")),
+])
+
+# III.2.2, risultati attesi per proponente (24/11): Aubay confermato; gli altri proponenti da redigere.
+CONTENUTI["III.2.2"] = _render([
+    ("s", "Aubay Italia"),
+    ("t", "I risultati attesi di Aubay sono tre componenti del sistema, valutati rispetto allo stato dell'arte "
+          "internazionale."),
+    ("e", ("Content policy engine (OR1).", "Stabilisce, per ciascun occupante e per ciascuna superficie, quali "
+           "contenuti presentare e in quale forma. Oggi i contenuti di bordo sono regolati con criteri statici pensati "
+           "per un solo display e per il solo guidatore (Raccomandazione 2008/653/CE, linee guida NHTSA). I sistemi di "
+           "monitoraggio del guidatore producono avvisi, ma non governano i contenuti. L'originalità sta in due "
+           "elementi:")),
+    ("p", "un linguaggio di regole per più superfici e più occupanti, verificato formalmente sull'insieme delle regole "
+          "e sui loro cambi di stato;"),
+    ("p", "una componente adattiva sull'attenzione del singolo guidatore che, per costruzione, può solo restringere le "
+          "regole validate."),
+    ("t", "La rilevanza si misura con la riduzione degli sguardi fuori strada di almeno il 15% rispetto alle regole "
+          "fisse (K1) e con un tempo di decisione inferiore a 50 ms al 95° percentile (K7). I profili degli occupanti "
+          "si costruiscono a bordo, senza trasferimento di dati personali."),
+    ("e", ("Digital twin dell'esperienza a bordo (OR6).", "Gli strumenti di simulazione disponibili (CARLA, SUMO, "
+           "esmini, ns-3) sono nati per gli ADAS e la guida autonoma. Non modellano gli occupanti, le superfici multiple "
+           "né la consegna dei contenuti, e manca un metodo consolidato per misurare lo scarto fra simulazione e strada "
+           "sugli indicatori dell'esperienza a bordo. L'originalità è un ambiente di co-simulazione che unisce guida ed "
+           "esperienza degli occupanti su una base temporale comune, con un protocollo che misura lo scarto per "
+           "ciascun indicatore. La rilevanza si misura con uno scarto entro il 10% (K6) e con la verifica virtuale dei "
+           "casi rari, difficili da riprodurre su strada.")),
+    ("e", ("Integrazione sicura e ciclo di vita dei modelli (OR14).", "Il Regolamento UNECE n. 155 e la norma ISO/SAE "
+           "21434 definiscono la gestione della cybersecurity del veicolo, ma non trattano in modo specifico i "
+           "contenuti generati che entrano a bordo. L'originalità sta in tre elementi:")),
+    ("p", "l'analisi dei rischi estesa al flusso dei contenuti generati e personalizzati che arrivano da fonti esterne "
+          "e da più fornitori;"),
+    ("p", "un ciclo di vita dei modelli AI in cui il rilascio e il ritorno alla versione precedente dipendono dalla "
+          "coerenza con le policy sui contenuti, oltre che dall'accuratezza;"),
+    ("p", "la misura della latenza sull'intera catena, dall'evento nella scena alla presentazione del contenuto, con il "
+          "veicolo in movimento, entro 500 ms."),
+    ("t", "Il risultato è un dimostratore su veicolo verificato su strada."),
+    ("t", "Questi risultati non sono miglioramenti incrementali di componenti esistenti: introducono funzioni che le "
+          "soluzioni attuali non svolgono. Le ricadute tecnologiche sul settore sono tre:"),
+    ("p", "le regole verificate, con la componente che può solo restringere, sono trasferibili a qualsiasi abitacolo "
+          "con più superfici, come fornitura per costruttori e Tier 1;"),
+    ("p", "il digital twin estende all'esperienza degli occupanti gli strumenti di validazione oggi usati per gli "
+          "ADAS;"),
+    ("p", "il ciclo di vita condizionato alle policy si applica ai modelli AI in esercizio aggiornati via OTA nelle "
+          "architetture Software Defined Vehicle."),
+] + [("s", "GSNet")] + _GS.III_2_2 + [
+    ("x", _segnaposto("[Testo da redigere: risultati attesi di Anitia, nLight e Politecnico di Milano]")),
+])
+
+# III.3.1 e III.3.2 (24/11): GSNet dal loro testo, con le correzioni confermate; le altre imprese da redigere.
+CONTENUTI["III.3.1"] = _render([("s", "GSNet")] + _GS.III_3_1 + [
+    ("x", _segnaposto("[Testo da redigere: interesse industriale di Aubay Italia, Anitia e nLight]"))])
+CONTENUTI["III.3.2"] = _render([("s", "GSNet")] + _GS.III_3_2 + [
+    ("x", _segnaposto("[Testo da redigere: potenzialità di sviluppo di Aubay Italia, Anitia e nLight]"))])
+
+# III.2.3, grado di innovazione (24/11, confermato): nuovo prodotto a livello di progetto; componenti per proponente.
+CONTENUTI["III.2.3"] = _render([
+    ("t", "MooVXR introduce un nuovo prodotto: un sistema di bordo che decide quali contenuti mostrare a ciascun "
+          "occupante, in quale forma e su quale superficie, in funzione della situazione di guida, della scena esterna e "
+          "dell'attenzione del guidatore, e che li ancora agli oggetti reali attraversati dal veicolo."),
+    ("t", "Le soluzioni di serie gestiscono i contenuti con regole fisse legate alla velocità del veicolo. Nei casi più "
+          "avanzati oscurano un singolo schermo del passeggero quando una camera rileva lo sguardo del guidatore. Sono "
+          "funzioni puntuali, su una sola superficie e senza legame con la scena esterna. Il sistema MooVXR svolge "
+          "funzioni che nessuno dei componenti esistenti svolge:"),
+    ("p", "decisione per occupante e per superficie con regole verificate formalmente e una componente adattiva che può "
+          "solo restringere i contenuti consentiti, misurata dalla riduzione degli sguardi fuori strada (K1) e dal "
+          "tempo di decisione (K7);"),
+    ("p", "contenuti generati con verifica sulle fonti e ancorati agli oggetti reali da un veicolo in movimento, con "
+          "errore di allineamento entro 5 mrad (K3);"),
+    ("p", "HUD per il passeggero proiettato sul finestrino e non visibile dal posto di guida (K4);"),
+    ("p", "consegna predittiva dei contenuti nel momento utile (K2) e sincronizzazione con il moto del veicolo per "
+          "ridurre la cinetosi (K5)."),
+    ("t", "I componenti sviluppati dai proponenti contribuiscono al prodotto con gradi di innovazione diversi:"),
+    ("x", _tabw([4300, 2000, 3226], ["Componente", "Proponente", "Tipo di innovazione"],
+                [["Content policy engine e personalizzazione", "Aubay Italia", "Nuovo prodotto"],
+                 ["Storytelling generativo, piattaforma di erogazione e collaborativa, applicazione di bordo", "GSNet",
+                  "Nuovo prodotto"],
+                 ["Kit di percezione multispettrale e LiDAR con unità di calcolo", "nLight", "Nuovo prodotto"],
+                 ["Piattaforma IoT estesa a dati del veicolo, ADAS, DMS e OTA dei modelli", "Anitia",
+                  "Notevole miglioramento di prodotto"],
+                 ["HUD per il passeggero a proiezione sul finestrino", "Politecnico di Milano",
+                  "Nuovo prodotto, a livello di prototipo di laboratorio"]])),
+    ("t", "Il progetto introduce inoltre un notevole miglioramento del processo di validazione. Un digital twin "
+          "calibrato sui dati reali, con scarto entro il 10% (K6), riduce le prove su strada e le concentra sui casi "
+          "critici."),
 ])
 
 _MI = next(m for m in CFG["milestone"] if m[2] == "Intermedia")
