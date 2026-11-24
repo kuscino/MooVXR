@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Configurazione del modello economico MooVXR per toolchain/toolchain/economics_finanziato.py.
 
+Versione 25 (24/11/2026): revisione del Politecnico del 24/11, D2.5 al mese 20, titolo di CAT-04 (aggiorna_v25_polimi.py).
 Versione 24 (23/11/2026): addetti di Anitia su A8.1-A8.4, impegno OR8 0,75 (aggiorna_v24_anitia.py).
 Versione 23 (23/11/2026): addetti del Politecnico dal roster, impegno per fascia, profilo mensile (aggiorna_v23_polimi_roster.py).
 Versione 22 (23/11/2026): K5 finale (aggiorna_v22_k5.py).
@@ -1263,7 +1264,7 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                  ('OR2',
                   'D2.5',
                   'Rapporto di valutazione dello storytelling',
-                  24,
+                  20,
                   'Correttezza fattuale verificata da esperti; gradimento dei passeggeri'),
                  ('OR2', 'D2.6', 'Studio per la realizzazione di una IMU', 24, 'Da definire con GSNet'),
                  ('OR3',
@@ -1406,15 +1407,22 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                   'Numero di veicoli gestibili entro il valore obiettivo'),
                  ('OR9',
                   'D9.1',
-                  'Algoritmi di localizzazione di precisione',
+                  'Algoritmi, dataset e rapporto riproducibile di localizzazione; verifica di accuratezza, '
+                  'affidabilità e robustezza in condizioni diverse.',
                   14,
                   'Errore di posizione entro il valore obiettivo'),
                  ('OR9',
                   'D9.2',
-                  'Algoritmi di ancoraggio alla scena',
+                  'Algoritmi di ancoraggio e specifiche dei riferimenti; verifica della stabilità geometrica e '
+                  'temporale.',
                   18,
                   "Stabilità dell'ancoraggio sui percorsi di prova"),
-                 ('OR9', 'D9.3', 'Stimatore di affidabilità', 20, 'Situazioni di bassa affidabilità riconosciute'),
+                 ('OR9',
+                  'D9.3',
+                  'Stimatore di affidabilità e schema comune per livelli di servizio; valutazione dell’incertezza e '
+                  'delle condizioni degradate.',
+                  20,
+                  'Situazioni di bassa affidabilità riconosciute'),
                  ('OR9', 'D9.4', "Specifiche dell'unità di calcolo di bordo", 12, 'Specifiche consegnate a OR13'),
                  ('OR9',
                   'D9.5',
@@ -1433,7 +1441,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                   'Campione e scenari previsti completati'),
                  ('OR10',
                   'D10.3',
-                  'Dati sperimentali su passeggeri e cinetosi',
+                  'Dati sperimentali su passeggeri e cinetosi; valutazione comparativa del comfort nelle diverse '
+                  'condizioni di prova.',
                   22,
                   'Incidenza della cinetosi misurata con e senza sincronizzazione'),
                  ('OR10',
@@ -1443,9 +1452,11 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                   'Regole consegnate a OR1 in forma codificabile'),
                  ('OR10',
                   'D10.5',
-                  'Rapporto di verifica delle regole adattive',
+                  'Rapporto di verifica delle regole adattive, completo di metodologia, risultati anche negativi e '
+                  'limiti della sperimentazione.',
                   30,
-                  'Indicatori di attenzione non peggiorati rispetto alle regole fisse'),
+                  'Rapporto sperimentale completo e riproducibile, con la misura degli indicatori di attenzione '
+                  'rispetto alle regole fisse; metodologia, risultati anche negativi e limiti documentati.'),
                  ('OR11',
                   'D11.1',
                   "Requisiti dell'HUD per il passeggero",
@@ -1463,7 +1474,8 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                   'Errore di allineamento entro il valore obiettivo'),
                  ('OR11',
                   'D11.4',
-                  "Prototipo dell'HUD per il passeggero",
+                  "Prototipo di laboratorio dell'HUD per il passeggero, con sintetica documentazione tecnica e delle "
+                  'verifiche eseguite.',
                   26,
                   'Prototipo funzionante su banco e installabile sul veicolo di prova'),
                  ('OR11',
@@ -1835,7 +1847,7 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                  'A9.4',
                  'Edge e IA agentica'),
                 ('Da individuare',
-                 'CAT-04: Prove di resilienza agentica: timeout, offline, replay e guardrail',
+                 "CAT-04: Prove di resilienza dell'orchestrazione: timeout, offline, replay e guardrail",
                  'OR9',
                  51000,
                  'Edge e IA agentica | Task di raccordo A9.4; A9.5 | Ricerca contrattuale / servizio specialistico: '

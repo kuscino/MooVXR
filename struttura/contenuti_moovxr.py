@@ -882,7 +882,7 @@ for _k in PARTI_I_III:
 
 # III.1.2: la tabella dei costi del documento ricevuto (20 M€, quote superate) si sostituisce con
 # quella generata dal modello economico corrente (foglio Riepilogo) e dagli OR della configurazione.
-MODELLO = QUI.parent / "Modello_Economico_MooVXR_v24.xlsx"
+MODELLO = QUI.parent / "Modello_Economico_MooVXR_v25.xlsx"
 
 
 def _euro(v):
@@ -1657,7 +1657,7 @@ CONTENUTI["II.7.2/OR9"] = _blocchi([
     ("t", "1. Benchmark con ground truth indipendente su percorsi ripetuti."),
     ("t", "2. Confronto di filtri e metodi di ottimizzazione con baseline standard."),
     ("t", "3. Ablation study su scenari nominali e degradati, come gallerie e canyon urbani."),
-    ("e", ("Risultati misurabili.", "Algoritmi, dataset e rapporto riproducibile (D9.1). Indicatori:")),
+    ("e", ("Risultati misurabili.", "Algoritmi, dataset e rapporto riproducibile (D9.1), con verifica di accuratezza, affidabilità e robustezza in condizioni diverse. Indicatori:")),
     ("p", "errore di posizione inferiore a 10 cm al 95° percentile in condizioni nominali;"),
     ("p", "errore di assetto inferiore a 0,1° al 95° percentile;"),
     ("p", "recupero dell'allineamento entro 5 s dopo un'interruzione del segnale GNSS."),
@@ -1681,7 +1681,7 @@ CONTENUTI["II.7.2/OR9"] = _blocchi([
     ("t", "1. Prove con target noti, filmati sincronizzati e ricostruzioni multi-view, in diverse condizioni di luce e "
           "velocità."),
     ("t", "2. Confronto fra ancoraggio statico, compensato e temporizzato."),
-    ("e", ("Risultati misurabili.", "Algoritmi di ancoraggio e specifiche dei riferimenti (D9.2). Indicatori:")),
+    ("e", ("Risultati misurabili.", "Algoritmi di ancoraggio e specifiche dei riferimenti (D9.2), con verifica della stabilità geometrica e temporale. Indicatori:")),
     ("p", "scarto di registrazione inferiore a 5 mrad al 95° percentile;"),
     ("p", "ancoraggio mantenuto dopo occlusioni fino a 1 s in almeno il 90% dei casi."),
     ("t", "nLight (OR12) consegna geometrie e punti di interesse rilevati, il Politecnico produce ancoraggi e "
@@ -1712,7 +1712,7 @@ CONTENUTI["II.7.2/OR9"] = _blocchi([
     ("t", "3. Definizione dello schema comune con i partner che forniscono i moduli (OR7, OR10, OR12) e con Aubay per "
           "il modello del contesto."),
     ("e", ("Risultati misurabili.", "Stimatore di affidabilità, schema comune di affidabilità e raccomandazioni per "
-           "livelli di servizio (D9.3). Indicatori:")),
+           "livelli di servizio (D9.3), con valutazione dell’incertezza e delle condizioni degradate. Indicatori:")),
     ("p", "errore di calibrazione dell'affidabilità inferiore a 0,05;"),
     ("p", "falsi ancoraggi accettati inferiori all'1%;"),
     ("p", "schema comune adottato dal 100% dei moduli che alimentano il modello del contesto."),
@@ -1854,7 +1854,7 @@ CONTENUTI["II.7.2/OR10"] = _blocchi([
     ("t", "1. Confronto intra-soggetto fra contenuti statici, compensati e sincronizzati."),
     ("t", "2. Tracciamento della posa e questionari standardizzati."),
     ("t", "3. Controlli di wash-out e criteri di interruzione."),
-    ("e", ("Risultati misurabili.", "Dati sperimentali su passeggeri e cinetosi (D10.3). Indicatori:")),
+    ("e", ("Risultati misurabili.", "Dati sperimentali su passeggeri e cinetosi (D10.3), con valutazione comparativa del comfort nelle diverse condizioni di prova. Indicatori:")),
     ("p", "incidenza della cinetosi ridotta di almeno il 30% con contenuti sincronizzati rispetto a contenuti non "
           "sincronizzati (K5);"),
     ("p", "tempo di insorgenza dei sintomi misurato per ciascuna condizione."),
@@ -1900,7 +1900,8 @@ CONTENUTI["II.7.2/OR10"] = _blocchi([
     ("t", "1. Prove in cieco con condizioni controbilanciate."),
     ("t", "2. Analisi statistiche predefinite di non inferiorità e superiorità."),
     ("t", "3. Esame del cono di visibilità dell'HUD laterale."),
-    ("e", ("Risultati misurabili.", "Rapporto di verifica delle regole adattive (D10.5). Indicatori:")),
+    ("e", ("Risultati misurabili.", "Rapporto di verifica delle regole adattive (D10.5), completo di metodologia, risultati anche negativi, limiti della "
+                                   "sperimentazione e misura degli indicatori di attenzione rispetto alle regole fisse. Indicatori:")),
     ("p", "sguardi fuori strada ridotti di almeno il 15% con le regole adattive rispetto alle regole fisse, a parità di "
           "informazioni utili (K1);"),
     ("p", "nessun peggioramento statisticamente significativo degli altri indicatori di attenzione."),
@@ -2005,7 +2006,7 @@ CONTENUTI["II.7.2/OR11"] = _blocchi([
     ("t", "1. Integrazione incrementale su banco."),
     ("t", "2. Test di sincronizzazione fra moduli, iniezione di guasti, replay deterministico."),
     ("t", "3. Verifiche di alimentazione e di montaggio reversibile."),
-    ("e", ("Risultati misurabili.", "Prototipo di laboratorio dell'HUD per il passeggero (D11.4). Indicatori:")),
+    ("e", ("Risultati misurabili.", "Prototipo di laboratorio dell'HUD per il passeggero (D11.4), corredato da sintetica documentazione tecnica e delle verifiche eseguite. Indicatori:")),
     ("p", "deriva della calibrazione inferiore a 2 mrad dopo 8 ore di funzionamento;"),
     ("p", "arresto sicuro della proiezione entro 100 ms dal comando di soppressione."),
     ("t", "L'integrazione del prototipo sul veicolo di prova è coordinata nell'integrazione di sistema (OR14, Aubay)."),
@@ -2918,6 +2919,27 @@ CONTENUTI["II.6"] = _render([
                  ["Politecnico di Milano", "prof. Riccardo Enrico Zich",
                   "Responsabile scientifico di OR9-OR11, Dipartimento di Energia"],
                  ["nLight", "Alessio Califano, Giammarco Rossi", "Referenti"]])),
+])
+
+# III.2.1, fattibilità tecnica (24/11): contributo del Politecnico dalla loro revisione del 24/11, riscritto e
+# confermato; restano da redigere le parti degli altri proponenti e dotazioni possedute e procedure del Politecnico.
+from docx_core import segnaposto as _segnaposto
+CONTENUTI["III.2.1"] = _render([
+    ("s", "Politecnico di Milano"),
+    ("t", "Il contributo si articola in tre linee di ricerca industriale: localizzazione e ancoraggio dei contenuti con "
+          "stima dell'affidabilità (OR9), sperimentazione sui fattori umani e verifica delle regole adattive in "
+          "ambiente simulato (OR10), progettazione e verifica sperimentale dell'HUD per il passeggero a proiezione sul "
+          "finestrino (OR11). Le attività seguono protocolli ripetibili, con riferimenti di misura indipendenti ove "
+          "applicabili, e si chiudono con rapporti che distinguono risultati conseguiti, incertezze e limiti."),
+    ("t", "Le risorse strumentali previste comprendono ricevitori GNSS RTK, sensori inerziali di grado tattico e kit di "
+          "calcolo embedded automotive (OR9); eye tracker, strumentazione fisiologica e una postazione di guida "
+          "simulata multi-display (OR10); banco ottico con luminanzimetro e camera di misura, proiettori e "
+          "microdisplay di sviluppo (OR11); strumentazione di sincronizzazione e misura per le prove. Sono imputate al "
+          "progetto per la quota di utilizzo nel periodo."),
+    ("t", "La responsabilità scientifica di OR9-OR11 è del prof. Riccardo Enrico Zich. La gestione tecnica assicura la "
+          "tracciabilità di protocolli, configurazioni di prova ed esiti, con il raccordo alle interfacce dei partner."),
+    ("x", _segnaposto("[Testo da redigere: dotazioni e laboratori posseduti e procedure di R&S del Politecnico; "
+                      "fattibilità tecnica di GSNet, Aubay Italia, Anitia e nLight]")),
 ])
 
 _MI = next(m for m in CFG["milestone"] if m[2] == "Intermedia")
