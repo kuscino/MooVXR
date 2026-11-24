@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Configurazione del modello economico MooVXR per toolchain/toolchain/economics_finanziato.py.
 
+Versione 26 (24/11/2026): finanziamento agevolato al 20% per GSNet, Anitia e nLight (aggiorna_v26_finanziamento.py).
 Versione 25 (24/11/2026): revisione del Politecnico del 24/11, D2.5 al mese 20, titolo di CAT-04 (aggiorna_v25_polimi.py).
 Versione 24 (23/11/2026): addetti di Anitia su A8.1-A8.4, impegno OR8 0,75 (aggiorna_v24_anitia.py).
 Versione 23 (23/11/2026): addetti del Politecnico dal roster, impegno per fascia, profilo mensile (aggiorna_v23_polimi_roster.py).
@@ -72,7 +73,7 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                  '1720 per le imprese: confermate da Anitia (CCNL Terziario, Commercio), assunzione da verificare per '
                  'gli altri partner.',
  'proponenti': [('Aubay Italia', 'Impresa', 'Impresa', 'Grande', 'Lazio', 105000000, 'No', 0.55, 0.3, 0),
-                ('nLight', 'Impresa', 'Impresa', 'Grande', 'Piemonte', 2087808, 'No', 0.55, 0.3, 0),
+                ('nLight', 'Impresa', 'Impresa', 'Grande', 'Piemonte', 2087808, 'No', 0.55, 0.3, 0.2),
                 ('Politecnico di Milano',
                  'Università',
                  'Organismo di ricerca',
@@ -83,13 +84,14 @@ CONFIG = {'titolo': "MooVXR, modello economico (Accordi per l'innovazione nella 
                  0.6,
                  0.35,
                  0),
-                ('GSNet', 'Impresa', 'Impresa', 'PMI', 'Lazio', 6052709, 'Sì', 0.6, 0.35, 0),
-                ('Anitia', 'Impresa', 'Impresa', 'PMI', 'Veneto', 2158140, 'No', 0.6, 0.35, 0)],
+                ('GSNet', 'Impresa', 'Impresa', 'PMI', 'Lazio', 6052709, 'Sì', 0.6, 0.35, 0.2),
+                ('Anitia', 'Impresa', 'Impresa', 'PMI', 'Veneto', 2158140, 'No', 0.6, 0.35, 0.2)],
  'nota_agevolazioni': 'Contributo diretto alla spesa: 50% RI e 25% SS (DM 31/12/2021, art. 6, c. 1, lett. a), più la '
                       'maggiorazione per collaborazione effettiva con Organismi di ricerca, fino a 5 punti per le '
                       "grandi imprese e 10 per PMI e OdR (art. 6, c. 2), nei limiti dell'art. 25 GBER. Testo del DM "
-                      'letto da fonte secondaria, da verificare. Finanziamento agevolato non richiesto in questa '
-                      'ipotesi.',
+                      'letto da fonte secondaria, da verificare. Finanziamento agevolato richiesto da GSNet, Anitia e '
+                      'nLight per il 20% dei costi, come nei piani finanziari del 24/11; Aubay richiede solo il '
+                      'contributo diretto.',
  'or': [('OR1',
          'Content policy engine adattivo e personalizzazione dei contenuti',
          'Aubay Italia',

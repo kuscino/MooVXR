@@ -846,6 +846,47 @@ _pm = importlib.util.module_from_spec(_sp)
 _sp.loader.exec_module(_pm)
 PARTI_I_III = _pm.BLOCCHI
 
+# Revisione di Anitia del 24/11 (Piano_di_Sviluppo_scheletro_v15_Anitia.docx, revisioni accettate, importata con
+# importa_anitia_24nov.py in testi_anitia_24nov.py): sostituisce i blocchi di Anitia in I.1, I.2 e III.1.1.
+_sa = importlib.util.spec_from_file_location("testi_anitia_24nov", QUI / "testi_anitia_24nov.py")
+_AN24 = importlib.util.module_from_spec(_sa); _sa.loader.exec_module(_AN24)
+
+
+def _blocchi_anitia(nuovi, originali):
+    img = [b for b in originali if b[0] == "img"]
+    tab = [b for b in originali if b[0] == "tab"]
+    out = []
+    for b in nuovi:
+        if b[0] == "img_originale":
+            out.append(img.pop(0))
+        elif b[0] == "tab_grezza":
+            import copy
+            t = copy.deepcopy(tab.pop(0))
+            t[1]["righe"][1][0]["t"] = "Sona (VR)"
+            t[1]["righe"][1][1]["t"] = ("Piattaforme IoT e cloud\nIntegrazione di sistemi e dispositivi\n"
+                                        "Metodologie e ambienti di sviluppo")
+            t[1]["righe"][1][2]["t"] = "14"
+            assert b[1][1][0] == "Sona (VR)" and b[1][1][2] == "14"
+            out.append(t)
+        else:
+            out.append(b)
+    assert not img and not tab, "immagini o tabelle originali non riassegnate"
+    return out
+
+
+def _sostituisci_segmento(chiave, inizio, fine, nuovi):
+    """Sostituisce i blocchi fra il blocco 'inizio' (escluso) e il blocco 'fine' (escluso, o la fine)."""
+    B = PARTI_I_III[chiave]
+    i = next(k for k, b in enumerate(B) if b[0] in ("proponente", "sotto") and b[1].startswith(inizio))
+    j = next((k for k, b in enumerate(B) if k > i and b[0] in ("proponente", "sotto") and b[1].startswith(fine)),
+             len(B)) if fine else len(B)
+    B[i + 1:j] = _blocchi_anitia(nuovi, B[i + 1:j])
+
+
+_sostituisci_segmento("I.1", "Anitia S.r.l.", "Politecnico di Milano", _AN24.I_1)
+_sostituisci_segmento("I.2", "Anitia", None, _AN24.I_2)
+_sostituisci_segmento("III.1.1", "Anitia", "Politecnico di Milano", _AN24.III_1_1)
+
 
 def _proponente(t):
     return para(run(t, bold=True, size=22), spacing='<w:spacing w:before="240" w:after="80"/>')
@@ -882,7 +923,7 @@ for _k in PARTI_I_III:
 
 # III.1.2: la tabella dei costi del documento ricevuto (20 M€, quote superate) si sostituisce con
 # quella generata dal modello economico corrente (foglio Riepilogo) e dagli OR della configurazione.
-MODELLO = QUI.parent / "Modello_Economico_MooVXR_v25.xlsx"
+MODELLO = QUI.parent / "Modello_Economico_MooVXR_v26.xlsx"
 
 
 def _euro(v):
@@ -1387,6 +1428,31 @@ for _v, _n in [
      "concordano profili di flotta comuni."),
 ]:
     _correggi(TESTI_ANITIA, _v, _n)
+
+def _norma(t):
+    import re
+    return re.sub(r"\s+", " ", t.replace("’", "'").replace("“", '"').replace("”", '"')).strip()
+
+
+def _sostituisci_paragrafo(testi, vecchio, nuovo):
+    """Sostituisce un paragrafo intero, riconosciuto dal testo completo (etichetta compresa)."""
+    n = 0
+    for o in testi.values():
+        for sez in o.values():
+            for i, (k, v) in enumerate(sez):
+                pieno = (v[0] + " " + v[1]) if isinstance(v, tuple) else v
+                if _norma(pieno) == _norma(vecchio):
+                    if isinstance(v, tuple):
+                        assert nuovo.startswith(v[0]), (v[0], nuovo[:40])
+                        sez[i] = (k, (v[0], nuovo[len(v[0]):].strip()))
+                    else:
+                        sez[i] = (k, nuovo)
+                    n += 1
+    assert n == 1, (vecchio[:60], n)
+
+
+for _v, _n in _AN24.OR78:
+    _sostituisci_paragrafo(TESTI_ANITIA, _v, _n)
 
 for _o in ("OR7", "OR8"):
     CONTENUTI["II.7.1/%s" % _o] = _blocchi(TESTI_ANITIA[_o]["7.1"])
@@ -2926,7 +2992,43 @@ CONTENUTI["II.6"] = _render([
 from docx_core import segnaposto as _segnaposto
 _spg = importlib.util.spec_from_file_location("testi_gsnet_parte3", QUI / "testi_gsnet_parte3.py")
 _GS = importlib.util.module_from_spec(_spg); _spg.loader.exec_module(_GS)
-CONTENUTI["III.2.1"] = _render([("s", "GSNet")] + _GS.III_2_1 + [
+_spu = importlib.util.spec_from_file_location("testi_aubay_parte3", QUI / "testi_aubay_parte3.py")
+_AU = importlib.util.module_from_spec(_spu); _spu.loader.exec_module(_AU)
+def _spec_anitia(sp, larghezze=None):
+    out = []
+    for k, v in sp:
+        if k == "tab":
+            out.append(("x", _tabw(larghezze, v[0], v[1:])))
+        else:
+            out.append((k, v))
+    return out
+
+
+def _piano_finanziario(righe, note=False):
+    import profili.mimit_accordi_automotive as _prof
+    anni = [c for c in righe[1][1:] if c != "–"]
+    t = _prof.piano_finanziario(anni)
+    if not note:
+        t.pop("note", None)
+    t["righe"][0][0]["t"] = righe[0][0]
+    valori = {r[0]: r[1:1 + len(anni)] for r in righe[2:] if len(r) > 1}
+    totali = [r for r in righe[2:] if r[0] == "Totale"]
+    n_tot = 0
+    for r in t["righe"][2:]:
+        et = r[0].get("t")
+        if et == "Totale":
+            vv = totali[n_tot][1:1 + len(anni)]; n_tot += 1
+        elif et in valori:
+            vv = valori[et]
+        else:
+            continue
+        for j, x in enumerate(vv):
+            r[1 + j] = dict(r[1 + j], t=x, al="right")
+    assert n_tot == 2
+    return t
+
+
+CONTENUTI["III.2.1"] = _render([("s", "Aubay Italia")] + _AU.III_2_1 + [("s", "GSNet")] + _GS.III_2_1 + [("s", "Anitia")] + _spec_anitia(_AN24.III_2_1) + [
     ("s", "Politecnico di Milano"),
     ("t", "Il contributo si articola in tre linee di ricerca industriale: localizzazione e ancoraggio dei contenuti con "
           "stima dell'affidabilità (OR9), sperimentazione sui fattori umani e verifica delle regole adattive in "
@@ -2941,7 +3043,7 @@ CONTENUTI["III.2.1"] = _render([("s", "GSNet")] + _GS.III_2_1 + [
     ("t", "La responsabilità scientifica di OR9-OR11 è del prof. Riccardo Enrico Zich. La gestione tecnica assicura la "
           "tracciabilità di protocolli, configurazioni di prova ed esiti, con il raccordo alle interfacce dei partner."),
     ("x", _segnaposto("[Testo da redigere: dotazioni e laboratori posseduti e procedure di R&S del Politecnico; "
-                      "fattibilità tecnica di Aubay Italia, Anitia e nLight]")),
+                      "fattibilità tecnica di nLight]")),
 ])
 
 # III.2.2, risultati attesi per proponente (24/11): Aubay confermato; gli altri proponenti da redigere.
@@ -2986,15 +3088,27 @@ CONTENUTI["III.2.2"] = _render([
           "ADAS;"),
     ("p", "il ciclo di vita condizionato alle policy si applica ai modelli AI in esercizio aggiornati via OTA nelle "
           "architetture Software Defined Vehicle."),
-] + [("s", "GSNet")] + _GS.III_2_2 + [
-    ("x", _segnaposto("[Testo da redigere: risultati attesi di Anitia, nLight e Politecnico di Milano]")),
+] + [("s", "GSNet")] + _GS.III_2_2 + [("s", "Anitia")] + _spec_anitia(_AN24.III_2_2) + [
+    ("x", _segnaposto("[Testo da redigere: risultati attesi di nLight e Politecnico di Milano]")),
 ])
 
 # III.3.1 e III.3.2 (24/11): GSNet dal loro testo, con le correzioni confermate; le altre imprese da redigere.
-CONTENUTI["III.3.1"] = _render([("s", "GSNet")] + _GS.III_3_1 + [
-    ("x", _segnaposto("[Testo da redigere: interesse industriale di Aubay Italia, Anitia e nLight]"))])
-CONTENUTI["III.3.2"] = _render([("s", "GSNet")] + _GS.III_3_2 + [
-    ("x", _segnaposto("[Testo da redigere: potenzialità di sviluppo di Aubay Italia, Anitia e nLight]"))])
+CONTENUTI["III.3.1"] = _render([("s", "Aubay Italia")] + [("x", _segnaposto(v)) if k == "seg" else (k, v) for k, v in _AU.III_3_1]
+                                + [("s", "GSNet")] + _GS.III_3_1 + [("s", "Anitia")]
+                                + _spec_anitia(_AN24.III_3_1, [3726, 1450, 1450, 1450, 1450]) + [
+    ("x", _segnaposto("[Testo da redigere: interesse industriale di nLight]"))])
+# III.4 (24/11): piani finanziari delle quattro imprese dal documento "Prospetti finanziari.docx", che fa fede
+# (anche per Anitia, al posto del piano della sua revisione); importati con importa_prospetti_24nov.py.
+_spp = importlib.util.spec_from_file_location("testi_prospetti_iii4", QUI / "testi_prospetti_iii4.py")
+_PF = importlib.util.module_from_spec(_spp); _spp.loader.exec_module(_PF)
+SENZA_TABELLA_TEMPLATE = {"III.4"}       # i piani compilati sostituiscono la tabella vuota; note (1) e (2) sul primo
+CONTENUTI["III.4"] = _render([("t", x) for x in _PF.INTRO]
+                             + [y for pf in _PF.PIANI for y in (("s", pf["titolo"]),
+                                                                ("x", _piano_finanziario(pf["righe"],
+                                                                                         note=(pf is _PF.PIANI[0]))),
+                                                                ("t", pf["nota"]))])
+CONTENUTI["III.3.2"] = _render([("s", "Aubay Italia")] + _AU.III_3_2 + [("s", "GSNet")] + _GS.III_3_2 + [
+    ("x", _segnaposto("[Testo da redigere: potenzialità di sviluppo di Anitia e nLight]"))])
 
 # III.2.3, grado di innovazione (24/11, confermato): nuovo prodotto a livello di progetto; componenti per proponente.
 CONTENUTI["III.2.3"] = _render([
