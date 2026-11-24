@@ -1,5 +1,42 @@
 # -*- coding: utf-8 -*-
-# Generato da importa_anitia_24nov.py da Piano_di_Sviluppo_scheletro_v15_Anitia.docx. Non modificare a mano.
+# Generato da importa_anitia_24nov.py da Piano_di_Sviluppo_scheletro_v15_Anitia_r2.docx. Non modificare a mano.
+III_3_2 = [('e',
+  ('Sviluppo del settore.',
+   'I risultati di Anitia cambiano il modo in cui i servizi di bordo accedono al veicolo e ai dati esterni. Oggi ogni '
+   'servizio deve integrarsi con le interfacce proprietarie dei singoli costruttori e con fonti stradali che non '
+   "dichiarano qualità e attualità del dato. Con MooVXR l'accesso ai segnali del veicolo passa per un modello dati "
+   "standard (COVESA VSS), la qualità del dato esterno diventa un attributo esplicito e l'aggiornamento del software "
+   "di bordo è coordinato a livello di veicolo. Cambia così l'architettura dei servizi: l'applicazione non dipende più "
+   'dal singolo veicolo o dalla singola fonte, ma si collega a un livello comune di segnali, qualità e versioni. Ne '
+   'beneficiano soprattutto i soggetti che restano fuori dai grandi programmi dei costruttori: gestori di flotte, '
+   'allestitori di veicoli speciali, fornitori di secondo livello e integratori ITS.')),
+ ('e',
+  ('Trasporto turistico.',
+   'Sugli autobus turistici la stessa piattaforma permette di gestire a distanza il software e i contenuti di più '
+   "dispositivi a bordo e di fornire ai servizi per i passeggeri dati di posizione e di percorso con un'affidabilità "
+   'dichiarata.')),
+ ('e',
+  ('Veicoli per la sicurezza e il soccorso.',
+   'I criteri di affidabilità e di promozione ad avviso si applicano alle informazioni ricevute da centrali operative '
+   "e infrastruttura, dove un avviso sbagliato o in ritardo ha conseguenze operative. L'aggiornamento firmato e "
+   'tracciato del software è un requisito per i mezzi in servizio.')),
+ ('e',
+  ('Ricognizione del territorio.',
+   'I veicoli che raccolgono dati georeferenziati operano spesso con connettività intermittente. La raccolta senza '
+   "perdite, la marcatura temporale dei dati e le regole d'uso per finalità sviluppate in OR8 sono riutilizzabili "
+   'direttamente. Queste capacità potranno integrarsi con le competenze del gruppo in geografia informatica.')),
+ ('e',
+  ('Reti di dispositivi distribuiti.',
+   'Nei servizi che Anitia gestisce per telecomunicazioni, gioco ed energia, i metodi per riconoscere eventi tardivi, '
+   "duplicati o fuori sequenza e l'aggiornamento coordinato di dispositivi eterogenei migliorano la riconciliazione "
+   'degli eventi e la gestione del software installato in campo.')),
+ ('e',
+  ('Cambiamenti nei processi.',
+   'Il registro delle versioni installate e le evidenze della catena di aggiornamento producono la documentazione '
+   'richiesta dai Regolamenti UNECE n. 155 e n. 156. Questo riduce il costo di conformità per i fornitori più piccoli '
+   "e consente di aggiornare le funzioni durante la vita del veicolo senza sostituire l'hardware, prolungando la vita "
+   'utile dei sistemi di bordo.'))]
+
 I_1 = [['testo',
   [['Anitia S.r.l. è una società di diritto italiano iscritta alla CCIAA di Verona con numero di iscrizione al '
     'registro delle imprese n. 406179, codice fiscale e partita IVA n. 04265340234, operante nel settore della '
@@ -493,36 +530,4 @@ III_3_1 = [('e',
    'stima a regime tre nuove assunzioni: uno sviluppatore software embedded per Linux automotive, un ingegnere cloud e '
    'DevOps per la gestione della piattaforma in esercizio e un tecnico commerciale per flotte, costruttori di veicoli '
    'speciali e concessionari.'))]
-
-III_4 = [('t',
-  'Il personale di Anitia impegnato nel progetto è tutto già in forza: non sono previste assunzioni per la '
-  'realizzazione. Il fabbisogno da coprire, al netto del personale in organico e delle spese generali forfettarie, è '
-  'di 152.000 € IVA esclusa: licenze di dati di traffico e infrastruttura (25.000 €) e consulenza di dominio C-ITS '
-  '(17.000 €) per OR7; servizi cloud (55.000 €) e penetration test (20.000 €) per OR8; acquisto di unità V2X (20.000 '
-  '€) e gateway telematici (15.000 €), indicati per la spesa di acquisto e non per la sola quota di ammortamento '
-  'ammissibile. Le spese sono ripartite in 55.736 € nel 2027, 61.819 € nel 2028 e 34.444 € nel 2029; nel 2030 Anitia '
-  "non ha attività. L'IVA è indicata al 22%."),
- ('t',
-  'La spesa del 2027 è coperta con il cash flow della gestione corrente, a fronte di ricavi delle vendite e delle '
-  'prestazioni di 2.509.805 € nel 2025. Dal 2028 la copertura deriva dalle erogazioni del contributo alla spesa, '
-  "stimato complessivamente in 615.839 €, nell'ipotesi che il contributo maturato sui costi di ciascun anno sia "
-  "erogato per stato di avanzamento nell'anno successivo: 155.041 € nel 2028, 280.090 € nel 2029 e 180.708 € nel 2030. "
-  'Le erogazioni coprono anche il costo del personale interno, escluso dal fabbisogno, e per questo generano '
-  "un'eccedenza di fonti. Non sono previsti apporti dei soci, debiti verso fornitori né utilizzo di affidamenti "
-  'bancari.'),
- ('tab',
-  [['PIANO FINANZIARIO PER LA REALIZZAZIONE DEL PROGRAMMA – ANITIA (importi in euro)'],
-   ['FABBISOGNO', 'Anno 2027', 'Anno 2028', 'Anno 2029', 'Anno 2030', '–', '–'],
-   ['Spese previste ammissibili (1)', '55.736', '61.819', '34.444', '0', '–', '–'],
-   ['IVA', '12.262', '13.600', '7.578', '0', '–', '–'],
-   ['Totale', '67.998', '75.419', '42.022', '0', '–', '–'],
-   ['FONTI DI COPERTURA'],
-   ['Eccedenza fonti anno precedente', '0', '0', '79.622', '317.690', '–', '–'],
-   ['Apporto di mezzi propri/finanziamento soci', '0', '0', '0', '0', '–', '–'],
-   ['Erogazioni finanziamento agevolato', '0', '0', '0', '0', '–', '–'],
-   ['Erogazioni contributo alla spesa', '0', '155.041', '280.090', '180.708', '–', '–'],
-   ['Debiti verso fornitori (2)', '0', '0', '0', '0', '–', '–'],
-   ['Cash-flow', '67.998', '0', '0', '0', '–', '–'],
-   ['Affidamenti bancari (Altro ………)(2)', '0', '0', '0', '0', '–', '–'],
-   ['Totale', '67.998', '155.041', '359.712', '498.398', '–', '–']])]
 

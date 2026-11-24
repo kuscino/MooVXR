@@ -48,7 +48,9 @@ ETICHETTE = ["Competenze.", "Maturità tecnologica.", "Coordinamento con soggett
              "Qualificazione dei dati da strada e infrastruttura (OR7).",
              "Piattaforma di accesso ai dati del veicolo e di aggiornamento coordinato del software di bordo (OR8).",
              "Settore di destinazione.", "Dimensione del mercato.", "Sistema competitivo.", "Posizionamento.",
-             "Impatto economico.", "Investimenti per l'industrializzazione.", "Ricadute occupazionali."]
+             "Impatto economico.", "Investimenti per l'industrializzazione.", "Ricadute occupazionali.",
+             "Sviluppo del settore.", "Trasporto turistico.", "Veicoli per la sicurezza e il soccorso.",
+             "Ricognizione del territorio.", "Reti di dispositivi distribuiti.", "Cambiamenti nei processi."]
 
 
 def blocchi_parti(a, b):
@@ -97,8 +99,15 @@ for el in EL[1061:1333]:
         if v != n:
             coppie.append((v, n))
 
-D = dict(I_1=blocchi_parti(87, 103), I_2=blocchi_parti(201, 225), III_1_1=blocchi_parti(2151, 2162), OR78=coppie,
-         III_2_1=spec(2192, 2198), III_2_2=spec(2220, 2234), III_3_1=spec(2255, 2267), III_4=spec(2282, 2284))
+# III.3.2 (revisione r2 del 24/11): dal sottotitolo "Anitia" dopo il titolo 3.2 fino al titolo 4
+_t = lambda e: testo(e).strip() if e.tag == W + "p" else ""
+h32 = next(i for i, e in enumerate(EL) if _t(e).startswith("3.2. POTENZIALIT"))
+h4 = next(i for i, e in enumerate(EL) if i > h32 and _t(e).startswith("4. RISORSE FINANZIARIE"))
+a32 = next((i for i in range(h32, h4) if _t(EL[i]) == "Anitia"), None)
+D_III_3_2 = spec(a32 + 1, h4 - 1) if a32 else []
+
+D = dict(III_3_2=D_III_3_2, I_1=blocchi_parti(87, 103), I_2=blocchi_parti(201, 225), III_1_1=blocchi_parti(2151, 2162), OR78=coppie,
+         III_2_1=spec(2192, 2198), III_2_2=spec(2220, 2234), III_3_1=spec(2255, 2267))  # III.4: fa fede "Prospetti finanziari.docx" (testi_prospetti_iii4.py)
 with open(sys.argv[2], "w", encoding="utf8") as f:
     f.write("# -*- coding: utf-8 -*-\n# Generato da importa_anitia_24nov.py da %s. Non modificare a mano.\n"
             % sys.argv[1].split("/")[-1])

@@ -3107,8 +3107,9 @@ CONTENUTI["III.4"] = _render([("t", x) for x in _PF.INTRO]
                                                                 ("x", _piano_finanziario(pf["righe"],
                                                                                          note=(pf is _PF.PIANI[0]))),
                                                                 ("t", pf["nota"]))])
-CONTENUTI["III.3.2"] = _render([("s", "Aubay Italia")] + _AU.III_3_2 + [("s", "GSNet")] + _GS.III_3_2 + [
-    ("x", _segnaposto("[Testo da redigere: potenzialità di sviluppo di Anitia e nLight]"))])
+CONTENUTI["III.3.2"] = _render([("s", "Aubay Italia")] + _AU.III_3_2 + [("s", "GSNet")] + _GS.III_3_2
+                                + [("s", "Anitia")] + _spec_anitia(_AN24.III_3_2) + [
+    ("x", _segnaposto("[Testo da redigere: potenzialità di sviluppo di nLight]"))])
 
 # III.2.3, grado di innovazione (24/11, confermato): nuovo prodotto a livello di progetto; componenti per proponente.
 CONTENUTI["III.2.3"] = _render([
